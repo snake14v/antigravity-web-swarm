@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="google-site-verification" content="L16e8eAroBjb5snbAQ3Sydkfm0s32Wuc8ZqV_lH7HDc" />
+    <title>ShopSmart by Ooru Logix | Hyper-Local Data Intelligence</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              cyber: {
+                950: '#020617', // Deepest background
+                900: '#0f172a', // Card background
+                800: '#1e293b', // Lighter elements
+              },
+              garden: {
+                400: '#34d399', // Emerald 400
+                500: '#10b981', // Emerald 500
+                600: '#059669', // Emerald 600
+              },
+              neon: {
+                pink: '#ff00ff', // Brighter Pink
+                purple: '#bd00ff', // Brighter Purple
+                blue: '#00ccff', // Brighter Blue
+                cyan: '#00ffff', // Brighter Cyan
+                amber: '#ffbf00'  // Brighter Amber
+              }
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              mono: ['Fira Code', 'monospace'],
+              vt323: ['VT323', 'monospace'],
+            },
+            animation: {
+              'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'flow': 'flow 20s linear infinite',
+              'data-stream': 'dataStream 2s linear infinite',
+              'float': 'float 6s ease-in-out infinite',
+              'marquee': 'marquee 25s linear infinite',
+              'height-change': 'heightChange 3s ease-in-out infinite alternate',
+              'stroke-draw': 'stroke-draw 2s ease-in-out forwards',
+              'logo-power-up': 'logo-power-up 1.5s ease-out forwards 1.5s',
+              'gradient': 'gradient 8s linear infinite',
+              'gradient-fast': 'gradient 2.5s linear infinite',
+            },
+            keyframes: {
+              gradient: {
+                '0%, 100%': { backgroundPosition: '0% 50%' },
+                '50%': { backgroundPosition: '100% 50%' },
+              },
+              flow: {
+                '0%': { backgroundPosition: '0 0' },
+                '100%': { backgroundPosition: '40px 40px' },
+              },
+              dataStream: {
+                '0%': { strokeDashoffset: '24' },
+                '100%': { strokeDashoffset: '0' },
+              },
+              float: {
+                '0%': { transform: 'translateY(0px)' },
+                '50%': { transform: 'translateY(-20px)' },
+                '100%': { transform: 'translateY(0px)' },
+              },
+              marquee: {
+                '0%': { transform: 'translateX(0%)' },
+                '100%': { transform: 'translateX(-100%)' },
+              },
+              heightChange: {
+                '0%': { height: '30%' },
+                '100%': { height: '80%' }
+              },
+              dash: {
+                'to': { strokeDashoffset: '-8' }
+              },
+              scan: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(192px)' }
+              },
+              'float-up': {
+                '0%': { transform: 'translateY(0) scale(1)', opacity: '1' },
+                '100%': { transform: 'translateY(-200px) scale(0.5)', opacity: '0' }
+              },
+              'pulse-height': {
+                '0%': { height: '20%' },
+                '100%': { height: '100%' }
+              },
+              'move-right': {
+                '0%': { left: '0%', opacity: '0' },
+                '50%': { opacity: '1' },
+                '100%': { left: '100%', opacity: '0' }
+              },
+              'move-down': {
+                '0%': { top: '0%', opacity: '0' },
+                '50%': { opacity: '1' },
+                '100%': { top: '100%', opacity: '0' }
+              },
+              'drive': {
+                '0%': { transform: 'translateX(-10px)' },
+                '50%': { transform: 'translateX(10px)' },
+                '100%': { transform: 'translateX(-10px)' }
+              },
+              'rain': {
+                '0%': { transform: 'translateY(0) scaleY(1)', opacity: '1' },
+                '100%': { transform: 'translateY(100px) scaleY(1.5)', opacity: '0' }
+              },
+              'stroke-draw': {
+                '0%': { strokeDasharray: '0, 1000', strokeDashoffset: '0', opacity: '0' },
+                '50%': { opacity: '1' },
+                '100%': { strokeDasharray: '1000, 0', strokeDashoffset: '0', opacity: '1' }
+              },
+              'logo-power-up': {
+                '0%': { filter: 'drop-shadow(0 0 0px rgba(0, 255, 255, 0))' },
+                '100%': { filter: 'drop-shadow(0 0 15px rgba(0, 255, 255, 0.8))' }
+              }
+            }
+          }
+        },
+        plugins: [
+          function({ addUtilities }) {
+            const newUtilities = {
+              '.preserve-3d': {
+                transformStyle: 'preserve-3d',
+              },
+              '.backface-hidden': {
+                backfaceVisibility: 'hidden',
+                WebkitBackfaceVisibility: 'hidden',
+              },
+            };
+            addUtilities(newUtilities);
+          }
+        ]
+      };
+    </script>
+    <style>
+      html {
+        scroll-padding-top: 100px;
+      }
+      body {
+        background-color: #020617;
+        color: #e2e8f0; /* Lighter default text */
+        font-family: 'Inter', sans-serif;
+        background-image: 
+          radial-gradient(circle at 15% 50%, rgba(189, 0, 255, 0.05), transparent 25%), 
+          radial-gradient(circle at 85% 30%, rgba(0, 204, 255, 0.05), transparent 25%);
+      }
+      .cyber-grid {
+        background-size: 40px 40px;
+        background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                          linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      }
+      .glass-panel {
+        background: rgba(15, 23, 42, 0.7);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      }
+      .glass-pill {
+        background: rgba(2, 6, 23, 0.9);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+      }
+      .bento-card {
+        background: rgba(15, 23, 42, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(10px);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .bento-card:hover {
+        border-color: rgba(255, 255, 255, 0.2);
+        transform: translateY(-4px);
+        box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6);
+      }
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #020617;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #334155;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #475569;
+      }
+    </style>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
