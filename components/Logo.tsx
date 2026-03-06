@@ -1,5 +1,35 @@
 import React from 'react';
 
+export const OoruLogixLogo: React.FC<{ className?: string; color?: string }> = ({ 
+  className = "w-4 h-4", 
+  color = "#1f2937" 
+}) => {
+  return (
+    <div className={`${className} shrink-0`}>
+      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full drop-shadow-sm">
+         {/* Left Side: Temple/City (Traditional) */}
+         <path d="M50 10 L50 90" stroke={color} strokeWidth="3" />
+         <path d="M30 40 L50 40 M35 30 L50 30 M40 20 L50 20 M25 50 L50 50 M20 60 L50 60 M15 70 L50 70 M10 80 L50 80" stroke={color} strokeWidth="3" strokeLinecap="square" />
+         {/* Roofs */}
+         <path d="M30 40 L40 30 M25 50 L35 40 M20 60 L30 50 M15 70 L25 60 M10 80 L20 70" stroke={color} strokeWidth="3" />
+         
+         {/* Right Side: PCB/Tree (Innovation) with vibrant green */}
+         <path d="M50 50 L65 35 L75 35 M65 35 L65 20 M50 60 L70 60 L80 50 M50 70 L60 80 L70 80 M60 80 L60 95" stroke="#10b981" strokeWidth="3" strokeLinejoin="round" />
+         <circle cx="75" cy="35" r="4" fill="#10b981" />
+         <circle cx="65" cy="20" r="4" fill="#10b981" />
+         <circle cx="80" cy="50" r="4" fill="#10b981" />
+         <circle cx="70" cy="80" r="4" fill="#10b981" />
+         <circle cx="60" cy="95" r="4" fill="#10b981" />
+         
+         {/* QR Code / Matrix box representing the square block */}
+         <rect x="35" y="65" width="10" height="10" stroke={color} strokeWidth="1.5" />
+         <rect x="37" y="67" width="2" height="2" fill={color} />
+         <rect x="41" y="70" width="2" height="2" fill={color} />
+      </svg>
+    </div>
+  );
+};
+
 const Logo: React.FC<{ className?: string }> = ({ className = "h-8 w-auto" }) => {
   return (
     <div className={`flex items-center gap-3 group relative ${className}`}>
@@ -102,29 +132,8 @@ const Logo: React.FC<{ className?: string }> = ({ className = "h-8 w-auto" }) =>
             by Ooru Logix
           </span>
           
-          {/* Ooru Logix SVG Logo Integration (Temple & PCB) */}
-          <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 shrink-0">
-            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full drop-shadow-sm">
-               {/* Left Side: Temple/City (Traditional) in dark grey for visibility on white */}
-               <path d="M50 10 L50 90" stroke="#1f2937" strokeWidth="3" />
-               <path d="M30 40 L50 40 M35 30 L50 30 M40 20 L50 20 M25 50 L50 50 M20 60 L50 60 M15 70 L50 70 M10 80 L50 80" stroke="#1f2937" strokeWidth="3" strokeLinecap="square" />
-               {/* Roofs */}
-               <path d="M30 40 L40 30 M25 50 L35 40 M20 60 L30 50 M15 70 L25 60 M10 80 L20 70" stroke="#1f2937" strokeWidth="3" />
-               
-               {/* Right Side: PCB/Tree (Innovation) with vibrant green */}
-               <path d="M50 50 L65 35 L75 35 M65 35 L65 20 M50 60 L70 60 L80 50 M50 70 L60 80 L70 80 M60 80 L60 95" stroke="#10b981" strokeWidth="3" strokeLinejoin="round" />
-               <circle cx="75" cy="35" r="4" fill="#10b981" />
-               <circle cx="65" cy="20" r="4" fill="#10b981" />
-               <circle cx="80" cy="50" r="4" fill="#10b981" />
-               <circle cx="70" cy="80" r="4" fill="#10b981" />
-               <circle cx="60" cy="95" r="4" fill="#10b981" />
-               
-               {/* QR Code / Matrix box representing the square block */}
-               <rect x="35" y="65" width="10" height="10" stroke="#1f2937" strokeWidth="1.5" />
-               <rect x="37" y="67" width="2" height="2" fill="#1f2937" />
-               <rect x="41" y="70" width="2" height="2" fill="#1f2937" />
-            </svg>
-          </div>
+          {/* Ooru Logix SVG Logo Integration */}
+          <OoruLogixLogo className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" color="#1f2937" />
         </div>
       </div>
     </div>

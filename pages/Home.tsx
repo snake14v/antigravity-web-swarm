@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Activity, ShieldCheck, Zap, CloudLightning, Map, Lock, Database, Cpu, Wifi } from 'lucide-react';
 import { PageRoute } from '../types';
 import IntroScreen from '../components/IntroScreen';
-import Logo from '../components/Logo';
+import Logo, { OoruLogixLogo } from '../components/Logo';
 import VividOrbs from '../components/VividOrbs';
 import PixelText from '../components/PixelText';
 
