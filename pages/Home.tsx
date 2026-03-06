@@ -11,11 +11,22 @@ const FeaturesSection = lazy(() => import('../components/FeaturesSection'));
 const ManifestoSection = lazy(() => import('../components/ManifestoSection'));
 const PricingSection = lazy(() => import('../components/PricingSection'));
 
-const SectionLoader = () => (
-  <div className="w-full h-64 flex items-center justify-center bg-cyber-950 border border-white/5 rounded-2xl my-8">
-    <div className="flex flex-col items-center gap-4">
-      <div className="w-8 h-8 border-2 border-neon-cyan border-t-transparent rounded-full animate-spin" />
-      <span className="text-neon-cyan font-mono text-xs tracking-widest animate-pulse">LOADING MODULE...</span>
+import Skeleton from '../components/Skeleton';
+
+const SectionSkeleton = () => (
+  <div className="w-full py-16 px-4">
+    <div className="max-w-7xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {[...Array(3)].map((_, i) => (
+          <div key={i} className="h-64 bg-white/5 border border-white/10 rounded-2xl relative overflow-hidden">
+            <Skeleton variant="rect" className="absolute inset-0" />
+            <div className="absolute bottom-0 left-0 p-6 w-full space-y-4">
+              <Skeleton variant="text" width="60%" height="24px" />
+              <Skeleton variant="text" width="90%" height="16px" />
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   </div>
 );
@@ -52,9 +63,9 @@ const Home: React.FC = () => {
         <IntroScreen onComplete={() => setShowIntro(false)} />
       )}
       
-      {/* Dynamic Vivid Background */}
+      {/* Dynamic Vivid Background - Defer until hero ready */}
       <div className={`fixed inset-0 z-[-10] pointer-events-none transition-all duration-1000 ${animateHero ? 'opacity-100' : 'opacity-0'}`}>
-        <VividOrbs />
+        {animateHero && <VividOrbs />}
         <div className={`absolute inset-0 cyber-grid transition-all duration-[1500ms] ${animateHero ? 'opacity-30 scale-100 translate-y-0' : 'opacity-0 scale-110 -translate-y-[100px]'}`}></div>
       </div>
 
@@ -348,13 +359,13 @@ const Home: React.FC = () => {
       </section>
 
       {/* Components */}
-      <Suspense fallback={<SectionLoader />}>
+      <Suspense fallback={<SectionSkeleton />}>
         <FeaturesSection />
       </Suspense>
-      <Suspense fallback={<SectionLoader />}>
+      <Suspense fallback={<SectionSkeleton />}>
         <ManifestoSection />
       </Suspense>
-      <Suspense fallback={<SectionLoader />}>
+      <Suspense fallback={<SectionSkeleton />}>
         <PricingSection />
       </Suspense>
 
