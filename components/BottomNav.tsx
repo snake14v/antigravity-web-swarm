@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Grid, CreditCard, Info, FileText, Share2, User } from 'lucide-react';
+import { Home, Grid, CreditCard, Info, FileText, Share2, User, Search } from 'lucide-react';
 import { PageRoute } from '../types';
 import { OoruLogixLogo } from './Logo';
 
@@ -13,7 +13,7 @@ const BottomNav: React.FC = () => {
     { icon: CreditCard, label: 'Pricing', path: PageRoute.PRICING },
     { icon: Info, label: 'About', path: PageRoute.ABOUT },
     { icon: Share2, label: 'Partners', path: PageRoute.PARTNERS },
-    { icon: FileText, label: 'Manifesto', path: PageRoute.MANIFESTO },
+    { icon: Search, label: 'Track', path: PageRoute.TRACK },
     { icon: User, label: 'Login', path: PageRoute.LOGIN },
   ];
 

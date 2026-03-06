@@ -23,6 +23,7 @@ const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
 const AboutUs = lazy(() => import('./pages/AboutUs'));
 const Features = lazy(() => import('./pages/Features'));
 const Partners = lazy(() => import('./pages/Partners'));
+const UserConsole = lazy(() => import('./pages/UserConsole'));
 
 // Loading Fallback with Skeleton
 const PageLoader = () => (
@@ -134,6 +135,7 @@ const App: React.FC = () => {
                 <Route path={PageRoute.SIGNUP} element={<Signup />} />
                 <Route path={PageRoute.ABOUT} element={<AboutUs />} />
                 <Route path={PageRoute.PARTNERS} element={<Partners />} />
+                <Route path={PageRoute.TRACK} element={<UserConsole />} />
                 <Route 
                   path={PageRoute.DASHBOARD} 
                   element={

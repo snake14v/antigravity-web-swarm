@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot, doc, updateDoc, deleteDoc, setDoc, getDoc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot, doc, updateDoc, deleteDoc, setDoc, getDoc, where, getDocs, limit } from "firebase/firestore";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
@@ -37,6 +37,9 @@ let _updateDoc = updateDoc;
 let _deleteDoc = deleteDoc;
 let _setDoc = setDoc;
 let _getDoc = getDoc;
+let _where = where;
+let _getDocs = getDocs;
+let _limit = limit;
 
 try {
   app = initializeApp(firebaseConfig);
@@ -66,6 +69,9 @@ try {
   _deleteDoc = (async () => {}) as any;
   _setDoc = (async () => {}) as any;
   _getDoc = (async () => ({ exists: () => false, data: () => ({}) })) as any;
+  _where = (() => {}) as any;
+  _getDocs = (async () => ({ empty: true, docs: [] })) as any;
+  _limit = (() => {}) as any;
 }
 
 export { 
@@ -88,5 +94,8 @@ export {
   _updateDoc as updateDoc,
   _deleteDoc as deleteDoc,
   _setDoc as setDoc,
-  _getDoc as getDoc
+  _getDoc as getDoc,
+  _where as where,
+  _getDocs as getDocs,
+  _limit as limit
 };

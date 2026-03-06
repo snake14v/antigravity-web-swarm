@@ -36,5 +36,6 @@ export enum PageRoute {
   SIGNUP = '/signup',
   DASHBOARD = '/admin',
   ABOUT = '/about',
-  PARTNERS = '/partners'
+  PARTNERS = '/partners',
+  TRACK = '/track'
 }

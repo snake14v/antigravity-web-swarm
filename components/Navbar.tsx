@@ -65,6 +65,7 @@ const Navbar: React.FC = () => {
     { name: 'Pricing', id: 'pricing', type: 'hash' },
     { name: 'About Us', id: PageRoute.ABOUT, type: 'route' },
     { name: 'Partners', id: PageRoute.PARTNERS, type: 'route' },
+    { name: 'Track Status', id: PageRoute.TRACK, type: 'route' },
   ];
 
   return (

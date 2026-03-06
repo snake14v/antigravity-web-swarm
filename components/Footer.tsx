@@ -50,7 +50,10 @@ const Footer: React.FC = () => {
             </div>
             <div className="flex items-center space-x-2 text-gray-400 text-xs">
               <Mail size={14} className="text-garden-500" />
-              <a href="mailto:hello@oorulogix.com" className="hover:text-white transition-colors">hello@oorulogix.com</a>
+              <div className="flex flex-col">
+                <a href="mailto:hello@oorulogix.com" className="hover:text-white transition-colors">hello@oorulogix.com</a>
+                <Link to="/contact" className="text-[10px] text-garden-400 hover:text-white transition-colors mt-1 font-mono uppercase tracking-widest">→ Contact System</Link>
+              </div>
             </div>
           </div>
         </div>

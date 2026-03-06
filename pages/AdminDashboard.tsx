@@ -17,6 +17,9 @@ interface Registration {
   foundersDiscount: boolean;
   agreedToAudit: boolean;
   status: 'pending' | 'contacted' | 'audited' | 'rejected';
+  utr?: string;
+  amountPaid?: number;
+  paymentStatus?: 'pending_verification' | 'verified' | 'failed';
   timestamp: any;
 }
 
@@ -25,6 +28,7 @@ const AdminDashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState<string>('all');
+  const [activeTab, setActiveTab] = useState<'registry' | 'payments'>('registry');
 
   useEffect(() => {
     const q = query(collection(db, 'registrations'), orderBy('timestamp', 'desc'));
@@ -47,6 +51,18 @@ const AdminDashboard: React.FC = () => {
     } catch (err) {
       console.error('Error updating status:', err);
       toast.error('Failed to update status');
+    }
+  };
+
+  const verifyPayment = async (id: string) => {
+    try {
+      await updateDoc(doc(db, 'registrations', id), { 
+        paymentStatus: 'verified' 
+      });
+      toast.success('Payment verified successfully');
+    } catch (err) {
+      console.error('Error verifying payment:', err);
+      toast.error('Failed to verify payment');
     }
   };
 
@@ -79,6 +95,15 @@ const AdminDashboard: React.FC = () => {
     }
   };
 
+  const getPaymentStatusColor = (status?: string) => {
+    switch (status) {
+      case 'verified': return 'bg-green-500/20 text-green-400 border-green-500/30';
+      case 'pending_verification': return 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30';
+      case 'failed': return 'bg-red-500/20 text-red-400 border-red-500/30';
+      default: return 'bg-gray-500/20 text-gray-400 border-gray-500/30';
+    }
+  };
+
   return (
     <div className="pt-32 pb-20 min-h-screen bg-cyber-950 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
@@ -97,14 +122,42 @@ const AdminDashboard: React.FC = () => {
           <div className="flex items-center gap-4">
             <div className="bg-cyber-900 border border-white/10 rounded-2xl p-4 flex items-center gap-4">
               <div className="w-10 h-10 rounded-xl bg-neon-cyan/10 flex items-center justify-center text-neon-cyan">
-                <Users size={20} />
+                {activeTab === 'registry' ? <Users size={20} /> : <CheckCircle size={20} />}
               </div>
               <div>
-                <div className="text-2xl font-bold text-white">{registrations.length}</div>
-                <div className="text-[10px] text-gray-500 uppercase tracking-widest font-mono">Total Nodes</div>
+                <div className="text-2xl font-bold text-white">
+                  {activeTab === 'registry' 
+                    ? registrations.length 
+                    : registrations.filter(r => r.paymentStatus === 'pending_verification').length}
+                </div>
+                <div className="text-[10px] text-gray-500 uppercase tracking-widest font-mono">
+                  {activeTab === 'registry' ? 'Total Nodes' : 'Unverified Payments'}
+                </div>
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Tabs */}
+        <div className="flex gap-4 mb-8 border-b border-white/5 pb-1">
+          <button 
+            onClick={() => setActiveTab('registry')}
+            className={`pb-4 px-4 text-sm font-bold tracking-widest uppercase transition-all relative ${
+              activeTab === 'registry' ? 'text-neon-cyan' : 'text-gray-500 hover:text-white'
+            }`}
+          >
+            Node Registry
+            {activeTab === 'registry' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-neon-cyan shadow-[0_0_10px_rgba(0,255,255,0.5)]"></div>}
+          </button>
+          <button 
+            onClick={() => setActiveTab('payments')}
+            className={`pb-4 px-4 text-sm font-bold tracking-widest uppercase transition-all relative ${
+              activeTab === 'payments' ? 'text-neon-cyan' : 'text-gray-500 hover:text-white'
+            }`}
+          >
+            Received Payments
+            {activeTab === 'payments' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-neon-cyan shadow-[0_0_10px_rgba(0,255,255,0.5)]"></div>}
+          </button>
         </div>
 
         {/* Filters & Search */}
@@ -151,72 +204,128 @@ const AdminDashboard: React.FC = () => {
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="border-b border-white/5 bg-white/5">
-                    <th className="px-6 py-4 text-[10px] font-mono uppercase tracking-widest text-gray-500">Business / Owner</th>
-                    <th className="px-6 py-4 text-[10px] font-mono uppercase tracking-widest text-gray-500">Details</th>
-                    <th className="px-6 py-4 text-[10px] font-mono uppercase tracking-widest text-gray-500">Contact</th>
-                    <th className="px-6 py-4 text-[10px] font-mono uppercase tracking-widest text-gray-500">Status</th>
+                    {activeTab === 'registry' ? (
+                      <>
+                        <th className="px-6 py-4 text-[10px] font-mono uppercase tracking-widest text-gray-500">Business / Owner</th>
+                        <th className="px-6 py-4 text-[10px] font-mono uppercase tracking-widest text-gray-500">Details</th>
+                        <th className="px-6 py-4 text-[10px] font-mono uppercase tracking-widest text-gray-500">Contact</th>
+                        <th className="px-6 py-4 text-[10px] font-mono uppercase tracking-widest text-gray-500">Status</th>
+                      </>
+                    ) : (
+                      <>
+                        <th className="px-6 py-4 text-[10px] font-mono uppercase tracking-widest text-gray-500">Business Unit</th>
+                        <th className="px-6 py-4 text-[10px] font-mono uppercase tracking-widest text-gray-500">UTR / Reference</th>
+                        <th className="px-6 py-4 text-[10px] font-mono uppercase tracking-widest text-gray-500">Amount / Time</th>
+                        <th className="px-6 py-4 text-[10px] font-mono uppercase tracking-widest text-gray-500">Payment Status</th>
+                      </>
+                    )}
                     <th className="px-6 py-4 text-[10px] font-mono uppercase tracking-widest text-gray-500">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/5">
                   {filteredData.map((reg) => (
                     <tr key={reg.id} className="hover:bg-white/5 transition-colors group">
-                      <td className="px-6 py-6">
-                        <div className="font-bold text-white mb-1">{reg.businessName}</div>
-                        <div className="text-xs text-gray-500 flex items-center gap-1">
-                          <Users size={12} /> {reg.ownerName}
-                        </div>
-                        {reg.address && (
-                          <div className="text-[10px] text-gray-600 mt-1 truncate max-w-[200px]" title={reg.address}>
-                            {reg.address}
-                          </div>
-                        )}
-                      </td>
-                      <td className="px-6 py-6">
-                        <div className="flex flex-col gap-1">
-                          <span className="text-xs text-gray-400 bg-white/5 px-2 py-1 rounded border border-white/5 w-fit">
-                            {reg.merchantType}
-                          </span>
-                          <span className="text-[10px] text-gray-500">
-                            POS: {reg.currentPos || 'N/A'} | Vol: {reg.dailyOrders || 'N/A'}
-                          </span>
-                        </div>
-                      </td>
-                      <td className="px-6 py-6">
-                        <div className="text-sm text-white">{reg.phone}</div>
-                        {reg.email && <div className="text-xs text-gray-400">{reg.email}</div>}
-                        <div className="text-[10px] text-gray-500 font-mono mt-1">
-                          {reg.timestamp?.toDate().toLocaleDateString()}
-                        </div>
-                      </td>
-                      <td className="px-6 py-6">
-                        <span className={`text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full border ${getStatusColor(reg.status)}`}>
-                          {reg.status}
-                        </span>
-                      </td>
+                      {activeTab === 'registry' ? (
+                        <>
+                          <td className="px-6 py-6">
+                            <div className="font-bold text-white mb-1">{reg.businessName}</div>
+                            <div className="text-xs text-gray-500 flex items-center gap-1">
+                              <Users size={12} /> {reg.ownerName}
+                            </div>
+                            {reg.address && (
+                              <div className="text-[10px] text-gray-600 mt-1 truncate max-w-[200px]" title={reg.address}>
+                                {reg.address}
+                              </div>
+                            )}
+                          </td>
+                          <td className="px-6 py-6">
+                            <div className="flex flex-col gap-1">
+                              <span className="text-xs text-gray-400 bg-white/5 px-2 py-1 rounded border border-white/5 w-fit">
+                                {reg.merchantType}
+                              </span>
+                              <span className="text-[10px] text-gray-500">
+                                POS: {reg.currentPos || 'N/A'} | Vol: {reg.dailyOrders || 'N/A'}
+                              </span>
+                            </div>
+                          </td>
+                          <td className="px-6 py-6">
+                            <div className="text-sm text-white">{reg.phone}</div>
+                            {reg.email && <div className="text-xs text-gray-400">{reg.email}</div>}
+                            <div className="text-[10px] text-gray-500 font-mono mt-1">
+                              {reg.timestamp?.toDate().toLocaleDateString()}
+                            </div>
+                          </td>
+                          <td className="px-6 py-6">
+                            <span className={`text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full border ${getStatusColor(reg.status)}`}>
+                              {reg.status}
+                            </span>
+                          </td>
+                        </>
+                      ) : (
+                        <>
+                          <td className="px-6 py-6">
+                            <div className="font-bold text-white mb-1">{reg.businessName}</div>
+                            <div className="text-xs text-gray-500">{reg.ownerName}</div>
+                          </td>
+                          <td className="px-6 py-6">
+                            <div className="font-mono text-neon-cyan text-sm">{reg.utr || 'NOT_FOUND'}</div>
+                            <div className="text-[10px] text-gray-600 mt-1 uppercase tracking-widest">Unique Transaction Ref</div>
+                          </td>
+                          <td className="px-6 py-6">
+                            <div className="text-sm text-white font-bold">₹{reg.amountPaid || '0'}</div>
+                            <div className="text-[10px] text-gray-500 font-mono">
+                              {reg.timestamp?.toDate().toLocaleString()}
+                            </div>
+                          </td>
+                          <td className="px-6 py-6">
+                            <span className={`text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full border ${getPaymentStatusColor(reg.paymentStatus)}`}>
+                              {reg.paymentStatus?.replace('_', ' ') || 'unpaid'}
+                            </span>
+                          </td>
+                        </>
+                      )}
                       <td className="px-6 py-6">
                         <div className="flex items-center gap-2">
-                          <button 
-                            onClick={() => updateStatus(reg.id, 'contacted')}
-                            className="p-2 rounded-lg bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 transition-colors"
-                            title="Mark as Contacted"
-                          >
-                            <Clock size={16} />
-                          </button>
-                          <button 
-                            onClick={() => updateStatus(reg.id, 'audited')}
-                            className="p-2 rounded-lg bg-green-500/10 text-green-400 hover:bg-green-500/20 transition-colors"
-                            title="Mark as Audited"
-                          >
-                            <CheckCircle size={16} />
-                          </button>
-                          <button 
-                            onClick={() => updateStatus(reg.id, 'rejected')}
-                            className="p-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors"
-                            title="Mark as Rejected"
-                          >
-                            <XCircle size={16} />
-                          </button>
+                          {activeTab === 'registry' ? (
+                            <>
+                              <button 
+                                onClick={() => updateStatus(reg.id, 'contacted')}
+                                className="p-2 rounded-lg bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 transition-colors"
+                                title="Mark as Contacted"
+                              >
+                                <Clock size={16} />
+                              </button>
+                              <button 
+                                onClick={() => updateStatus(reg.id, 'audited')}
+                                className="p-2 rounded-lg bg-green-500/10 text-green-400 hover:bg-green-500/20 transition-colors"
+                                title="Mark as Audited"
+                              >
+                                <CheckCircle size={16} />
+                              </button>
+                              <button 
+                                onClick={() => updateStatus(reg.id, 'rejected')}
+                                className="p-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors"
+                                title="Mark as Rejected"
+                              >
+                                <XCircle size={16} />
+                              </button>
+                            </>
+                          ) : (
+                            <>
+                              <button 
+                                onClick={() => verifyPayment(reg.id)}
+                                disabled={reg.paymentStatus === 'verified'}
+                                className={`p-2 rounded-lg transition-colors ${
+                                  reg.paymentStatus === 'verified' 
+                                    ? 'bg-green-500/10 text-green-500/50 cursor-not-allowed' 
+                                    : 'bg-green-500/10 text-green-400 hover:bg-green-500/20'
+                                }`}
+                                title="Verify Payment"
+                              >
+                                <CheckCircle size={16} />
+                              </button>
+                            </>
+                          )}
                           <div className="w-px h-6 bg-white/10 mx-1"></div>
                           <button 
                             onClick={() => deleteRegistration(reg.id)}

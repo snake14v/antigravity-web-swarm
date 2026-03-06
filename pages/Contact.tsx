@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { ShieldCheck, CheckCircle, Users, TrendingUp, Zap, Clock, ArrowRight, Shield, Loader2 } from 'lucide-react';
+import { ShieldCheck, CheckCircle, Users, TrendingUp, Zap, Clock, ArrowRight, Shield, Loader2, CreditCard } from 'lucide-react';
 import { db, collection, addDoc, serverTimestamp } from '../services/firebase';
 import toast from 'react-hot-toast';
+import PaymentPortal from '../components/PaymentPortal';
 
 const Contact: React.FC = () => {
+  const [step, setStep] = useState(1);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -21,7 +23,7 @@ const Contact: React.FC = () => {
     agreedToAudit: false
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleStepOneSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
     // Basic email validation
@@ -31,30 +33,25 @@ const Contact: React.FC = () => {
       return;
     }
 
+    setStep(2);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleFinalSubmit = async (utr: string) => {
     setLoading(true);
     setError(null);
 
     try {
       await addDoc(collection(db, 'registrations'), {
         ...formData,
+        utr,
+        amountPaid: 100,
+        paymentStatus: 'pending_verification',
         timestamp: serverTimestamp(),
         status: 'pending'
       });
       setSubmitted(true);
-      toast.success('Registration submitted successfully');
-      setFormData({
-        businessName: '',
-        ownerName: '',
-        phone: '',
-        email: '',
-        address: '',
-        merchantType: 'Cafe / QSR (Quick Service)',
-        currentPos: 'None',
-        dailyOrders: '0-50',
-        challenges: '',
-        foundersDiscount: false,
-        agreedToAudit: false
-      });
+      toast.success('Registration and payment submitted successfully');
     } catch (err) {
       console.error('Error saving registration:', err);
       setError('Failed to synchronize node. Please check your connection and try again.');
@@ -83,7 +80,7 @@ const Contact: React.FC = () => {
           </div>
           <h2 className="text-4xl font-bold text-white mb-4">Node Synchronized</h2>
           <p className="text-xl text-gray-400 mb-8">
-            Your registration is being processed by the Logic Core. A Field Engineer will contact you within 24 hours to schedule your audit.
+            Your registration and ₹100 activation token have been received. A Field Engineer will contact you within 24 hours to schedule your audit.
           </p>
           <div className="p-4 bg-cyber-900 border border-white/10 rounded-xl mb-8">
             <p className="text-sm text-gray-500 font-mono">
@@ -91,7 +88,10 @@ const Contact: React.FC = () => {
             </p>
           </div>
           <button 
-            onClick={() => setSubmitted(false)}
+            onClick={() => {
+              setSubmitted(false);
+              setStep(1);
+            }}
             className="text-garden-400 hover:text-white underline font-medium"
           >
             Register another business node
@@ -187,188 +187,185 @@ const Contact: React.FC = () => {
                 <p className="text-sm text-gray-500">Enter your credentials to begin synchronization.</p>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {error && (
-                  <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-xs">
-                    {error}
-                  </div>
-                )}
-                <div className="space-y-4">
-                  <div>
-                    <label htmlFor="businessName" className="block text-xs font-mono uppercase tracking-widest text-gray-500 mb-2">Business Entity Name</label>
-                    <input 
-                      type="text" 
-                      id="businessName" 
-                      required
-                      value={formData.businessName}
-                      onChange={handleInputChange}
-                      className="w-full bg-cyber-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-garden-500 transition-colors placeholder:text-gray-700"
-                      placeholder="e.g. Bellandur Gourmet Labs"
-                    />
-                  </div>
-                  
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {step === 1 ? (
+                <form onSubmit={handleStepOneSubmit} className="space-y-6">
+                  {error && (
+                    <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-xs">
+                      {error}
+                    </div>
+                  )}
+                  <div className="space-y-4">
                     <div>
-                      <label htmlFor="ownerName" className="block text-xs font-mono uppercase tracking-widest text-gray-500 mb-2">Node Guardian (Owner)</label>
+                      <label htmlFor="businessName" className="block text-xs font-mono uppercase tracking-widest text-gray-500 mb-2">Business Entity Name</label>
                       <input 
                         type="text" 
-                        id="ownerName" 
+                        id="businessName" 
                         required
-                        value={formData.ownerName}
+                        value={formData.businessName}
                         onChange={handleInputChange}
-                        className="w-full bg-cyber-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-garden-500 transition-colors"
-                        placeholder="Full Name"
+                        className="w-full bg-cyber-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-garden-500 transition-colors placeholder:text-gray-700"
+                        placeholder="e.g. Bellandur Gourmet Labs"
                       />
                     </div>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label htmlFor="ownerName" className="block text-xs font-mono uppercase tracking-widest text-gray-500 mb-2">Node Guardian (Owner)</label>
+                        <input 
+                          type="text" 
+                          id="ownerName" 
+                          required
+                          value={formData.ownerName}
+                          onChange={handleInputChange}
+                          className="w-full bg-cyber-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-garden-500 transition-colors"
+                          placeholder="Full Name"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="phone" className="block text-xs font-mono uppercase tracking-widest text-gray-500 mb-2">Comm Link (Phone)</label>
+                        <input 
+                          type="tel" 
+                          id="phone" 
+                          required
+                          value={formData.phone}
+                          onChange={handleInputChange}
+                          className="w-full bg-cyber-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-garden-500 transition-colors"
+                          placeholder="+91 XXXXX XXXXX"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label htmlFor="email" className="block text-xs font-mono uppercase tracking-widest text-gray-500 mb-2">Network Identity (Email)</label>
+                        <input 
+                          type="email" 
+                          id="email" 
+                          required
+                          value={formData.email}
+                          onChange={handleInputChange}
+                          className="w-full bg-cyber-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-garden-500 transition-colors"
+                          placeholder="owner@business.com"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="merchantType" className="block text-xs font-mono uppercase tracking-widest text-gray-500 mb-2">Merchant Classification</label>
+                        <select 
+                          id="merchantType"
+                          value={formData.merchantType}
+                          onChange={handleInputChange}
+                          className="w-full bg-cyber-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-garden-500 transition-colors appearance-none"
+                        >
+                          <option>Cafe / QSR (Quick Service)</option>
+                          <option>Gym / Fitness Studio</option>
+                          <option>Retail / Boutique</option>
+                          <option>Pharmacy / Medical</option>
+                          <option>Cloud Kitchen</option>
+                          <option>Other</option>
+                        </select>
+                      </div>
+                    </div>
+
                     <div>
-                      <label htmlFor="phone" className="block text-xs font-mono uppercase tracking-widest text-gray-500 mb-2">Comm Link (Phone)</label>
+                      <label htmlFor="address" className="block text-xs font-mono uppercase tracking-widest text-gray-500 mb-2">Physical Node Location (Address)</label>
                       <input 
-                        type="tel" 
-                        id="phone" 
+                        type="text" 
+                        id="address" 
                         required
-                        value={formData.phone}
+                        value={formData.address}
                         onChange={handleInputChange}
-                        className="w-full bg-cyber-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-garden-500 transition-colors"
-                        placeholder="+91 XXXXX XXXXX"
+                        className="w-full bg-cyber-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-garden-500 transition-colors placeholder:text-gray-700"
+                        placeholder="Street Address, Green Glen Layout"
                       />
                     </div>
-                  </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label htmlFor="email" className="block text-xs font-mono uppercase tracking-widest text-gray-500 mb-2">Network Identity (Email)</label>
-                      <input 
-                        type="email" 
-                        id="email" 
-                        required
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        className="w-full bg-cyber-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-garden-500 transition-colors"
-                        placeholder="owner@business.com"
-                      />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label htmlFor="currentPos" className="block text-xs font-mono uppercase tracking-widest text-gray-500 mb-2">Current POS System</label>
+                        <select 
+                          id="currentPos"
+                          value={formData.currentPos}
+                          onChange={handleInputChange}
+                          className="w-full bg-cyber-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-garden-500 transition-colors appearance-none"
+                        >
+                          <option>None (Pen & Paper)</option>
+                          <option>Petpooja</option>
+                          <option>DotPe</option>
+                          <option>Pine Labs</option>
+                          <option>Custom/Other</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label htmlFor="dailyOrders" className="block text-xs font-mono uppercase tracking-widest text-gray-500 mb-2">Avg. Daily Transactions</label>
+                        <select 
+                          id="dailyOrders"
+                          value={formData.dailyOrders}
+                          onChange={handleInputChange}
+                          className="w-full bg-cyber-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-garden-500 transition-colors appearance-none"
+                        >
+                          <option>0 - 50</option>
+                          <option>51 - 150</option>
+                          <option>151 - 300</option>
+                          <option>300+</option>
+                        </select>
+                      </div>
                     </div>
-                    <div>
-                      <label htmlFor="merchantType" className="block text-xs font-mono uppercase tracking-widest text-gray-500 mb-2">Merchant Classification</label>
-                      <select 
-                        id="merchantType"
-                        value={formData.merchantType}
-                        onChange={handleInputChange}
-                        className="w-full bg-cyber-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-garden-500 transition-colors appearance-none"
-                      >
-                        <option>Cafe / QSR (Quick Service)</option>
-                        <option>Gym / Fitness Studio</option>
-                        <option>Retail / Boutique</option>
-                        <option>Pharmacy / Medical</option>
-                        <option>Cloud Kitchen</option>
-                        <option>Other</option>
-                      </select>
-                    </div>
-                  </div>
 
-                  <div>
-                    <label htmlFor="address" className="block text-xs font-mono uppercase tracking-widest text-gray-500 mb-2">Physical Node Location (Address)</label>
-                    <input 
-                      type="text" 
-                      id="address" 
-                      required
-                      value={formData.address}
-                      onChange={handleInputChange}
-                      className="w-full bg-cyber-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-garden-500 transition-colors placeholder:text-gray-700"
-                      placeholder="Street Address, Green Glen Layout"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="currentPos" className="block text-xs font-mono uppercase tracking-widest text-gray-500 mb-2">Current POS System</label>
-                      <select 
-                        id="currentPos"
-                        value={formData.currentPos}
-                        onChange={handleInputChange}
-                        className="w-full bg-cyber-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-garden-500 transition-colors appearance-none"
-                      >
-                        <option>None (Pen & Paper)</option>
-                        <option>Petpooja</option>
-                        <option>DotPe</option>
-                        <option>Pine Labs</option>
-                        <option>Custom/Other</option>
-                      </select>
+                      <label htmlFor="challenges" className="block text-xs font-mono uppercase tracking-widest text-gray-500 mb-2">Primary Operational Challenges (Optional)</label>
+                      <textarea 
+                        id="challenges" 
+                        rows={3}
+                        value={formData.challenges}
+                        onChange={handleInputChange as any}
+                        className="w-full bg-cyber-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-garden-500 transition-colors placeholder:text-gray-700 resize-none"
+                        placeholder="e.g. Inventory tracking is a mess, high staff turnover..."
+                      ></textarea>
                     </div>
-                    <div>
-                      <label htmlFor="dailyOrders" className="block text-xs font-mono uppercase tracking-widest text-gray-500 mb-2">Avg. Daily Transactions</label>
-                      <select 
-                        id="dailyOrders"
-                        value={formData.dailyOrders}
-                        onChange={handleInputChange}
-                        className="w-full bg-cyber-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-garden-500 transition-colors appearance-none"
-                      >
-                        <option>0 - 50</option>
-                        <option>51 - 150</option>
-                        <option>151 - 300</option>
-                        <option>300+</option>
-                      </select>
+
+                    <div className="p-4 bg-white/5 rounded-xl border border-white/5 space-y-3">
+                      <label className="flex items-center gap-3 text-sm text-gray-400 cursor-pointer group">
+                        <input 
+                          type="checkbox" 
+                          id="foundersDiscount"
+                          checked={formData.foundersDiscount}
+                          onChange={handleInputChange}
+                          className="w-4 h-4 rounded bg-cyber-950 border-white/10 text-garden-500 focus:ring-garden-500" 
+                        />
+                        <span className="group-hover:text-white transition-colors">Apply "Bellandur Founders' Discount" (20% Lifetime)</span>
+                      </label>
+                      <label className="flex items-center gap-3 text-sm text-gray-400 cursor-pointer group">
+                        <input 
+                          type="checkbox" 
+                          id="agreedToAudit"
+                          required 
+                          checked={formData.agreedToAudit}
+                          onChange={handleInputChange}
+                          className="w-4 h-4 rounded bg-cyber-950 border-white/10 text-garden-500 focus:ring-garden-500" 
+                        />
+                        <span className="group-hover:text-white transition-colors">I agree to the 15-min on-site System Audit.</span>
+                      </label>
                     </div>
                   </div>
 
-                  <div>
-                    <label htmlFor="challenges" className="block text-xs font-mono uppercase tracking-widest text-gray-500 mb-2">Primary Operational Challenges (Optional)</label>
-                    <textarea 
-                      id="challenges" 
-                      rows={3}
-                      value={formData.challenges}
-                      onChange={handleInputChange as any}
-                      className="w-full bg-cyber-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-garden-500 transition-colors placeholder:text-gray-700 resize-none"
-                      placeholder="e.g. Inventory tracking is a mess, high staff turnover..."
-                    ></textarea>
+                  <button
+                    type="submit"
+                    className="w-full bg-garden-500 hover:bg-garden-400 text-cyber-950 font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2 group shadow-[0_0_30px_rgba(16,185,129,0.3)]"
+                  >
+                    CONTINUE TO ACTIVATION <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                  </button>
+                  
+                  <div className="flex items-center justify-center gap-4 text-[10px] text-gray-600 font-mono">
+                    <span className="flex items-center gap-1"><ShieldCheck size={10}/> SECURE_SSL</span>
+                    <span className="flex items-center gap-1"><Clock size={10}/> 24H_RESPONSE</span>
                   </div>
-
-                  <div className="p-4 bg-white/5 rounded-xl border border-white/5 space-y-3">
-                    <label className="flex items-center gap-3 text-sm text-gray-400 cursor-pointer group">
-                      <input 
-                        type="checkbox" 
-                        id="foundersDiscount"
-                        checked={formData.foundersDiscount}
-                        onChange={handleInputChange}
-                        className="w-4 h-4 rounded bg-cyber-950 border-white/10 text-garden-500 focus:ring-garden-500" 
-                      />
-                      <span className="group-hover:text-white transition-colors">Apply "Bellandur Founders' Discount" (20% Lifetime)</span>
-                    </label>
-                    <label className="flex items-center gap-3 text-sm text-gray-400 cursor-pointer group">
-                      <input 
-                        type="checkbox" 
-                        id="agreedToAudit"
-                        required 
-                        checked={formData.agreedToAudit}
-                        onChange={handleInputChange}
-                        className="w-4 h-4 rounded bg-cyber-950 border-white/10 text-garden-500 focus:ring-garden-500" 
-                      />
-                      <span className="group-hover:text-white transition-colors">I agree to the 15-min on-site System Audit.</span>
-                    </label>
-                  </div>
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full bg-garden-500 hover:bg-garden-400 disabled:opacity-50 disabled:cursor-not-allowed text-cyber-950 font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2 group shadow-[0_0_30px_rgba(16,185,129,0.3)]"
-                >
-                  {loading ? (
-                    <>
-                      <Loader2 size={18} className="animate-spin" />
-                      SYNCHRONIZING...
-                    </>
-                  ) : (
-                    <>
-                      INITIALIZE SYNCHRONIZATION <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                    </>
-                  )}
-                </button>
-                
-                <div className="flex items-center justify-center gap-4 text-[10px] text-gray-600 font-mono">
-                  <span className="flex items-center gap-1"><ShieldCheck size={10}/> SECURE_SSL</span>
-                  <span className="flex items-center gap-1"><Clock size={10}/> 24H_RESPONSE</span>
-                </div>
-              </form>
+                </form>
+              ) : (
+                <PaymentPortal 
+                  businessName={formData.businessName} 
+                  onPaymentSubmitted={handleFinalSubmit} 
+                />
+              )}
             </div>
           </div>
 
