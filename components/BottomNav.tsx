@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Grid, CreditCard, Info, FileText, Share2 } from 'lucide-react';
+import { Home, Grid, CreditCard, Info, FileText, Share2, User } from 'lucide-react';
 import { PageRoute } from '../types';
 import { OoruLogixLogo } from './Logo';
 
@@ -14,11 +14,12 @@ const BottomNav: React.FC = () => {
     { icon: Info, label: 'About', path: PageRoute.ABOUT },
     { icon: Share2, label: 'Partners', path: PageRoute.PARTNERS },
     { icon: FileText, label: 'Manifesto', path: PageRoute.MANIFESTO },
+    { icon: User, label: 'Login', path: PageRoute.LOGIN },
   ];
 
   return (
-    <div className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[95%] max-w-lg z-50">
-      <div className="glass-pill rounded-full px-4 py-3 flex justify-between items-center shadow-[0_10px_40px_rgba(0,0,0,0.5)] border border-white/10">
+    <div className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[98%] max-w-xl z-50">
+      <div className="glass-pill rounded-full px-2 py-3 flex justify-between items-center shadow-[0_10px_40px_rgba(0,0,0,0.5)] border border-white/10">
         {navItems.map((item, idx) => {
           const isActive = location.pathname === item.path;
           return (
