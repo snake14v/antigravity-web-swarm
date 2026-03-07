@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ExternalLink, CheckCircle2, ArrowRight, Layers, Globe, Zap, Users, Shield, Briefcase } from 'lucide-react';
 import { PageRoute } from '../types';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 interface PartnerInfo {
   name: string;
@@ -52,6 +53,14 @@ const partners: PartnerInfo[] = [
     description: 'Multi-service company offering construction, interiors, and event planning in North Bangalore.',
     features: ['Portfolio Catalog', 'Localized SEO', 'Conversion Layouts'],
     themeColor: 'border-neon-purple',
+  },
+  {
+    name: 'XGO3D Engineering',
+    url: 'https://www.xgo3d.com/',
+    category: 'Design',
+    description: 'Professional engineering portfolio and DFM solutions with interactive 3D model viewers and clinical precision design.',
+    features: ['3D WebGL Viewers', 'DFM Tools', 'Cyber-Industrial Theme'],
+    themeColor: 'border-white',
   },
 ];
 
@@ -130,15 +139,33 @@ const Partners: React.FC = () => {
         </div>
 
         {/* Partner Ecosystem Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-32">
+        <motion.div 
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.1
+              }
+            }
+          }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-32"
+        >
           {filteredPartners.map((partner, index) => (
-            <div 
+            <motion.div 
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0 }
+              }}
               key={index}
-              className={`flex flex-col h-full bg-cyber-900 border-t-2 ${partner.themeColor} rounded-3xl p-8 hover:-translate-y-2 transition-all duration-500 shadow-2xl relative overflow-hidden group`}
+              className={`flex flex-col h-full bg-cyber-900/40 backdrop-blur-xl border border-white/10 border-t-2 ${partner.themeColor} rounded-3xl p-8 hover:-translate-y-2 transition-all duration-500 shadow-[0_0_30px_rgba(0,0,0,0.5)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.8)] relative overflow-hidden group`}
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-br from-white/[0.05] to-transparent pointer-events-none" />
+              <div className={`absolute -top-10 -right-10 w-40 h-40 ${partner.themeColor.replace('border-', 'bg-')} opacity-5 blur-[60px] rounded-full group-hover:opacity-20 transition-opacity duration-700`} />
               
-              <div className="flex justify-between items-start mb-8">
+              <div className="flex justify-between items-start mb-8 relative z-10">
                 <div className="px-3 py-1 bg-white/5 rounded-lg border border-white/10 text-[10px] font-mono text-gray-400 uppercase tracking-widest">
                   {partner.category}
                 </div>
@@ -152,22 +179,24 @@ const Partners: React.FC = () => {
                 </a>
               </div>
               
-              <h3 className="text-2xl font-black tracking-tighter text-white mb-4 group-hover:text-neon-cyan transition-colors">{partner.name}</h3>
-              <p className="text-sm text-gray-400 mb-8 leading-relaxed font-medium">
+              <h3 className="text-2xl font-black tracking-tighter text-white mb-4 relative z-10 group-hover:text-white transition-colors flex items-center gap-2">
+                {partner.name}
+              </h3>
+              <p className="text-sm text-gray-400 mb-8 leading-relaxed font-medium relative z-10">
                 {partner.description}
               </p>
               
-              <div className="space-y-3 pt-6 border-t border-white/5">
+              <div className="space-y-3 pt-6 border-t border-white/5 relative z-10 mt-auto">
                 {partner.features.map((feature, idx) => (
-                  <div key={idx} className="flex items-center gap-3">
-                    <div className="w-1.5 h-1.5 rounded-full bg-neon-cyan opacity-40" />
-                    <span className="text-[11px] font-mono text-gray-300 uppercase tracking-wide">{feature}</span>
+                  <div key={idx} className="flex items-center gap-3 group/feature">
+                    <CheckCircle2 size={14} className="text-white/20 group-hover/feature:text-white transition-colors" />
+                    <span className="text-[11px] font-mono text-gray-300 uppercase tracking-wide group-hover/feature:text-white transition-colors">{feature}</span>
                   </div>
                 ))}
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Onboarding CTA section */}
         <div className="relative rounded-[3rem] overflow-hidden bg-white/5 border border-white/10 p-12 md:p-24 text-center">
