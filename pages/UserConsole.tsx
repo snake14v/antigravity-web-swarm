@@ -160,20 +160,23 @@ const UserConsole: React.FC = () => {
           <form onSubmit={handleTrack} className="flex flex-col md:flex-row gap-4 mb-12">
             <div className="flex-1 relative group">
               <input 
+                id="emailTrack"
                 type="email" 
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your registered email..."
-                className="w-full py-4 px-6 bg-cyber-950 border border-white/10 rounded-2xl text-white focus:outline-none focus:border-neon-cyan transition-all group-hover:border-white/20"
+                aria-label="Email address to track status"
+                className="w-full py-4 px-6 bg-cyber-950 border border-white/10 rounded-2xl text-white focus:outline-none focus:ring-2 focus:ring-neon-cyan focus:border-neon-cyan transition-all group-hover:border-white/20"
               />
             </div>
             <button 
               type="submit"
               disabled={loading}
-              className="bg-neon-cyan hover:bg-cyan-400 text-black font-bold py-4 px-8 rounded-2xl transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(0,255,255,0.2)] disabled:opacity-50"
+              className="bg-neon-cyan hover:bg-cyan-400 text-black font-bold py-4 px-8 rounded-2xl transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(0,255,255,0.2)] disabled:opacity-50 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-cyan-500/50"
+              aria-label={loading ? 'Tracking status...' : 'Track Status'}
             >
-              {loading ? <Loader2 className="animate-spin" size={20} /> : <Zap size={20} />}
+              {loading ? <Loader2 className="animate-spin" size={20} aria-hidden="true" /> : <Zap size={20} aria-hidden="true" />}
               TRACK_STATUS
             </button>
           </form>
@@ -271,9 +274,10 @@ const UserConsole: React.FC = () => {
               </p>
               <button 
                 onClick={() => window.location.href = '#/contact'}
-                className="mt-6 text-neon-cyan hover:underline text-xs font-mono uppercase tracking-widest flex items-center justify-center gap-2 mx-auto"
+                className="mt-6 text-neon-cyan hover:underline hover:text-cyan-400 text-xs font-mono uppercase tracking-widest flex items-center justify-center gap-2 mx-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-cyan rounded px-2 py-1"
+                aria-label="Go to Registration Page"
               >
-                Go to Registration <ArrowRight size={14} />
+                Go to Registration <ArrowRight size={14} aria-hidden="true" />
               </button>
             </div>
           )}
