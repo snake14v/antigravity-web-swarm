@@ -111,6 +111,15 @@ const WebsiteDesign: React.FC = () => {
   ];
 
   useEffect(() => {
+    // SEO Optimization: Update document title and meta tags
+    document.title = "Website Design Bangalore | JP Nagar, Bellandur, Jayanagar | ₹499 Offer";
+    
+    // Update Meta Description
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute('content', "Get professional React-based website design in Bangalore for just ₹499. Serving JP Nagar, Bellandur, Jayanagar, and Whitefield. High-performance, SEO-optimized business platforms.");
+    }
+    
     // Scoring animation
     const timer = setTimeout(() => {
       let score = 0;
@@ -179,7 +188,7 @@ const WebsiteDesign: React.FC = () => {
             </h1>
 
             <p className="text-xl md:text-3xl font-light text-gray-400 max-w-4xl mx-auto leading-relaxed mb-16">
-              Skip the generic templates. We build <strong className="text-white hover:text-neon-cyan transition-colors">Hyper-Performance Architectures</strong> with a Cyber-Industrial aesthetic that turns visitors into cult followers.
+              Skip the generic "AI-built" templates. We deliver <strong className="text-white hover:text-neon-cyan transition-colors">95% Superior Engineering</strong> than platforms like Lovable or Vibe. Real engineers, AI-augmented code, and an AI-grade understanding of your business DNA.
             </p>
 
             <div className="flex flex-col md:flex-row items-center justify-center gap-6">
@@ -233,7 +242,7 @@ const WebsiteDesign: React.FC = () => {
                 Physical <span className="text-neon-purple">UI/UX</span> <br/> Logic Layers.
               </h2>
               <p className="text-xl text-gray-400 font-light leading-relaxed mb-10">
-                We use an <strong className="text-white">"Agentic"</strong> build process. Our internal swarm agents optimize every interaction, ensuring buttons don't just click—they react with physical weight and feedback.
+                Forget "one-click" AI wrappers that produce bloated, generic code. Our <strong className="text-white">"Agentic"</strong> protocol combines elite human architectural oversight with swarm optimization. The result? A platform that understands your brand's unique logic with AI-grade precision.
               </p>
 
               <div className="space-y-6">
@@ -597,6 +606,25 @@ const WebsiteDesign: React.FC = () => {
 
           </div>
         </motion.div>
+      </section>
+
+      {/* --- REGIONAL SEO BUFFER --- */}
+      <section className="py-16 bg-black relative z-10 border-t border-white/5">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex flex-wrap justify-center gap-x-12 gap-y-6 opacity-40 grayscale hover:grayscale-0 transition-all duration-700">
+            {["JP NAGAR", "BELLANDUR", "JAYANAGAR", "WHITEFIELD", "HSR LAYOUT", "KORAMANGALA"].map((loc, i) => (
+              <div key={i} className="flex items-center gap-2 font-mono text-[10px] tracking-[0.3em] text-white">
+                <Globe size={12} className="text-neon-cyan" /> 
+                {loc}_NODE_ACTIVE
+              </div>
+            ))}
+          </div>
+          <div className="mt-12 text-center">
+            <p className="text-[10px] font-mono text-gray-500 uppercase tracking-widest max-w-2xl mx-auto leading-relaxed">
+              Now providing hyper-local web engineering services at <span className="text-white">₹499</span> in South Bangalore. Specialized React deployments for retail and service hubs in <span className="text-neon-cyan">JP Nagar 4th Phase</span>, <span className="text-neon-cyan">Bellandur Tech-Parks</span>, and <span className="text-neon-cyan">Jayanagar 4th Block</span>.
+            </p>
+          </div>
+        </div>
       </section>
 
       {/* --- FOOTER BUFFER --- */}

@@ -371,6 +371,22 @@ const Contact: React.FC = () => {
           </div>
 
         </div>
+        
+        {/* Local SEO Serving Areas */}
+        <div className="mt-16 text-center opacity-40 hover:opacity-100 transition-opacity pb-10">
+          <p className="text-[10px] font-mono text-gray-500 uppercase tracking-widest mb-6 border-t border-white/5 pt-10">
+            &gt; SERVING_ACTIVE_NODES_IN: 
+          </p>
+          <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 font-mono text-[9px] text-gray-400">
+            <span>JP_NAGAR</span>
+            <span>BELLANDUR</span>
+            <span>JAYANAGAR</span>
+            <span>WHITEFIELD</span>
+            <span>HSR_LAYOUT</span>
+            <span>KORAMANGALA</span>
+          </div>
+        </div>
+
       </div>
     </div>
   );

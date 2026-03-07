@@ -425,9 +425,15 @@ const Home: React.FC = () => {
             </div>
           </div>
 
-          <p className="text-lg md:text-xl text-gray-400 font-light max-w-2xl mx-auto leading-relaxed mb-10 mt-6">
-            We're onboarding our first 10 beta clients. Get a high-performance React architecture built with our Cyber-Industrial design framework.
+          <p className="text-lg md:text-xl text-gray-400 font-light max-w-2xl mx-auto leading-relaxed mb-6 mt-6">
+            Get a high-performance React architecture for just <span className="text-white font-bold">₹499</span>. Now onboarding beta clients in <span className="text-white">JP Nagar</span>, <span className="text-white">Bellandur</span>, and <span className="text-white">Jayanagar</span>.
           </p>
+          
+          <div className="flex flex-wrap justify-center gap-4 mb-10 opacity-60">
+            {["JP Nagar", "Bellandur", "Jayanagar", "Whitefield"].map((loc, i) => (
+              <span key={i} className="text-[10px] font-mono border border-white/10 px-3 py-1 rounded-md uppercase tracking-widest">{loc}</span>
+            ))}
+          </div>
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
