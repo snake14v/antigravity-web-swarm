@@ -83,7 +83,7 @@ const Navbar: React.FC = () => {
   ];
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 px-4 py-6 pointer-events-none">
+    <header className="fixed top-0 left-0 w-full z-50 px-4 py-6 pointer-events-none hidden md:block">
       <motion.nav 
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}

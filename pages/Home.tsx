@@ -7,6 +7,7 @@ import Logo, { OoruLogixLogo } from '../components/Logo';
 import VividOrbs from '../components/VividOrbs';
 import PixelText from '../components/PixelText';
 import { SwarmAgentConcept } from '../components/SwarmAgentConcept';
+import BlackboxTerminal from '../components/BlackboxTerminal';
 
 const FeaturesSection = lazy(() => import('../components/FeaturesSection'));
 const ManifestoSection = lazy(() => import('../components/ManifestoSection'));
@@ -245,7 +246,8 @@ const Home: React.FC = () => {
 
         {/* Decorative Code/Data Elements to Fill Space - Slide in from sides - hidden on tablet/mobile */}
         <div className={`absolute left-8 top-1/3 hidden xl:block text-left opacity-30 pointer-events-none transform transition-all duration-1000 ease-out delay-[800ms] ${animateHero ? 'translate-x-0' : '-translate-x-[200px]'}`}>
-           <div className="font-mono text-[10px] text-neon-pink space-y-1">
+           <BlackboxTerminal type="optimization" title="OPTIMIZATION_NODE_01" className="w-64" />
+           <div className="font-mono text-[10px] text-neon-pink space-y-1 mt-4">
               <p className="animate-pulse">Network_Latency: 12ms</p>
               <p>Region: Asia-South1</p>
               <p>Zone: KA-BLR-01</p>

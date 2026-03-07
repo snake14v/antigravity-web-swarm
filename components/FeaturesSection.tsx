@@ -3,6 +3,7 @@ import { Camera, ClipboardCheck, TrendingUp, RefreshCcw, Zap, Server, Brain, Lay
 import { Link } from 'react-router-dom';
 import { PageRoute } from '../types';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Cell } from 'recharts';
+import BlackboxTerminal from './BlackboxTerminal';
 
 const FeaturesSection: React.FC = () => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -38,13 +39,6 @@ const FeaturesSection: React.FC = () => {
     { name: 'S', value: 78 },
   ]);
   
-  // Simulation State for Live Tasks
-  const [tasks, setTasks] = useState([
-    { id: 1, name: 'Restock Curd', status: 'done' },
-    { id: 2, name: 'Clean Table 4', status: 'pending' },
-    { id: 3, name: 'Check Temp', status: 'pending' },
-  ]);
-
   // Simulation: Live Data Updates
   useEffect(() => {
     const interval = setInterval(() => {
@@ -53,27 +47,6 @@ const FeaturesSection: React.FC = () => {
         value: Math.min(100, Math.max(10, item.value + (Math.random() - 0.5) * 20))
       })));
     }, 2000);
-    return () => clearInterval(interval);
-  }, []);
-
-  // Simulation: Task Updates
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTasks(prev => {
-        const newTasks = [...prev];
-        const pendingIndex = newTasks.findIndex(t => t.status === 'pending');
-        if (pendingIndex !== -1) {
-          newTasks[pendingIndex].status = 'done';
-        } else {
-          return [
-             { id: 1, name: 'Restock Curd', status: 'pending' },
-             { id: 2, name: 'Clean Table 4', status: 'pending' },
-             { id: 3, name: 'Check Temp', status: 'pending' },
-          ];
-        }
-        return newTasks;
-      });
-    }, 3000);
     return () => clearInterval(interval);
   }, []);
 
@@ -187,22 +160,7 @@ const FeaturesSection: React.FC = () => {
                         <h3 className="text-sm font-bold text-white uppercase tracking-widest">Live Monitor</h3>
                         <span className="text-[10px] bg-neon-pink text-black px-2 py-0.5 rounded-full font-bold animate-pulse">SYNCING</span>
                       </div>
-                      <div className="space-y-4">
-                        {[
-                          { label: "Nandini Milk", val: 12, color: "#ef4444" },
-                          { label: "Fresh Buns", val: 85, color: "#10b981" }
-                        ].map((item, i) => (
-                          <div key={i}>
-                            <div className="flex justify-between text-[10px] text-gray-400 mb-1.5 font-mono">
-                              <span>{item.label}</span>
-                              <span>{item.val}%</span>
-                            </div>
-                            <div className="w-full bg-white/10 h-1.5 rounded-full overflow-hidden">
-                              <div className="h-full transition-all duration-1000" style={{ width: `${item.val}%`, backgroundColor: item.color }}></div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
+                      <BlackboxTerminal type="optimization" title="INVENTORY_SYNC_v3" className="border-0 shadow-none bg-transparent" />
                     </div>
                   </div>
                 </div>
@@ -420,23 +378,9 @@ const FeaturesSection: React.FC = () => {
                     </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-cyber-950 via-transparent to-transparent pointer-events-none"></div>
                     
-                    {/* Floating Task Queue */}
+                    {/* Floating Task Queue replaced with BlackboxTerminal */}
                     <div className="relative z-20 -mt-32 mx-6 mb-6 glass-panel p-6 rounded-2xl border border-white/20 backdrop-blur-xl shadow-2xl">
-                      <h3 className="text-sm font-bold text-white uppercase tracking-widest mb-4 flex items-center gap-2">
-                        <ShoppingBag size={14} className="text-neon-amber" /> Live Task Queue
-                      </h3>
-                      <div className="space-y-3">
-                        {tasks.map((task) => (
-                          <div key={task.id} className="flex items-center justify-between bg-white/5 p-2.5 rounded-xl border border-white/5">
-                            <span className="text-xs text-gray-300">{task.name}</span>
-                            <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-tighter ${
-                              task.status === 'done' ? 'bg-green-500/20 text-green-400' : 'bg-yellow-500/20 text-yellow-400 animate-pulse'
-                            }`}>
-                              {task.status}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
+                      <BlackboxTerminal type="intelligence" title="TASK_ORCHESTRATOR" className="border-0 shadow-none bg-transparent" />
                     </div>
                   </div>
                 </div>
