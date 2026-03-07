@@ -584,6 +584,12 @@ const UseCasesGrid: React.FC = () => {
                 <div className="w-2 h-2 rounded-full bg-purple-500 animate-pulse"></div>
                 IMPACT: <span className="text-white font-bold">{expandedSlides[4].stat}</span>
               </div>
+              
+              <div className="mt-8">
+                <Link to={PageRoute.LANGUAGE_BRIDGE} className="inline-flex items-center justify-center gap-2 bg-purple-500 text-white px-6 py-3 rounded-xl font-bold hover:bg-purple-400 transition-colors shadow-lg shadow-purple-500/20">
+                   View NLP Architecture <ArrowRight size={18} />
+                </Link>
+              </div>
             </div>
           </div>
 

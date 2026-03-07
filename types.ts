@@ -38,5 +38,6 @@ export enum PageRoute {
   ABOUT = '/about',
   PARTNERS = '/partners',
   TRACK = '/track',
-  DYNAMIC_PRICING = '/dynamic-pricing'
+  DYNAMIC_PRICING = '/dynamic-pricing',
+  LANGUAGE_BRIDGE = '/language-bridge'
 }

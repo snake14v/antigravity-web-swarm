@@ -26,6 +26,7 @@ const Features = lazy(() => import('./pages/Features'));
 const Partners = lazy(() => import('./pages/Partners'));
 const UserConsole = lazy(() => import('./pages/UserConsole'));
 const DynamicPricing = lazy(() => import('./pages/DynamicPricing'));
+const LanguageBridge = lazy(() => import('./pages/LanguageBridge'));
 
 // Loading Fallback with Skeleton
 const PageLoader = () => (
@@ -140,6 +141,7 @@ const App: React.FC = () => {
                 <Route path={PageRoute.PARTNERS} element={<Partners />} />
                 <Route path={PageRoute.TRACK} element={<UserConsole />} />
                 <Route path={PageRoute.DYNAMIC_PRICING} element={<DynamicPricing />} />
+                <Route path={PageRoute.LANGUAGE_BRIDGE} element={<LanguageBridge />} />
                 <Route 
                   path={PageRoute.DASHBOARD} 
                   element={
