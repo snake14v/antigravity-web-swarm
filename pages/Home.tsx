@@ -7,7 +7,7 @@ import Logo, { OoruLogixLogo } from '../components/Logo';
 import VividOrbs from '../components/VividOrbs';
 import PixelText from '../components/PixelText';
 import { SwarmAgentConcept } from '../components/SwarmAgentConcept';
-import BlackboxTerminal from '../components/BlackboxTerminal';
+import BlackboxTerminal from '../components/BlackboxTerminal.tsx';
 
 const FeaturesSection = lazy(() => import('../components/FeaturesSection'));
 const ManifestoSection = lazy(() => import('../components/ManifestoSection'));
@@ -254,12 +254,12 @@ const Home: React.FC = () => {
               <p>Encryption: AES-256</p>
            </div>
         </div>
-        <div className={`absolute right-8 bottom-1/3 hidden lg:block text-right opacity-30 pointer-events-none transform transition-all duration-1000 ease-out delay-[800ms] ${animateHero ? 'translate-x-0' : 'translate-x-[200px]'}`}>
-           <div className="font-mono text-[10px] text-neon-cyan space-y-1">
-              <p>Ingesting: Traffic_API</p>
+        <div className={`absolute right-8 top-1/4 hidden xl:block text-right opacity-30 pointer-events-none transform transition-all duration-1000 ease-out delay-[800ms] ${animateHero ? 'translate-y-0' : 'translate-y-[200px]'}`}>
+           <BlackboxTerminal type="sync" title="CITY_GATEWAY_v2" className="w-64" />
+           <div className="font-mono text-[10px] text-neon-cyan space-y-1 mt-4 text-right">
+              <p className="animate-pulse">Ingesting: Traffic_API</p>
               <p>Ingesting: IMD_Weather</p>
-              <p>Ingesting: UPI_Switch</p>
-              <p className="animate-pulse">Status: Synchronized</p>
+              <p>Buffer_Status: SYNCED</p>
            </div>
         </div>
       </section>
