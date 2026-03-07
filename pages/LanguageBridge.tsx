@@ -3,24 +3,16 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft, Mic, Smartphone, Brain, Volume2, Globe, Activity, Terminal } from 'lucide-react';
 import { PageRoute } from '../types';
 import { motion, AnimatePresence } from 'framer-motion';
-
-const translationLogs = [
-  { id: 1, source: "1x Masala Dosa, No Onion", target: "ಒಂದು ಮಸಾಲೆ ದೋಸೆ, ಈರುಳ್ಳಿ ಬೇಡ", time: "10:14:02 AM", status: "translated" },
-  { id: 2, source: "2x Filter Coffee, Extra Strong", target: "ಎರಡು ಫಿಲ್ಟರ್ ಕಾಫಿ, ಸ್ಟ್ರಾಂಗ್ ಆಗಿ", time: "10:15:45 AM", status: "translated" },
-  { id: 3, source: "1x Gobi Manchurian, Dry", target: "ಒಂದು ಗೋಬಿ ಮಂಚೂರಿಯನ್, ಡ್ರೈ", time: "10:18:22 AM", status: "processing" }
-];
+import { useHardwareBridge } from '../context/HardwareBridgeContext';
 
 const LanguageBridge: React.FC = () => {
-  const [activeLog, setActiveLog] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveLog((prev) => (prev + 1) % translationLogs.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const currentLog = translationLogs[activeLog];
+  const { liveTranslations } = useHardwareBridge();
+  
+  if (!liveTranslations || liveTranslations.length === 0) {
+    return <div className="min-h-screen bg-cyber-950 flex items-center justify-center text-white font-mono">CONNECTING TO NODE...</div>;
+  }
+  
+  const currentLog = liveTranslations[0];
 
   return (
     <div className="pt-24 min-h-screen bg-cyber-950 text-white relative overflow-hidden">
@@ -190,7 +182,7 @@ const LanguageBridge: React.FC = () => {
                  role="log"
                  aria-live="polite"
               >
-                 {translationLogs.map((log) => (
+                 {liveTranslations.map((log) => (
                     <div key={log.id} className={`grid grid-cols-12 gap-4 p-3 rounded-xl border ${log.id === currentLog.id ? 'bg-purple-500/10 border-purple-500/30' : 'bg-transparent border-white/5'}`}>
                        <div className="col-span-2 text-gray-500 text-xs flex items-center">{log.time}</div>
                        <div className="col-span-4 text-blue-300">{log.source}</div>

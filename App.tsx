@@ -6,6 +6,7 @@ import BottomNav from './components/BottomNav';
 import Footer from './components/Footer';
 import { PageRoute } from './types';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { HardwareBridgeProvider } from './context/HardwareBridgeContext';
 import CustomCursor from './components/CustomCursor';
 
 // Lazy load pages
@@ -100,7 +101,8 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode; adminOnly?: boolean 
 const App: React.FC = () => {
   return (
     <AuthProvider>
-      <Router>
+      <HardwareBridgeProvider>
+        <Router>
         <div className="flex flex-col min-h-screen bg-cyber-900 text-gray-100 pb-20 md:pb-0">
           <ScrollToTop />
           <HashScroll />
@@ -157,6 +159,7 @@ const App: React.FC = () => {
           <BottomNav />
         </div>
       </Router>
+      </HardwareBridgeProvider>
     </AuthProvider>
   );
 };
