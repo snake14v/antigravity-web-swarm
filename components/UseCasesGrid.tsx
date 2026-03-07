@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { PageRoute } from '../types';
 import { 
   Coffee, CloudRain, TrendingUp, Truck, Mic, ShieldAlert, 
   Menu, UserCheck, Battery, MessageSquare, AlertTriangle, Search, FileText, 
@@ -303,6 +305,12 @@ const UseCasesGrid: React.FC = () => {
                 <div className="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></div>
                 IMPACT: <span className="text-white font-bold">{expandedSlides[0].stat}</span>
               </div>
+
+              <div className="mt-8">
+                <Link to={PageRoute.INVENTORY_LOGIC} className="inline-flex items-center justify-center gap-2 bg-orange-500 text-black px-6 py-3 rounded-xl font-bold hover:bg-orange-400 transition-colors shadow-lg shadow-orange-500/20">
+                   View Inventory Engine Details <ArrowRight size={18} />
+                </Link>
+              </div>
             </div>
           </div>
 
@@ -440,6 +448,12 @@ const UseCasesGrid: React.FC = () => {
               <div className="inline-flex items-center gap-3 px-4 py-2 bg-white/5 border border-white/10 rounded-full text-sm font-mono text-gray-300">
                 <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
                 IMPACT: <span className="text-white font-bold">{expandedSlides[2].stat}</span>
+              </div>
+              
+              <div className="mt-8">
+                <Link to={PageRoute.DYNAMIC_PRICING} className="inline-flex items-center justify-center gap-2 bg-red-500 text-white px-6 py-3 rounded-xl font-bold hover:bg-red-400 transition-colors shadow-lg shadow-red-500/20">
+                   View Dynamic Pricing Engine <ArrowRight size={18} />
+                </Link>
               </div>
             </div>
           </div>
