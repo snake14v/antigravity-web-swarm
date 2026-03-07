@@ -210,15 +210,18 @@ const Home: React.FC = () => {
             <Link
               to={PageRoute.CONTACT}
               className="bg-white text-black hover:bg-neon-cyan hover:text-black hover:scale-105 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold text-sm sm:text-base transition-all flex items-center justify-center gap-2 group shadow-[0_0_25px_rgba(0,255,255,0.4)] w-full sm:w-auto overflow-hidden relative"
+              aria-label="Start City Audit - Navigate to Contact Page"
+              role="button"
             >
-              <span className="relative z-10 flex items-center gap-2">Start City Audit <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" /></span>
-              <div className="absolute inset-0 bg-gradient-to-r from-neon-cyan to-white opacity-0 group-hover:opacity-20 transition-opacity"></div>
+              <span className="relative z-10 flex items-center gap-2">Start City Audit <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" /></span>
+              <div className="absolute inset-0 bg-gradient-to-r from-neon-cyan to-white opacity-0 group-hover:opacity-20 transition-opacity" aria-hidden="true"></div>
             </Link>
             <button
               onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
               className="bg-white/5 hover:bg-white/10 border border-neon-purple/50 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-sm sm:text-base transition-colors backdrop-blur-sm flex items-center justify-center gap-2 w-full sm:w-auto shadow-[0_0_15px_rgba(188,19,254,0.2)]"
+              aria-label="View System Architecture Features"
             >
-              <Cpu size={18} className="text-neon-purple" /> View Architecture
+              <Cpu size={18} className="text-neon-purple" aria-hidden="true" /> View Architecture
             </button>
           </div>
 

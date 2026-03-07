@@ -114,7 +114,9 @@ const FeaturesSection: React.FC = () => {
         <div className="glass-panel rounded-3xl border border-white/10 overflow-hidden bg-cyber-900/50">
           <button 
             onClick={() => toggleFeature('inventory')}
-            className="w-full px-8 py-6 flex items-center justify-between hover:bg-white/5 transition-colors"
+            className="w-full px-8 py-6 flex items-center justify-between hover:bg-white/5 transition-colors focus-visible:outline-none focus-visible:bg-white/5 focus-visible:ring-2 focus-visible:ring-neon-pink"
+            aria-expanded={expandedFeatures.inventory}
+            aria-controls="panel-inventory"
           >
             <div className="flex items-center gap-6">
               <div className="p-3 bg-neon-pink/10 rounded-2xl text-neon-pink border border-neon-pink/20 shadow-[0_0_20px_rgba(244,114,182,0.1)]">
@@ -126,11 +128,11 @@ const FeaturesSection: React.FC = () => {
           </button>
           
           {expandedFeatures.inventory && (
-            <div className="px-8 pb-12 pt-6 border-t border-white/5 animate-in slide-in-from-top-4 fade-in duration-300">
+            <div id="panel-inventory" className="px-8 pb-12 pt-6 border-t border-white/5 animate-in slide-in-from-top-4 fade-in duration-300">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                 <div className="relative z-10">
                   <p className="text-lg text-gray-400 mb-8 leading-relaxed">
-                    Stop guessing. Our logic engine tracks every gram across all your Bangalore outlets, predicting depletion before it happens.
+                    Stop reacting to stockouts. Our predictive logic engine tracks every gram across your supply chain, eliminating emergency procurement costs and capturing lost revenue.
                   </p>
                   <ul className="space-y-6 mb-10">
                     <li className="flex items-start gap-4">
@@ -213,7 +215,9 @@ const FeaturesSection: React.FC = () => {
         <div className="glass-panel rounded-3xl border border-white/10 overflow-hidden bg-cyber-900/50">
           <button 
             onClick={() => toggleFeature('vision')}
-            className="w-full px-8 py-6 flex items-center justify-between hover:bg-white/5 transition-colors"
+            className="w-full px-8 py-6 flex items-center justify-between hover:bg-white/5 transition-colors focus-visible:outline-none focus-visible:bg-white/5 focus-visible:ring-2 focus-visible:ring-neon-cyan"
+            aria-expanded={expandedFeatures.vision}
+            aria-controls="panel-vision"
           >
             <div className="flex items-center gap-6">
               <div className="p-3 bg-neon-cyan/10 rounded-2xl text-neon-cyan border border-neon-cyan/20 shadow-[0_0_20px_rgba(6,182,212,0.1)]">
@@ -225,7 +229,7 @@ const FeaturesSection: React.FC = () => {
           </button>
           
           {expandedFeatures.vision && (
-            <div className="px-8 pb-12 pt-6 border-t border-white/5 animate-in slide-in-from-top-4 fade-in duration-300">
+            <div id="panel-vision" className="px-8 pb-12 pt-6 border-t border-white/5 animate-in slide-in-from-top-4 fade-in duration-300">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                 <div className="order-2 lg:order-1 relative group">
                   <div className="absolute -inset-4 bg-neon-cyan/20 blur-3xl rounded-full opacity-30 group-hover:opacity-50 transition-opacity"></div>
@@ -320,7 +324,9 @@ const FeaturesSection: React.FC = () => {
         <div className="glass-panel rounded-3xl border border-white/10 overflow-hidden bg-cyber-900/50">
           <button 
             onClick={() => toggleFeature('analytics')}
-            className="w-full px-8 py-6 flex items-center justify-between hover:bg-white/5 transition-colors"
+            className="w-full px-8 py-6 flex items-center justify-between hover:bg-white/5 transition-colors focus-visible:outline-none focus-visible:bg-white/5 focus-visible:ring-2 focus-visible:ring-neon-purple"
+            aria-expanded={expandedFeatures.analytics}
+            aria-controls="panel-analytics"
           >
             <div className="flex items-center gap-6">
               <div className="p-3 bg-neon-purple/10 rounded-2xl text-neon-purple border border-neon-purple/20 shadow-[0_0_20px_rgba(168,85,247,0.1)]">
@@ -332,11 +338,11 @@ const FeaturesSection: React.FC = () => {
           </button>
           
           {expandedFeatures.analytics && (
-            <div className="px-8 pb-12 pt-6 border-t border-white/5 animate-in slide-in-from-top-4 fade-in duration-300">
+            <div id="panel-analytics" className="px-8 pb-12 pt-6 border-t border-white/5 animate-in slide-in-from-top-4 fade-in duration-300">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                 <div className="relative z-10">
                   <p className="text-lg text-gray-400 mb-8 leading-relaxed">
-                    Understand the pulse of your business. We correlate stock depletion with real-time revenue to give you a true efficiency score.
+                    Stop bleeding margin on theoretical forecasts. Our correlation engine maps exact depletion velocity against realtime POS revenue, giving you an unhackable efficiency score.
                   </p>
                   <div className="glass-panel p-6 rounded-2xl border border-white/10 mb-8">
                     <div className="flex justify-between items-center mb-6">
