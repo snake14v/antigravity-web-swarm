@@ -4,6 +4,8 @@ import {
   Menu, UserCheck, Battery, MessageSquare, AlertTriangle, Search, FileText, 
   Users, Award, Recycle, MapPin, DollarSign, Brain, CloudLightning, Smartphone, Clock, ArrowDownRight, ArrowRight
 } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 
 const slides = [
   {
@@ -210,16 +212,24 @@ const expandedSlides = slides.slice(0, 18);
 const remainingSlides = slides.slice(18);
 
 const UseCasesGrid: React.FC = () => {
+  const { ref: headerRef, inView: headerInView } = useInView({ threshold: 0.1, triggerOnce: true });
+
   return (
     <section className="py-24 bg-cyber-950 relative overflow-hidden border-t border-white/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center mb-20">
+        <motion.div 
+          ref={headerRef}
+          initial={{ opacity: 0, y: 20 }}
+          animate={headerInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-20"
+        >
           <div className="inline-block p-1.5 px-3 rounded-full bg-neon-purple/10 border border-neon-purple/30 text-neon-purple text-xs font-mono mb-4">
              CASE SCENARIOS
           </div>
           <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">18 Reasons Why</h2>
-          <p className="text-gray-400 text-xl max-w-3xl mx-auto">Real-world operational logic deployed in Bangalore today. We don't just provide software; we provide a cognitive upgrade for your business.</p>
-        </div>
+          <p className="text-gray-400 text-xl max-w-3xl mx-auto">Real-world operational logic deployed in Bangalore today. We don't just provide software; we provide <span className="text-white font-bold">a cognitive upgrade for your business</span>.</p>
+        </motion.div>
 
         {/* Expanded Top 3 Use Cases */}
         <div className="space-y-32 mb-32">
@@ -1363,10 +1373,14 @@ const UseCasesGrid: React.FC = () => {
 
         {/* Remaining Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {remainingSlides.map((slide) => (
-            <div 
+          {remainingSlides.map((slide, i) => (
+            <motion.div 
               key={slide.id}
-              className="bento-card rounded-2xl p-6 border border-white/5 hover:border-white/20 transition-all group flex flex-col h-full"
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+              className={`bento-card rounded-2xl p-6 border border-white/5 hover:border-${slide.color.split('-')[1]}-500/50 transition-all group flex flex-col h-full`}
             >
               <div className="flex items-center gap-4 mb-4">
                 <div className={`p-3 rounded-xl ${slide.bgColor} ${slide.borderColor} border group-hover:scale-110 transition-transform`}>
@@ -1392,7 +1406,7 @@ const UseCasesGrid: React.FC = () => {
                   {slide.stat}
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

@@ -6,6 +6,7 @@ import BottomNav from './components/BottomNav';
 import Footer from './components/Footer';
 import { PageRoute } from './types';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import CustomCursor from './components/CustomCursor';
 
 // Lazy load pages
 const Home = lazy(() => import('./pages/Home'));
@@ -101,6 +102,7 @@ const App: React.FC = () => {
         <div className="flex flex-col min-h-screen bg-cyber-900 text-gray-100 pb-20 md:pb-0">
           <ScrollToTop />
           <HashScroll />
+          <CustomCursor />
           <Toaster 
             position="top-right"
             toastOptions={{
