@@ -1,11 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Code, Database, Users } from 'lucide-react';
+import { ArrowRight, Code, Database, Users, ArrowLeft } from 'lucide-react';
 
 const Careers: React.FC = () => {
   return (
     <div className="pt-32 min-h-screen bg-cyber-950 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mb-12">
+          <Link to="/" className="inline-flex items-center gap-2 text-gray-400 hover:text-neon-cyan transition-colors group">
+            <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
+            <span className="text-sm font-mono tracking-widest uppercase">Back to Systems</span>
+          </Link>
+        </div>
         
         <div className="text-center mb-20">
             <h1 className="text-4xl md:text-6xl font-bold mb-6">Build the Logic Layer</h1>

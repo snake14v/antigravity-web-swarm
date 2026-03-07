@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
 import { 
-  Code2, MonitorSmartphone, Rocket, Zap, Search, Layout, Paintbrush, ArrowRight, 
+  Code2, MonitorSmartphone, Rocket, Zap, Search, Layout, Paintbrush, ArrowRight, ArrowLeft,
   Terminal, Cpu, Database, Server, Box, Layers, PlayCircle, Command, Activity, 
   CheckCircle2, Star, ZapIcon, Globe, ShieldCheck, MousePointer2, Sparkles, 
   CreditCard, MousePointer, Gauge, Smartphone, Code, Globe2, Share2, Braces 
@@ -160,6 +160,12 @@ const WebsiteDesign: React.FC = () => {
 
       {/* --- HERO SECTION --- */}
       <section className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-20 z-10 overflow-hidden">
+        <div className="absolute top-24 left-6 z-20">
+          <Link to="/features#features" className="inline-flex items-center gap-2 text-gray-400 hover:text-neon-cyan transition-colors group px-4 py-2 bg-black/50 backdrop-blur-md rounded-full border border-white/10">
+            <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
+            <span className="text-xs font-mono tracking-widest uppercase">Back to Features</span>
+          </Link>
+        </div>
         
         {/* Animated Background Elements */}
         <div className="absolute top-1/4 -left-20 w-64 h-64 bg-neon-cyan/20 rounded-full blur-[100px] animate-pulse"></div>

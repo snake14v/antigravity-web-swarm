@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { ArrowLeft, ChevronRight, HelpCircle, MapPin, Mail, Globe, Sparkles } from 'lucide-react';
 import { OoruLogixLogo } from '../components/Logo';
 
 const FadeInWhenVisible: React.FC<{ children: React.ReactNode; delay?: number }> = ({ children, delay = 0 }) => {
@@ -89,6 +90,12 @@ const AboutUs: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-black text-white font-vt323 uppercase selection:bg-neon-cyan selection:text-black relative overflow-hidden text-xl pb-24">
+      <div className="fixed top-24 left-6 z-20 font-sans">
+        <Link to="/" className="inline-flex items-center gap-2 text-gray-400 hover:text-neon-cyan transition-colors group px-4 py-2 bg-white/5 backdrop-blur-md rounded-full border border-white/10">
+          <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
+          <span className="text-[10px] tracking-widest uppercase font-bold">Back to Systems</span>
+        </Link>
+      </div>
       {/* Dotted background overlay */}
       <div 
         className="fixed inset-0 z-0 opacity-20 pointer-events-none" 

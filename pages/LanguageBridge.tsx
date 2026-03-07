@@ -24,7 +24,7 @@ const LanguageBridge: React.FC = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
-        <Link to={PageRoute.HOME} className="inline-flex items-center gap-2 text-gray-400 hover:text-purple-400 transition-colors mb-8 group">
+        <Link to="/features#features" className="inline-flex items-center gap-2 text-gray-400 hover:text-purple-400 transition-colors mb-8 group">
           <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
           Back to Systems
         </Link>

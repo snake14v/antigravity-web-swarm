@@ -266,7 +266,7 @@ const FeaturesSection: React.FC = () => {
                   </div>
                   <div className="mt-8">
                     <Link 
-                      to={PageRoute.INVENTORY_LOGIC}
+                      to={PageRoute.LANGUAGE_BRIDGE}
                       className="inline-flex items-center gap-2 text-neon-cyan font-bold hover:underline group"
                     >
                       Explore Vision Architecture <ArrowUpRight size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
@@ -334,7 +334,7 @@ const FeaturesSection: React.FC = () => {
                     </div>
                   </div>
                   <Link 
-                    to={PageRoute.INVENTORY_LOGIC}
+                    to={PageRoute.DYNAMIC_PRICING}
                     className="inline-flex items-center gap-2 text-neon-purple font-bold hover:underline group"
                   >
                     Deep Dive into Analytics <ArrowUpRight size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
