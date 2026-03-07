@@ -16,6 +16,11 @@ A modular collection of generic web-building AI Agents designed to snap directly
 10. **♾️ Jules Meta Loop** (`/jules-meta-loop`) - Executes the recursive four-phase maintenance sweep.
 11. **🚀 Onboarding** (`/onboarding`) - Validates the environment and prints architecture overviews for new human developers.
 12. **🏗️ Architectural Synchronizer** (`/architectural-synchronizer`) - Ensures integration alignment across the entire solution space.
+13. **🔥 Firebase Architect** (`/firebase-architect`) - Evaluates Firestore rules, schema definitions, and read-write costs.
+14. **🔌 Firmware Bridge** (`/firmware-bridge`) - Synchronizes RTOS/IoT binary payloads and schema mapping back to Web frontends.
+15. **🧊 3D Scene Optimizer** (`/3d-scene-optimizer`) - Maximizes WebGL and Three.js framerates for integrated 3D configuration models.
+16. **🛡️ Security Auditor** (`/security-auditor`) - Scans for API secrets, XSS hooks, and proper token configurations.
+17. **🧪 Test Engineer** (`/test-engineer`) - Generates robust integration, unit, and end-to-end testing layers.
 
 ## Installation
 

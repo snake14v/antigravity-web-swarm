@@ -11,7 +11,12 @@ $agents = @(
     "docs-handler.md",
     "jules-meta-loop.md",
     "onboarding.md",
-    "architectural-synchronizer.md"
+    "architectural-synchronizer.md",
+    "firebase-architect.md",
+    "firmware-bridge.md",
+    "3d-scene-optimizer.md",
+    "security-auditor.md",
+    "test-engineer.md"
 )
 
 $targetDir = ".\.agent\workflows"
