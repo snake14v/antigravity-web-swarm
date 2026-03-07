@@ -97,7 +97,9 @@ const PricingSection: React.FC = () => {
             <span className={`text-sm font-bold tracking-wider uppercase ${!isAnnual ? 'text-white' : 'text-gray-500'}`}>Monthly</span>
             <button 
               onClick={() => setIsAnnual(!isAnnual)}
-              className="relative w-20 h-10 rounded-full bg-cyber-900 border border-white/20 p-1 transition-colors hover:border-white/40"
+              className="relative w-20 h-10 rounded-full bg-cyber-900 border border-white/20 p-1 transition-colors hover:border-white/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-garden-500"
+              aria-pressed={isAnnual}
+              aria-label={`Switch to ${isAnnual ? 'monthly' : 'annual'} billing`}
             >
               <div 
                 className={`w-8 h-8 rounded-full bg-gradient-to-r from-garden-400 to-cyan-400 transition-transform duration-300 shadow-lg ${isAnnual ? 'translate-x-10' : 'translate-x-0'}`}
@@ -176,14 +178,15 @@ const PricingSection: React.FC = () => {
 
               <Link 
                 to={PageRoute.CONTACT}
-                className={`block w-full text-center py-4 rounded-xl font-bold tracking-wide transition-all duration-300 flex items-center justify-center gap-2 ${
+                className={`block w-full text-center py-4 rounded-xl font-bold tracking-wide transition-all duration-300 flex items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white/20 ${
                   tier.recommended 
                     ? `bg-gradient-to-r ${tier.color} text-cyber-950 hover:shadow-lg hover:scale-[1.02]` 
                     : 'bg-white/5 text-white hover:bg-white/10 border border-white/10 hover:border-white/20'
                 }`}
+                aria-label={`${tier.cta} for the ${tier.name} plan`}
               >
                 {tier.cta}
-                <ArrowRight size={18} className={tier.recommended ? 'group-hover:translate-x-1 transition-transform' : ''} />
+                <ArrowRight size={18} className={tier.recommended ? 'group-hover:translate-x-1 transition-transform' : ''} aria-hidden="true" />
               </Link>
             </div>
           ))}
