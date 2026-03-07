@@ -76,7 +76,7 @@ const Navbar: React.FC = () => {
   const navLinks = [
     { name: 'Features', id: PageRoute.FEATURES, type: 'route' },
     { name: 'Web Design', id: PageRoute.WEBSITE_DESIGN, type: 'route' },
-    { name: 'Pricing', id: 'pricing', type: 'hash' },
+    { name: 'Pricing', id: PageRoute.PRICING, type: 'route' },
     { name: 'Partners', id: PageRoute.PARTNERS, type: 'route' },
     { name: 'Track', id: PageRoute.TRACK, type: 'route' },
     { name: 'About', id: PageRoute.ABOUT, type: 'route' },
