@@ -1,40 +1,35 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { PageRoute } from '../types';
+import { PageRoute } from '../../types';
 import { 
   Coffee, CloudRain, TrendingUp, Truck, Mic, ShieldAlert, 
   Menu, UserCheck, Battery, MessageSquare, AlertTriangle, Search, FileText, 
   Users, Award, Recycle, MapPin, DollarSign, Brain, CloudLightning, Smartphone, Clock, ArrowDownRight, ArrowRight
 } from 'lucide-react';
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
 
-import { slides, expandedSlides, remainingSlides } from './use-cases/useCasesData';
+interface Slide {
+  id: number;
+  icon: any;
+  color: string;
+  bgColor: string;
+  borderColor: string;
+  title: string;
+  description: string;
+  tag: string;
+  stat: string;
+}
 
-const UseCasesGrid: React.FC = () => {
-  const { ref: headerRef, inView: headerInView } = useInView({ threshold: 0.1, triggerOnce: true });
+interface UseCaseProps {
+  slide: Slide;
+}
 
+
+
+export const ExpandedUseCases: React.FC<{ expandedSlides: Slide[] }> = ({ expandedSlides }) => {
   return (
-    <section className="py-24 bg-cyber-950 relative overflow-hidden border-t border-white/5">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <motion.div 
-          ref={headerRef}
-          initial={{ opacity: 0, y: 20 }}
-          animate={headerInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-20"
-        >
-          <div className="inline-block p-1.5 px-3 rounded-full bg-neon-purple/10 border border-neon-purple/30 text-neon-purple text-xs font-mono mb-4">
-             CASE SCENARIOS
-          </div>
-          <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">18 Reasons Why</h2>
-          <p className="text-gray-400 text-xl max-w-3xl mx-auto">Real-world operational logic deployed in Bangalore today. We don't just provide software; we provide <span className="text-white font-bold">a cognitive upgrade for your business</span>.</p>
-        </motion.div>
-
-        {/* Expanded Top 3 Use Cases */}
-        <div className="space-y-32 mb-32">
-          
-          {/* Use Case 1: Morning Rush */}
+    <div className="space-y-32 mb-32">
+      {/* Use Case 1: Morning Rush */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="order-2 lg:order-1 relative group">
               <div className="absolute -inset-4 bg-orange-500/20 blur-3xl rounded-full opacity-30 group-hover:opacity-50 transition-opacity"></div>
@@ -1181,55 +1176,6 @@ const UseCasesGrid: React.FC = () => {
           </div>
 
         </div>
-
-        {/* Divider */}
-        <div className="flex items-center gap-4 mb-16">
-          <div className="h-px bg-gradient-to-r from-transparent via-white/20 to-transparent flex-grow"></div>
-          <span className="text-gray-500 font-mono text-sm tracking-widest uppercase">More Use Cases</span>
-          <div className="h-px bg-gradient-to-r from-transparent via-white/20 to-transparent flex-grow"></div>
-        </div>
-
-        {/* Remaining Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {remainingSlides.map((slide, i) => (
-            <motion.div 
-              key={slide.id}
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className={`bento-card rounded-2xl p-6 border border-white/5 hover:border-${slide.color.split('-')[1]}-500/50 transition-all group flex flex-col h-full`}
-            >
-              <div className="flex items-center gap-4 mb-4">
-                <div className={`p-3 rounded-xl ${slide.bgColor} ${slide.borderColor} border group-hover:scale-110 transition-transform`}>
-                  <slide.icon size={24} className={slide.color} />
-                </div>
-                <div>
-                  <span className={`text-[10px] font-bold tracking-widest uppercase ${slide.color}`}>
-                    {slide.tag}
-                  </span>
-                  <h3 className="text-white font-bold text-lg leading-tight">
-                    {slide.title}
-                  </h3>
-                </div>
-              </div>
-              
-              <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-grow">
-                {slide.description}
-              </p>
-
-              <div className="mt-auto pt-4 border-t border-white/5 flex items-center justify-between">
-                <div className="flex items-center gap-2 text-garden-400 font-mono text-[10px]">
-                  <div className="w-1.5 h-1.5 bg-garden-500 rounded-full animate-pulse"></div>
-                  {slide.stat}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
+    </div>
   );
 };
-
-export default UseCasesGrid;

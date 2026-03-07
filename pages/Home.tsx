@@ -373,6 +373,30 @@ const Home: React.FC = () => {
         </div>
       </section>
 
+      {/* Web Design Promo */}
+      <section className="py-24 relative z-10 bg-cyber-950 border-t border-white/5 overflow-hidden">
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[300px] bg-neon-cyan/5 rounded-full blur-[100px]"></div>
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-neon-cyan/30 text-neon-cyan text-[10px] font-mono mb-6 tracking-[0.2em] shadow-[0_0_15px_rgba(0,255,255,0.1)]">
+             NEW SERVICE
+          </div>
+          <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter mb-6">
+            ENTERPRISE <span className="text-neon-cyan">WEB DESIGN</span>
+          </h2>
+          <p className="text-xl text-gray-400 font-light max-w-2xl mx-auto leading-relaxed mb-10">
+            High-performance React architectures with Cyber-Industrial aesthetics. We build platforms, not just pages.
+          </p>
+          <Link
+            to={PageRoute.WEBSITE_DESIGN}
+            className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-black font-black text-sm uppercase tracking-widest hover:scale-105 transition-all shadow-[0_0_30px_rgba(255,255,255,0.3)] rounded-full group"
+          >
+            Explore Portfolio <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </div>
+      </section>
+
       {/* Components */}
       <Suspense fallback={<SectionSkeleton />}>
         <FeaturesSection />

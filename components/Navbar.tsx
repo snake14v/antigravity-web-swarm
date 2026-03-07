@@ -63,6 +63,7 @@ const Navbar: React.FC = () => {
     { name: 'Features', id: PageRoute.FEATURES, type: 'route' },
     { name: 'Manifesto', id: 'manifesto', type: 'hash' },
     { name: 'Pricing', id: 'pricing', type: 'hash' },
+    { name: 'Web Design', id: PageRoute.WEBSITE_DESIGN, type: 'route' },
     { name: 'About Us', id: PageRoute.ABOUT, type: 'route' },
     { name: 'Partners', id: PageRoute.PARTNERS, type: 'route' },
     { name: 'Track Status', id: PageRoute.TRACK, type: 'route' },

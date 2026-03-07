@@ -1,0 +1,19 @@
+components/use-cases/ExpandedUseCases.tsx(1179,5): error TS1005: ')' expected.
+components/use-cases/ExpandedUseCases.tsx(1180,3): error TS1109: Expression expected.
+components/use-cases/ExpandedUseCases.tsx(1181,1): error TS1128: Declaration or statement expected.
+components/use-cases/UseCaseLanguageBridge.tsx(30,16): error TS1005: ')' expected.
+components/use-cases/UseCaseLanguageBridge.tsx(31,13): error TS2657: JSX expressions must have one parent element.
+components/use-cases/UseCaseLanguageBridge.tsx(98,11): error TS1128: Declaration or statement expected.
+components/use-cases/UseCaseLanguageBridge.tsx(99,3): error TS1109: Expression expected.
+components/use-cases/UseCaseLanguageBridge.tsx(100,1): error TS1128: Declaration or statement expected.
+components/use-cases/UseCaseMorningRush.tsx(30,16): error TS1005: ')' expected.
+components/use-cases/UseCaseMorningRush.tsx(31,13): error TS2657: JSX expressions must have one parent element.
+components/use-cases/UseCaseMorningRush.tsx(105,11): error TS1128: Declaration or statement expected.
+components/use-cases/UseCaseMorningRush.tsx(106,3): error TS1109: Expression expected.
+components/use-cases/UseCaseMorningRush.tsx(107,1): error TS1128: Declaration or statement expected.
+components/use-cases/UseCaseVendorNegotiation.tsx(30,16): error TS1005: ')' expected.
+components/use-cases/UseCaseVendorNegotiation.tsx(31,13): error TS2657: JSX expressions must have one parent element.
+components/use-cases/UseCaseVendorNegotiation.tsx(91,11): error TS1128: Declaration or statement expected.
+components/use-cases/UseCaseVendorNegotiation.tsx(92,3): error TS1109: Expression expected.
+components/use-cases/UseCaseVendorNegotiation.tsx(93,1): error TS1128: Declaration or statement expected.
+components/UseCasesGrid.tsx(222,8): error TS17008: JSX element 'div' has no corresponding closing tag.
