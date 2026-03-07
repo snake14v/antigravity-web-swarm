@@ -462,6 +462,86 @@ const WebsiteDesign: React.FC = () => {
         </div>
       </section>
 
+      {/* --- CLIENT SHOWCASE SECTION --- */}
+      <section className="py-24 relative z-10 px-6 bg-[#050508]">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-6">
+            <div className="max-w-2xl">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-neon-cyan/10 border border-neon-cyan/30 text-neon-cyan text-[10px] font-mono mb-6 uppercase tracking-widest">
+                <Globe2 size={14} className="animate-spin-slow" /> LIVE ECOSYSTEM NODES
+              </div>
+              <h2 className="text-4xl md:text-6xl font-black tracking-tighter leading-none text-white">
+                The Proof of <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan to-white">Concept.</span>
+              </h2>
+            </div>
+            <p className="text-gray-400 font-mono text-xs mb-2">
+              &gt; TOTAL_DELIVERIES: 06_ACTIVE
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              { name: "Triangle Inside", url: "https://www.triangleinside.in/", color: "bg-neon-cyan", border: "border-neon-cyan/50", desc: "Premium interior design platform with AI estimators.", stack: "React • Framer • Canvas" },
+              { name: "XGO3D Engineering", url: "https://www.xgo3d.com/", color: "bg-white", border: "border-white/50", desc: "Clinical engineering portfolio with 3D WebGL viewers.", stack: "Three.js • React • WebGL" },
+              { name: "MTC Tribal Chicken", url: "https://mtc-22.vercel.app/", color: "bg-neon-amber", border: "border-neon-amber/50", desc: "Brutalist tribal-themed food brand platform.", stack: "Next.js • Tailwind • GSAP" },
+              { name: "Cha Angadi", url: "https://www.chaangadi.in/", color: "bg-green-500", border: "border-green-500/50", desc: "Authentic tea shop with community loyalty integration.", stack: "Firebase • React • Cloud" },
+              { name: "SQL Tutor", url: "https://sql-learnx-sbmw.vercel.app/", color: "bg-blue-500", border: "border-blue-500/50", desc: "Gamified educational platform for database learning.", stack: "PostgreSQL • React • SVG" },
+              { name: "A Venue Services", url: "https://avenue-gules.vercel.app/", color: "bg-neon-purple", border: "border-neon-purple/50", desc: "Multi-service catalog for enterprise event management.", stack: "Redux • Node • Express" }
+            ].map((client, i) => (
+              <motion.a
+                key={i}
+                href={client.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, scale: 0.9, y: 30 }}
+                whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1, type: "spring", stiffness: 100 }}
+                whileHover={{ y: -10, scale: 1.02 }}
+                className={`group relative bg-cyber-900 border ${client.border} p-8 rounded-[2.5rem] overflow-hidden transition-all hover:bg-black shadow-[0_20px_50px_rgba(0,0,0,0.5)]`}
+              >
+                <div className={`absolute top-0 left-0 w-2 h-full ${client.color}`}></div>
+                <div className="absolute -top-12 -right-12 w-32 h-32 bg-white/5 blur-3xl rounded-full group-hover:bg-white/10 transition-colors"></div>
+                
+                <div className="flex justify-between items-start mb-10">
+                   <div className="p-3 bg-white/5 rounded-2xl border border-white/10 text-gray-400 group-hover:text-white transition-colors">
+                      <Layout size={24} />
+                   </div>
+                   <div className="flex flex-col items-end">
+                      <span className="text-[9px] font-mono text-green-500 flex items-center gap-1 mb-1">
+                         <Activity size={10} /> 100 LIGHTHOUSE
+                      </span>
+                      <Share2 className="text-gray-700 group-hover:text-gray-400 transition-colors" size={16} />
+                   </div>
+                </div>
+
+                <h3 className="text-3xl font-black text-white mb-3 group-hover:text-neon-cyan transition-colors tracking-tighter">
+                  {client.name}
+                </h3>
+                <p className="text-gray-400 text-sm mb-8 font-light leading-relaxed min-h-[40px]">
+                  {client.desc}
+                </p>
+
+                <div className="space-y-4 pt-6 border-t border-white/5">
+                   <div className="flex justify-between items-center text-[10px] font-mono">
+                      <span className="text-gray-500 uppercase tracking-widest">Stack.core</span>
+                      <span className="text-white">{client.stack}</span>
+                   </div>
+                   <div className="flex justify-between items-center text-[10px] font-mono">
+                      <span className="text-gray-500 uppercase tracking-widest">Latency</span>
+                      <span className="text-green-500 font-bold">~12ms</span>
+                   </div>
+                </div>
+
+                <div className="mt-8 flex items-center gap-2 text-[10px] font-mono text-neon-cyan bg-neon-cyan/5 border border-neon-cyan/20 px-4 py-2 rounded-full w-fit group-hover:bg-neon-cyan group-hover:text-black transition-all">
+                  INITIALIZE_VISIT <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
+                </div>
+              </motion.a>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* --- MASSIVE SALES CLOSER --- */}
       <section className="py-40 relative z-10 px-6 overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-neon-magenta to-transparent"></div>
