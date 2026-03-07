@@ -1,0 +1,32 @@
+{
+  "name": "Antigravity Swarm Sandbox",
+  "image": "mcr.microsoft.com/devcontainers/python:1-3.11-bullseye",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {},
+    "ghcr.io/devcontainers/features/git:1": {}
+  },
+  "remoteUser": "vscode",
+  "runArgs": [
+    "--init",
+    "--cap-drop=ALL",
+    "--security-opt", "no-new-privileges",
+    "--network=host" 
+  ],
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "antigravity.security.restrictFileAccess": true,
+        "antigravity.swarm.auditLogPath": "${workspaceFolder}/.swarm/audit_trail.jsonl"
+      },
+      "extensions": [
+        "ms-python.python",
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint"
+      ]
+    }
+  },
+  "postCreateCommand": "python -m pip install -r requirements.txt || echo 'No requirements.txt found'",
+  "waitFor": "postCreateCommand"
+}
