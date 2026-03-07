@@ -1,0 +1,41 @@
+# Antigravity Global Swarm Configuration
+# Defines specialized agent roles, topologies, and security guardrails
+
+version: "2.0"
+
+orchestrator:
+  backend: "thread" # Transitions to "tmux" if available
+  poll_interval_ms: 1000
+  session_recovery: true
+  recovery_path: ".claude/projects/"
+
+security:
+  permission_mode: "ask" # [ask | deny | auto] - Require explicit approval before execution to mitigate Delegated Compromise.
+  audit_enabled: true
+  audit_log_path: ".swarm/audit_trail.jsonl"
+  sandbox_container: "devcontainer"
+  behavioral_scanning: true
+
+presets:
+  # The default web-development operational preset
+  fullstack:
+    parallel_execution: true
+    agents:
+      - role: "Oracle"
+        system: "Senior systems architect. High-level infrastructure, deep debugging, root cause analysis."
+      - role: "Frontend"
+        system: "Client-side implementation. UI/UX design, CSS strategies (Tailwind), Accessibility."
+      - role: "Junior"
+        system: "Rapid implementation. General coding, boilerplate generation, API integration."
+    serial_validation:
+      - role: "Quality_Validator"
+        system: "Mandatory serial validation. Verifies terminal outputs, runs unit tests, accessibility compliance checking."
+
+  # Deep codebase logic extraction
+  analysis:
+    parallel_execution: true
+    agents:
+      - role: "Prometheus"
+      - role: "Momus"
+      - role: "Librarian"
+        system: "Indexes the existing repository architecture deeply."
