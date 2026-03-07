@@ -374,28 +374,59 @@ const Home: React.FC = () => {
       </section>
 
       {/* Web Design Promo */}
-      <section className="py-24 relative z-10 bg-cyber-950 border-t border-white/5 overflow-hidden">
+      <section className="py-24 relative z-10 bg-cyber-950 border-y border-white/5 overflow-hidden">
         <div className="absolute inset-0 z-0 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[300px] bg-neon-cyan/5 rounded-full blur-[100px]"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[300px] bg-neon-cyan/5 rounded-full blur-[100px] animate-pulse"></div>
+          <div className="absolute bottom-0 right-0 w-[400px] h-[300px] bg-neon-purple/5 rounded-full blur-[80px]"></div>
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-neon-cyan/30 text-neon-cyan text-[10px] font-mono mb-6 tracking-[0.2em] shadow-[0_0_15px_rgba(0,255,255,0.1)]">
-             NEW SERVICE
+          <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-neon-cyan/5 border border-neon-cyan/30 text-neon-cyan text-[10px] font-mono mb-8 tracking-[0.2em] shadow-[0_0_20px_rgba(0,255,255,0.15)]">
+             <span className="w-2 h-2 rounded-full bg-neon-cyan animate-pulse"></span>
+             LIMITED TIME LAUNCH PRICING
           </div>
-          <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter mb-6">
-            ENTERPRISE <span className="text-neon-cyan">WEB DESIGN</span>
+          <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-white tracking-tighter mb-4">
+            ENTERPRISE <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan to-neon-purple">WEB DESIGN</span>
           </h2>
-          <p className="text-xl text-gray-400 font-light max-w-2xl mx-auto leading-relaxed mb-10">
-            High-performance React architectures with Cyber-Industrial aesthetics. We build platforms, not just pages.
+          
+          <div className="inline-flex items-center justify-center my-6 relative">
+            <div className="absolute inset-0 bg-neon-magenta/20 blur-xl rounded-full"></div>
+            <div className="relative bg-cyber-900 border-2 border-neon-magenta/50 px-8 py-4 rounded-3xl transform -rotate-2 hover:rotate-0 transition-transform">
+               <span className="text-gray-400 font-mono text-sm line-through mr-3">₹49,999</span>
+               <span className="text-4xl md:text-5xl font-black text-neon-magenta tracking-tight">₹499<span className="text-sm text-neon-magenta/70 font-mono tracking-normal ml-1">/project</span></span>
+            </div>
+          </div>
+
+          <p className="text-lg md:text-xl text-gray-400 font-light max-w-2xl mx-auto leading-relaxed mb-10 mt-6">
+            We're onboarding our first 10 beta clients. Get a high-performance React architecture built with our Cyber-Industrial design framework.
           </p>
-          <Link
-            to={PageRoute.WEBSITE_DESIGN}
-            className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-black font-black text-sm uppercase tracking-widest hover:scale-105 transition-all shadow-[0_0_30px_rgba(255,255,255,0.3)] rounded-full group"
-          >
-            Explore Portfolio <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-          </Link>
+          
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              to={PageRoute.WEBSITE_DESIGN}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-black font-black text-sm uppercase tracking-widest hover:scale-105 transition-all shadow-[0_0_30px_rgba(255,255,255,0.3)] rounded-full group"
+            >
+              Explore Portfolio <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+            </Link>
+            <Link
+              to={PageRoute.CONTACT}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-neon-magenta/10 border border-neon-magenta/50 text-neon-magenta font-black text-sm uppercase tracking-widest hover:bg-neon-magenta/20 transition-all rounded-full"
+            >
+              Lock in ₹499 Price
+            </Link>
+          </div>
         </div>
       </section>
+
+      {/* Infinite Scrolling Features Link */}
+      <Link to={PageRoute.FEATURES} className="block w-full bg-neon-cyan text-black py-4 overflow-hidden relative group hover:bg-white transition-colors cursor-pointer z-10">
+        <div className="flex whitespace-nowrap animate-marquee group-hover:[animation-play-state:paused] items-center text-lg font-black tracking-[0.2em]">
+          {[...Array(10)].map((_, i) => (
+            <span key={i} className="flex items-center mx-4">
+              EXPLORE FULL SYSTEM FEATURES <ArrowRight size={20} className="ml-4" />
+            </span>
+          ))}
+        </div>
+      </Link>
 
       {/* Components */}
       <Suspense fallback={<SectionSkeleton />}>
