@@ -227,6 +227,22 @@ const Home: React.FC = () => {
 
         </div>
 
+        {/* Repeating Features Pattern Bar */}
+        <div className="absolute bottom-10 left-0 w-full overflow-hidden opacity-30 group">
+          <div className="flex animate-marquee gap-8 whitespace-nowrap">
+            {[...Array(10)].map((_, i) => (
+              <Link 
+                key={i}
+                to={PageRoute.FEATURES} 
+                className="inline-flex items-center gap-2 font-mono text-[10px] text-gray-400 hover:text-white transition-colors"
+              >
+                <Zap size={10} className="text-neon-cyan" /> 
+                ACCESS_FULL_SYSTEM_LOGS &gt; 
+              </Link>
+            ))}
+          </div>
+        </div>
+
         {/* Decorative Code/Data Elements to Fill Space - Slide in from sides - hidden on tablet/mobile */}
         <div className={`absolute left-8 top-1/3 hidden xl:block text-left opacity-30 pointer-events-none transform transition-all duration-1000 ease-out delay-[800ms] ${animateHero ? 'translate-x-0' : '-translate-x-[200px]'}`}>
            <div className="font-mono text-[10px] text-neon-pink space-y-1">
@@ -370,6 +386,19 @@ const Home: React.FC = () => {
             </div>
 
           </div>
+
+          <div className="mt-16 flex flex-wrap justify-center gap-4 px-4">
+            {[...Array(6)].map((_, i) => (
+              <Link 
+                key={i} 
+                to={PageRoute.FEATURES}
+                className="px-6 py-2 bg-white/5 border border-white/10 rounded-full text-[10px] font-mono hover:bg-neon-cyan hover:text-black hover:border-neon-cyan transition-all uppercase tracking-widest flex items-center gap-2 group whitespace-nowrap"
+              >
+                <Zap size={12} className="group-hover:animate-pulse text-neon-cyan group-hover:text-black" /> Explore Features
+              </Link>
+            ))}
+          </div>
+
         </div>
       </section>
 
