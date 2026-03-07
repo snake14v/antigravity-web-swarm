@@ -11,6 +11,11 @@ A modular collection of generic web-building AI Agents designed to snap directly
 5. **📚 Component Librarian** (`/component-librarian`) - Abstracts DOM noise into clean, reusable generic components.
 6. **⚖️ Accessibility Auditor** (`/accessibility-auditor`) - Adds ARIA bindings and manages focus-states for WCAG 2.1 compliance.
 7. **📱 Responsive Scaler** (`/responsive-scaler`) - Transforms static bounds into fluid flex/grid constraints for mobile-first views.
+8. **🐙 GitHub Agent** (`/github-agent`) - GitHub repository health agent to ensure repo organization and CI/CD setup.
+9. **📖 Docs Handler** (`/docs-handler`) - Final documentation sweep ensuring docs stay consistent across sweeps.
+10. **♾️ Jules Meta Loop** (`/jules-meta-loop`) - Executes the recursive four-phase maintenance sweep.
+11. **🚀 Onboarding** (`/onboarding`) - Validates the environment and prints architecture overviews for new human developers.
+12. **🏗️ Architectural Synchronizer** (`/architectural-synchronizer`) - Ensures integration alignment across the entire solution space.
 
 ## Installation
 

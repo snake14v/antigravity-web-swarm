@@ -6,7 +6,12 @@ $agents = @(
     "copywriter-agent.md",
     "component-librarian.md",
     "accessibility-auditor.md",
-    "responsive-scaler.md"
+    "responsive-scaler.md",
+    "github-agent.md",
+    "docs-handler.md",
+    "jules-meta-loop.md",
+    "onboarding.md",
+    "architectural-synchronizer.md"
 )
 
 $targetDir = ".\.agent\workflows"
