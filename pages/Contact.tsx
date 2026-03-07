@@ -92,7 +92,8 @@ const Contact: React.FC = () => {
               setSubmitted(false);
               setStep(1);
             }}
-            className="text-garden-400 hover:text-white underline font-medium"
+            className="text-garden-400 hover:text-white underline font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-garden-500 rounded px-2"
+            aria-label="Register another business node"
           >
             Register another business node
           </button>
@@ -203,7 +204,7 @@ const Contact: React.FC = () => {
                         required
                         value={formData.businessName}
                         onChange={handleInputChange}
-                        className="w-full bg-cyber-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-garden-500 transition-colors placeholder:text-gray-700"
+                        className="w-full bg-cyber-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-garden-500 focus:ring-1 focus:ring-garden-500 transition-colors placeholder:text-gray-700"
                         placeholder="e.g. Bellandur Gourmet Labs"
                       />
                     </div>
@@ -217,7 +218,7 @@ const Contact: React.FC = () => {
                           required
                           value={formData.ownerName}
                           onChange={handleInputChange}
-                          className="w-full bg-cyber-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-garden-500 transition-colors"
+                          className="w-full bg-cyber-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-garden-500 focus:ring-1 focus:ring-garden-500 transition-colors"
                           placeholder="Full Name"
                         />
                       </div>
@@ -254,7 +255,7 @@ const Contact: React.FC = () => {
                           id="merchantType"
                           value={formData.merchantType}
                           onChange={handleInputChange}
-                          className="w-full bg-cyber-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-garden-500 transition-colors appearance-none"
+                          className="w-full bg-cyber-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-garden-500 focus:ring-1 focus:ring-garden-500 transition-colors appearance-none"
                         >
                           <option>Cafe / QSR (Quick Service)</option>
                           <option>Gym / Fitness Studio</option>
@@ -318,7 +319,7 @@ const Contact: React.FC = () => {
                         rows={3}
                         value={formData.challenges}
                         onChange={handleInputChange as any}
-                        className="w-full bg-cyber-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-garden-500 transition-colors placeholder:text-gray-700 resize-none"
+                        className="w-full bg-cyber-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-garden-500 focus:ring-1 focus:ring-garden-500 transition-colors placeholder:text-gray-700 resize-none"
                         placeholder="e.g. Inventory tracking is a mess, high staff turnover..."
                       ></textarea>
                     </div>
@@ -350,9 +351,9 @@ const Contact: React.FC = () => {
 
                   <button
                     type="submit"
-                    className="w-full bg-garden-500 hover:bg-garden-400 text-cyber-950 font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2 group shadow-[0_0_30px_rgba(16,185,129,0.3)]"
+                    className="w-full bg-garden-500 hover:bg-garden-400 text-cyber-950 font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2 group shadow-[0_0_30px_rgba(16,185,129,0.3)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-garden-500/50"
                   >
-                    CONTINUE TO ACTIVATION <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                    CONTINUE TO ACTIVATION <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                   </button>
                   
                   <div className="flex items-center justify-center gap-4 text-[10px] text-gray-600 font-mono">
