@@ -6,6 +6,7 @@ import IntroScreen from '../components/IntroScreen';
 import Logo, { OoruLogixLogo } from '../components/Logo';
 import VividOrbs from '../components/VividOrbs';
 import PixelText from '../components/PixelText';
+import { SwarmAgentConcept } from '../components/SwarmAgentConcept';
 
 const FeaturesSection = lazy(() => import('../components/FeaturesSection'));
 const ManifestoSection = lazy(() => import('../components/ManifestoSection'));
@@ -255,6 +256,17 @@ const Home: React.FC = () => {
         <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-cyber-950 to-transparent z-10"></div>
         <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-cyber-950 to-transparent z-10"></div>
       </div>
+
+      {/* Dynamic Swarm Concept Component */}
+      <section className="py-16 relative z-10 bg-cyber-950">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-12 text-center">
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">Multi-Agent Autonomy</h2>
+            <p className="text-gray-400 max-w-2xl mx-auto text-lg hover:text-white transition-colors">Our core architecture is built upon an orchestrated hive mind. Specialized AI agents continuously orchestrate, compute, and negotiate your operational workflows seamlessly.</p>
+          </div>
+          <SwarmAgentConcept customHeight="min-h-[500px]" />
+        </div>
+      </section>
 
       {/* Bento Grid Section - Dense & Detailed */}
       <section className="py-16 relative z-10 bg-cyber-950/20 backdrop-blur-md border-t border-white/5">

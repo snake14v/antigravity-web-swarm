@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Users, Database, Globe, Network, Cpu, ArrowUpRight, GitMerge, Shield, Brain, Activity, Zap } from 'lucide-react';
+import { SwarmAgentConcept } from './SwarmAgentConcept';
 import { ResponsiveContainer, AreaChart, Area, LineChart, Line } from 'recharts';
 
 const ManifestoSection: React.FC = () => {
@@ -249,6 +250,14 @@ const ManifestoSection: React.FC = () => {
                   </p>
                 </div>
               </div>
+            </div>
+
+            {/* Swarm Architecture Injection */}
+            <div className="mb-16 mt-8">
+              <SwarmAgentConcept 
+                title="Swarm Interoperability Grid" 
+                description="Our proprietary agent mesh allows real-time decision making across multiple operational vectors. Nodes communicate autonomously to optimize the entire business ecosystem."
+              />
             </div>
 
             {/* Multi-Model Intelligence Section */}
