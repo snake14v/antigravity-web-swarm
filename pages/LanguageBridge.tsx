@@ -91,6 +91,8 @@ const LanguageBridge: React.FC = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
+                    aria-live="polite"
+                    aria-atomic="true"
                   >
                     "{currentLog.source}"
                   </motion.div>
@@ -148,6 +150,8 @@ const LanguageBridge: React.FC = () => {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     className="text-white"
+                    aria-live="assertive"
+                    aria-atomic="true"
                   >
                     {currentLog.status === 'processing' ? (
                        <span className="text-gray-500 flex items-center gap-2">
@@ -181,7 +185,11 @@ const LanguageBridge: React.FC = () => {
            </div>
            
            <div className="p-6">
-              <div className="space-y-4 font-mono text-sm max-h-[300px] overflow-y-auto custom-scrollbar">
+              <div 
+                 className="space-y-4 font-mono text-sm max-h-[300px] overflow-y-auto custom-scrollbar"
+                 role="log"
+                 aria-live="polite"
+              >
                  {translationLogs.map((log) => (
                     <div key={log.id} className={`grid grid-cols-12 gap-4 p-3 rounded-xl border ${log.id === currentLog.id ? 'bg-purple-500/10 border-purple-500/30' : 'bg-transparent border-white/5'}`}>
                        <div className="col-span-2 text-gray-500 text-xs flex items-center">{log.time}</div>

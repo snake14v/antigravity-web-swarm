@@ -141,12 +141,16 @@ const DynamicPricing: React.FC = () => {
                 Live Terminal
               </h3>
               
-              <div className="flex gap-2 mb-6 bg-cyber-900 p-1 rounded-xl">
+              <div className="flex gap-2 mb-6 bg-cyber-900 p-1 rounded-xl" role="tablist" aria-label="Menu Items">
                 {Object.keys(items).map(key => (
                   <button
                     key={key}
                     onClick={() => setActiveItem(key)}
-                    className={`flex-1 py-2 text-xs font-bold rounded-lg capitalize transition-all ${activeItem === key ? 'bg-white/10 text-white' : 'text-gray-500 hover:text-gray-300'}`}
+                    role="tab"
+                    aria-selected={activeItem === key}
+                    aria-controls={`panel-${key}`}
+                    id={`tab-${key}`}
+                    className={`flex-1 py-2 text-xs font-bold rounded-lg capitalize transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500 focus-visible:ring-offset-cyber-900 ${activeItem === key ? 'bg-white/10 text-white shadow-md' : 'text-gray-500 hover:text-gray-300'}`}
                   >
                     {key}
                   </button>
@@ -159,6 +163,9 @@ const DynamicPricing: React.FC = () => {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
+                  role="tabpanel"
+                  id={`panel-${activeItem}`}
+                  aria-labelledby={`tab-${activeItem}`}
                   className="bg-cyber-900/50 border border-white/5 p-4 rounded-2xl relative overflow-hidden"
                 >
                   {current.discount > 0 && (
