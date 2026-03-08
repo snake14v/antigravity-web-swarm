@@ -16,27 +16,27 @@ const BottomNav: React.FC = () => {
   const [showMenu, setShowMenu] = useState(false);
   const { user, isAdmin, logout } = useAuth();
 
-  const primaryItems = [
-    { icon: OoruLogixLogo, label: 'Root', path: PageRoute.HOME, isLogo: true },
-    { icon: Grid, label: 'Grid', path: PageRoute.FEATURES },
-    { icon: Zap, label: 'Design', path: PageRoute.WEBSITE_DESIGN },
-    { icon: Activity, label: 'Track', path: PageRoute.TRACK },
-  ];
-
   const handleLogout = async () => {
     await logout();
     toast.success('System Disconnected');
     setShowMenu(false);
   };
 
+  const primaryItems = [
+    { icon: OoruLogixLogo, label: 'Root', path: PageRoute.HOME, isLogo: true },
+    { icon: Grid, label: 'Grid', path: PageRoute.FEATURES },
+    { icon: Activity, label: 'Track', path: PageRoute.TRACK },
+    user 
+      ? { icon: LogOut, label: 'Logout', path: '#', onClick: handleLogout, color: 'text-red-400' }
+      : { icon: Cpu, label: 'Login', path: PageRoute.LOGIN },
+  ];
+
   const menuItems = [
+    { label: 'Design', path: PageRoute.WEBSITE_DESIGN, icon: Zap, color: 'text-neon-cyan' },
     { label: 'Partners', path: PageRoute.PARTNERS, icon: Share2, color: 'text-neon-cyan' },
     { label: 'Pricing', path: PageRoute.PRICING, icon: CreditCard, color: 'text-neon-amber' },
     { label: 'About', path: PageRoute.ABOUT, icon: Info, color: 'text-neon-purple' },
     isAdmin ? { label: 'Admin', path: PageRoute.DASHBOARD, icon: LayoutDashboard, color: 'text-neon-cyan' } : null,
-    user 
-      ? { label: 'Logout', path: '#', onClick: handleLogout, icon: LogOut, color: 'text-red-400' }
-      : { label: 'Login', path: PageRoute.LOGIN, icon: Cpu, color: 'text-white' },
   ].filter(Boolean) as any[];
 
   return (
@@ -82,15 +82,9 @@ const BottomNav: React.FC = () => {
         {/* Nav Items */}
         <div className="flex-1 flex justify-around items-center px-4">
           {primaryItems.map((item, idx) => {
-            const isActive = location.pathname === item.path;
-            return (
-              <Link
-                key={idx}
-                to={item.path}
-                className={`flex flex-col items-center gap-1.5 transition-all duration-300 ${
-                  isActive ? 'text-neon-cyan' : 'text-gray-500'
-                }`}
-              >
+            const isActive = location.pathname === item.path && item.path !== '#';
+            const itemContent = (
+              <>
                 <div className="relative">
                   {item.isLogo ? (
                     <item.icon 
@@ -98,7 +92,7 @@ const BottomNav: React.FC = () => {
                       color={isActive ? "#00ffff" : "#6b7280"}
                     />
                   ) : (
-                    <item.icon size={20} className={isActive ? 'drop-shadow-[0_0_8px_rgba(0,255,255,0.6)]' : ''} />
+                    <item.icon size={20} className={`${isActive ? 'drop-shadow-[0_0_8px_rgba(0,255,255,0.6)]' : ''} ${item.color || ''}`} />
                   )}
                   {isActive && (
                     <motion.span 
@@ -110,6 +104,30 @@ const BottomNav: React.FC = () => {
                 <span className="text-[8px] font-mono font-bold tracking-[0.2em] uppercase opacity-70">
                   {item.label}
                 </span>
+              </>
+            );
+
+            if (item.onClick) {
+              return (
+                <button
+                  key={idx}
+                  onClick={item.onClick}
+                  className="flex flex-col items-center gap-1.5 transition-all duration-300 text-gray-500 hover:text-red-400"
+                >
+                  {itemContent}
+                </button>
+              );
+            }
+
+            return (
+              <Link
+                key={idx}
+                to={item.path}
+                className={`flex flex-col items-center gap-1.5 transition-all duration-300 ${
+                  isActive ? 'text-neon-cyan' : 'text-gray-500'
+                }`}
+              >
+                {itemContent}
               </Link>
             );
           })}
