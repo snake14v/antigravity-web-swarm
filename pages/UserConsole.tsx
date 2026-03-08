@@ -41,10 +41,10 @@ const UserConsole: React.FC = () => {
       }
       setLoading(false);
     }, (err) => {
+      console.error('Grid Sync Error:', err);
       if (err.code === 'permission-denied') {
-        console.warn('Protocol Lock: Applying Firebase Rules fix required.');
+        toast.error('PROTOCOL_LOCK: Access Denied. Verify your security clearance.');
       } else {
-        console.error('Error tracking status:', err);
         toast.error('Sync error. Mainframe connection interrupted.');
       }
       setLoading(false);
