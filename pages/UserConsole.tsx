@@ -3,7 +3,7 @@ import { db, collection, query, where, getDocs, orderBy, limit, updateDoc, doc, 
 import { 
   Search, Loader2, CheckCircle, Clock, AlertCircle, 
   ArrowRight, Shield, Zap, MapPin, MessageSquare, 
-  Terminal, User as UserIcon, Activity, Code, List, Lock, CreditCard
+  Terminal, User as UserIcon, Activity, Code, List, Lock, CreditCard, Kanban
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
@@ -218,18 +218,80 @@ const UserConsole: React.FC = () => {
                   </div>
                 </div>
               </div>
+            </div>
 
-              {/* Enhanced Progress Tracking */}
-              <div className="mt-12 pt-10 border-t border-white/5">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {/* Comms Log Section */}
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <h4 className="text-[11px] font-mono font-bold uppercase tracking-widest text-gray-500 flex items-center gap-2">
-                        <MessageSquare size={14} className="text-neon-cyan" /> Mainframe_Log Stream
-                      </h4>
-                      <span className="text-[9px] text-neon-cyan italic animate-pulse">ENCRYPTED</span>
-                    </div>
+            {/* View-Only Kanban Progress Board */}
+            <div className="glass-panel rounded-3xl border border-white/10 p-8 bg-cyber-900/40 backdrop-blur-xl">
+               <div className="flex items-center justify-between mb-8">
+                  <h4 className="text-[11px] font-mono font-bold uppercase tracking-[0.3em] text-gray-500 flex items-center gap-2">
+                    <List size={14} className="text-neon-cyan" /> PROTOCOL_STAGE_VISUALIZER
+                  </h4>
+                  <div className="flex items-center gap-4 text-[10px] font-mono">
+                     <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-neon-cyan"></div> <span className="text-white">Active State</span></div>
+                     <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-white/10"></div> <span className="text-gray-600">Locked</span></div>
+                  </div>
+               </div>
+
+               <div className="grid grid-cols-1 md:grid-cols-4 gap-4 relative">
+                  <div className="absolute top-[3.25rem] left-10 right-10 h-[2px] bg-white/5 hidden md:block z-0">
+                     <div 
+                        className="h-full bg-neon-cyan transition-all duration-1000 shadow-[0_0_10px_rgba(0,255,255,0.5)]" 
+                        style={{ 
+                          width: result.status === 'pending' ? '0%' : 
+                                 result.status === 'contacted' ? '33%' : 
+                                 result.status === 'audited' ? '100%' : '100%' 
+                        }}
+                     ></div>
+                  </div>
+
+                  {[
+                    { id: 'pending', label: 'Initialization', desc: 'Secure Handshake', icon: List },
+                    { id: 'contacted', label: 'Engagement', desc: 'Engineer Deployment', icon: Zap },
+                    { id: 'audited', label: 'Final Audit', desc: 'Site Infrastructure', icon: Shield },
+                    { id: 'active', label: 'Live Node', desc: 'Full Mesh Connectivity', icon: CheckCircle }
+                  ].map((stage, i) => {
+                    const isCompleted = result.status === 'audited' ? i <= 2 : 
+                                       result.status === 'contacted' ? i <= 1 : 
+                                       result.status === 'pending' ? i <= 0 : false;
+                    const isActive = (result.status === 'pending' && i === 0) || 
+                                    (result.status === 'contacted' && i === 1) || 
+                                    (result.status === 'audited' && i >= 2);
+
+                    return (
+                      <div key={stage.id} className="relative z-10">
+                         <div className={`p-5 rounded-2xl border transition-all duration-500 flex flex-col items-center text-center group ${
+                           isActive ? 'bg-neon-cyan/10 border-neon-cyan/50 shadow-[0_0_20px_rgba(0,255,255,0.1)]' : 
+                           isCompleted ? 'bg-garden-500/5 border-garden-500/20 opacity-60' : 'bg-cyber-950/40 border-white/10 opacity-30 grayscale'
+                         }`}>
+                            <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-all duration-500 ${
+                              isActive ? 'bg-neon-cyan text-black scale-110' : 
+                              isCompleted ? 'bg-garden-500/10 text-garden-500' : 'bg-white/5 text-gray-600'
+                            }`}>
+                               <stage.icon size={20} />
+                            </div>
+                            <h5 className={`text-[10px] font-bold uppercase tracking-widest mb-1 ${isActive ? 'text-white' : 'text-gray-500'}`}>
+                               {stage.label}
+                            </h5>
+                            <p className="text-[9px] font-mono text-gray-600">{stage.desc}</p>
+                         </div>
+                         {isActive && (
+                           <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-1 bg-neon-cyan rounded-full animate-pulse"></div>
+                         )}
+                      </div>
+                    );
+                  })}
+               </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12 pt-10 border-t border-white/5">
+              {/* Comms Log Section */}
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <h4 className="text-[11px] font-mono font-bold uppercase tracking-widest text-gray-500 flex items-center gap-2">
+                    <MessageSquare size={14} className="text-neon-cyan" /> Mainframe_Log Stream
+                  </h4>
+                  <span className="text-[9px] text-neon-cyan italic animate-pulse">ENCRYPTED</span>
+                </div>
                     <div className="bg-cyber-950/80 border border-white/5 rounded-2xl p-6 h-64 overflow-y-auto space-y-4 scrollbar-thin scrollbar-thumb-white/10">
                        {result.feedbackToUser && (
                          <div className="p-4 bg-neon-cyan/5 border border-neon-cyan/10 rounded-xl mb-4 text-sm text-neon-cyan italic leading-relaxed">
@@ -384,7 +446,6 @@ const UserConsole: React.FC = () => {
                     </div>
                   </div>
                 </div>
-              </div>
 
               {/* Payment Portal */}
               {result.paymentStatus !== 'verified' && result.paymentStatus !== 'pending_verification' && !result.utr && (
@@ -400,8 +461,7 @@ const UserConsole: React.FC = () => {
                 </div>
               )}
             </div>
-          </div>
-        )}
+          )}
 
         {/* Support Grid */}
         <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">

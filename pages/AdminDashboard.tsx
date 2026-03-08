@@ -25,7 +25,7 @@ const AdminDashboard: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [activeTab, setActiveTab] = useState<'registry' | 'payments' | 'kanban'>('registry');
-  const [selectedReg, setSelectedReg] = useState<Registration | null>(null);
+  const [selectedRegId, setSelectedRegId] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
@@ -55,14 +55,23 @@ const AdminDashboard: React.FC = () => {
     }
   };
 
+  const VALIDATION_PROTOCOLS = {
+    contacted: (reg: Registration) => ({
+      passed: !!reg.mandatoryChecks?.phoneVerified,
+      error: 'Tele-Authentication (Phone) required'
+    }),
+    audited: (reg: Registration) => ({
+      passed: !!reg.mandatoryChecks?.addressVerified && !!reg.mandatoryChecks?.siteSurveyDone && reg.paymentStatus === 'verified',
+      error: 'Infrastructure Sync (Address/Survey) and verified payment required'
+    }),
+    rejected: () => ({ passed: true, error: '' }),
+    pending: () => ({ passed: true, error: '' })
+  };
+
   const updateStatus = async (reg: Registration, newStatus: RegistrationStatus) => {
-    // Mandatory checks logic
-    if (newStatus === 'contacted' && !reg.mandatoryChecks?.phoneVerified) {
-      toast.error('Mandatory Check Failed: Phone must be verified before contacting');
-      return;
-    }
-    if (newStatus === 'audited' && (!reg.mandatoryChecks?.addressVerified || !reg.mandatoryChecks?.siteSurveyDone)) {
-      toast.error('Mandatory Check Failed: Site survey and address verification required for Grid Activation');
+    const protocol = VALIDATION_PROTOCOLS[newStatus](reg);
+    if (!protocol.passed) {
+      toast.error(`PROTOCOL_LOCK: ${protocol.error}`);
       return;
     }
 
@@ -71,7 +80,7 @@ const AdminDashboard: React.FC = () => {
         status: newStatus,
         lastUpdated: serverTimestamp()
       });
-      toast.success(`Status updated to ${newStatus}`);
+      toast.success(`Node transition to ${newStatus.toUpperCase()} successful`);
     } catch (err) {
       console.error('Error updating status:', err);
       toast.error('Failed to update status');
@@ -241,13 +250,13 @@ const AdminDashboard: React.FC = () => {
           <KanbanBoard 
             registrations={filteredData} 
             updateStatus={updateStatus} 
-            setSelectedReg={(reg) => { setSelectedReg(reg); setShowModal(true); }}
+            onSelect={(id) => { setSelectedRegId(id); setShowModal(true); }}
           />
         ) : activeTab === 'registry' ? (
           <NodeTable 
             data={filteredData} 
             updateStatus={updateStatus} 
-            onEdit={(reg) => { setSelectedReg(reg); setShowModal(true); }}
+            onEdit={(reg) => { setSelectedRegId(reg.id); setShowModal(true); }}
             deleteRegistration={deleteRegistration}
             getStatusColor={getStatusColor}
           />
@@ -262,13 +271,14 @@ const AdminDashboard: React.FC = () => {
 
         {/* Detailed Modal */}
         <AnimatePresence>
-          {showModal && selectedReg && (
+          {showModal && selectedRegId && (
             <RegistrationModal 
-              reg={selectedReg} 
-              onClose={() => { setShowModal(false); setSelectedReg(null); }}
+              reg={registrations.find(r => r.id === selectedRegId)!} 
+              onClose={() => { setShowModal(false); setSelectedRegId(null); }}
               onUpdate={handleUpdateRegistration}
               onLogMessage={addLogMessage}
-              onUpdateStatus={(status) => updateStatus(selectedReg, status)}
+              onUpdateStatus={(status) => updateStatus(registrations.find(r => r.id === selectedRegId)!, status)}
+              validationProtocols={VALIDATION_PROTOCOLS}
             />
           )}
         </AnimatePresence>
@@ -283,8 +293,8 @@ const AdminDashboard: React.FC = () => {
 const KanbanBoard: React.FC<{ 
   registrations: Registration[], 
   updateStatus: (reg: Registration, status: RegistrationStatus) => void,
-  setSelectedReg: (reg: Registration) => void
-}> = ({ registrations, updateStatus, setSelectedReg }) => {
+  onSelect: (id: string) => void
+}> = ({ registrations, updateStatus, onSelect }) => {
   return (
     <div className="flex gap-6 overflow-x-auto pb-8 min-h-[60vh]">
       {STATUS_ORDER.map((status) => (
@@ -307,7 +317,7 @@ const KanbanBoard: React.FC<{
               <motion.div 
                 layoutId={reg.id}
                 key={reg.id}
-                onClick={() => setSelectedReg(reg)}
+                onClick={() => onSelect(reg.id)}
                 className="p-4 bg-cyber-900 border border-white/10 rounded-xl hover:border-neon-cyan/50 cursor-pointer transition-all active:scale-[0.98] group"
               >
                 <div className="flex justify-between items-start mb-2">
@@ -453,8 +463,9 @@ const RegistrationModal: React.FC<{
   onClose: () => void,
   onUpdate: (id: string, updates: Partial<Registration>) => Promise<void>,
   onLogMessage: (id: string, msg: string, type: CommunicationLogEntry['type']) => Promise<void>,
-  onUpdateStatus: (status: RegistrationStatus) => Promise<void>
-}> = ({ reg, onClose, onUpdate, onLogMessage, onUpdateStatus }) => {
+  onUpdateStatus: (status: RegistrationStatus) => Promise<void>,
+  validationProtocols: Record<RegistrationStatus, (reg: Registration) => { passed: boolean; error: string }>
+}> = ({ reg, onClose, onUpdate, onLogMessage, onUpdateStatus, validationProtocols }) => {
   const [activeSubTab, setActiveSubTab] = useState<'info' | 'checks' | 'comm' | 'notes'>('info');
   const [newLog, setNewLog] = useState('');
   const [logType, setLogType] = useState<CommunicationLogEntry['type']>('system');
@@ -540,20 +551,36 @@ const RegistrationModal: React.FC<{
             <div className="mt-auto pt-6 border-t border-white/5">
                <h4 className="text-[10px] font-mono text-gray-600 uppercase tracking-widest mb-4">Node Transition</h4>
                <div className="flex flex-col gap-2">
-                  {STATUS_ORDER.map(s => (
-                    <button 
-                      key={s}
-                      disabled={reg.status === s}
-                      onClick={() => onUpdateStatus(s)}
-                      className={`text-[10px] font-bold px-3 py-2 rounded-lg border transition-all text-left flex items-center justify-between group ${
-                        reg.status === s ? 'bg-white/5 border-white/10 text-gray-500 opacity-50' : 'border-white/5 hover:border-neon-cyan/50 text-gray-400 hover:text-white'
-                      }`}
-                    >
-                      {s.toUpperCase()}
-                      <ArrowRight size={10} className="group-hover:translate-x-1 transition-transform" />
-                    </button>
-                  ))}
-               </div>
+                   {STATUS_ORDER.map(s => {
+                     const protocol = validationProtocols[s](reg);
+                     return (
+                      <button 
+                        key={s}
+                        disabled={reg.status === s || !protocol.passed}
+                        onClick={() => onUpdateStatus(s)}
+                        title={!protocol.passed ? `LOCK: ${protocol.error}` : ''}
+                        className={`text-[10px] font-bold px-3 py-2 rounded-lg border transition-all text-left flex items-center justify-between group ${
+                          reg.status === s ? 'bg-white/5 border-white/10 text-gray-500 opacity-50' : 
+                          !protocol.passed ? 'border-red-500/10 text-red-500/20 cursor-not-allowed grayscale' : 
+                          'border-white/5 hover:border-neon-cyan/50 text-gray-400 hover:text-white'
+                        }`}
+                      >
+                        {reg.status === s ? (
+                          <span className="flex items-center gap-1.5 font-mono text-neon-cyan"><CheckCircle size={10}/> CURRENT_STATE</span>
+                        ) : (
+                          <>
+                            <span className={!protocol.passed ? 'opacity-50' : ''}>{s.toUpperCase()}</span>
+                            {protocol.passed ? (
+                              <ArrowRight size={10} className="group-hover:translate-x-1 transition-transform" />
+                            ) : (
+                              <ShieldCheck size={10} className="text-red-500/50" />
+                            )}
+                          </>
+                        )}
+                      </button>
+                     );
+                   })}
+                </div>
             </div>
           </div>
 
