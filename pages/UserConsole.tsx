@@ -41,8 +41,12 @@ const UserConsole: React.FC = () => {
       }
       setLoading(false);
     }, (err) => {
-      console.error('Error tracking status:', err);
-      toast.error('Sync error. Mainframe connection interrupted.');
+      if (err.code === 'permission-denied') {
+        console.warn('Protocol Lock: Applying Firebase Rules fix required.');
+      } else {
+        console.error('Error tracking status:', err);
+        toast.error('Sync error. Mainframe connection interrupted.');
+      }
       setLoading(false);
     });
 
@@ -411,15 +415,38 @@ const UserConsole: React.FC = () => {
               <h4 className="text-white font-bold mb-2 text-sm uppercase tracking-widest">Sync Help</h4>
               <p className="text-[10px] text-gray-500 leading-relaxed font-mono">Node ID mismatch? Broadcast to <span className="text-white">sync@oorulogix.com</span>.</p>
            </div>
-           <div className="p-8 bg-neon-cyan/5 border border-neon-cyan/20 rounded-3xl group relative overflow-hidden transition-all hover:bg-neon-cyan/10">
-              <div className="absolute inset-0 bg-gradient-to-br from-neon-cyan/5 to-transparent opacity-50"></div>
-              <Activity className="text-neon-cyan mb-4 group-hover:scale-110 transition-all duration-500" size={32} />
-              <h4 className="text-white font-bold mb-3 text-sm uppercase tracking-widest flex items-center gap-2">
-                 PRIORITY SYNC <span className="text-[10px] bg-neon-cyan text-black px-1.5 py-0.5 rounded font-mono">ACTIVE</span>
-              </h4>
-              <p className="text-[11px] text-gray-400 font-mono leading-relaxed relative z-10">
-                Founders' Nodes in the <span className="text-neon-cyan">Green Glen Zone</span> bypass standard audit buffers. Priority activation is enabled for your cluster. Nodes are processed at <span className="text-white">L1 speed</span> (Handshake &lt; 2h).
-              </p>
+           <div className="p-8 bg-cyber-900 border border-neon-cyan/20 rounded-3xl group relative overflow-hidden transition-all hover:border-neon-cyan/40 shadow-[0_0_20px_rgba(0,255,255,0.05)]">
+              {/* Subtle Animated Background */}
+              <div className="absolute inset-0 bg-gradient-to-br from-neon-cyan/5 via-transparent to-neon-purple/5 opacity-50"></div>
+              <div className="absolute -right-10 -top-10 w-40 h-40 bg-neon-cyan/10 rounded-full blur-[80px] group-hover:bg-neon-cyan/20 transition-all duration-700"></div>
+              
+              <div className="relative z-10">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="w-12 h-12 rounded-2xl bg-neon-cyan/10 flex items-center justify-center text-neon-cyan group-hover:scale-110 transition-all duration-500 shadow-[0_0_15px_rgba(0,255,255,0.1)]">
+                    <Zap size={24} />
+                  </div>
+                  <div className="flex flex-col items-end">
+                    <span className="text-[10px] font-mono text-neon-cyan animate-pulse flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-neon-cyan"></span>
+                      PRIORITY_L1_SYNC
+                    </span>
+                    <span className="text-[8px] font-mono text-gray-600 mt-1">LATENCY: 14ms</span>
+                  </div>
+                </div>
+                
+                <h4 className="text-xl font-bold text-white mb-3 tracking-tight group-hover:text-neon-cyan transition-colors">Green Glen Dashboard</h4>
+                <p className="text-[11px] text-gray-400 font-mono leading-relaxed mb-6">
+                  Node cluster synchronization prioritized. <span className="text-white">Founders' Nodes</span> bypass standard manual audit buffers. 
+                  Protocol execution rate: <span className="text-neon-cyan">Fast-Track Mode</span>.
+                </p>
+
+                <div className="flex items-center gap-4 py-3 border-t border-white/5">
+                   <div className="flex-1 h-1 bg-white/5 rounded-full overflow-hidden">
+                      <div className="h-full bg-neon-cyan w-full shadow-[0_0_10px_rgba(0,255,255,0.5)]"></div>
+                   </div>
+                   <span className="text-[9px] font-mono text-neon-cyan">CLUSTERING_STABLE</span>
+                </div>
+              </div>
            </div>
         </div>
       </div>
