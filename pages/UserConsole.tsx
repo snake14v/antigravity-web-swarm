@@ -325,6 +325,36 @@ const UserConsole: React.FC = () => {
                        </div>
                     </div>
 
+                    {/* Mandatory Checks Live Visibility */}
+                    <div className="bg-cyber-900 border border-white/5 rounded-2xl p-6">
+                       <h4 className="text-[11px] font-mono font-bold uppercase tracking-widest text-gray-500 mb-6 flex items-center gap-2">
+                         <Shield size={14} className="text-neon-cyan" /> Synchronization Compliance
+                       </h4>
+                       <div className="space-y-4">
+                          {[
+                            { id: 'phoneVerified', label: 'Identity Auth', desc: 'Secure Phone Verification' },
+                            { id: 'addressVerified', label: 'Geo-Verification', desc: 'Physical Node Mapping' },
+                            { id: 'kycUploaded', label: 'Protocol KYC', desc: 'Legal Entity Sync' },
+                            { id: 'siteSurveyDone', label: 'Terminal Setup', desc: 'Field Hardware Audit' },
+                            { id: 'termsAgreed', label: 'Logic Layer', desc: 'Smart Contract Consent' }
+                          ].map((check) => (
+                            <div key={check.id} className="p-3 bg-white/5 border border-white/5 rounded-xl flex items-center justify-between group transition-colors hover:border-neon-cyan/20">
+                               <div>
+                                  <p className="text-xs font-bold text-white mb-0.5">{check.label}</p>
+                                  <p className="text-[9px] text-gray-600 font-mono uppercase">{check.desc}</p>
+                               </div>
+                               <div className={`w-10 h-5 rounded-full relative transition-all duration-300 ${
+                                 result.mandatoryChecks?.[check.id as keyof typeof result.mandatoryChecks] ? 'bg-neon-cyan shadow-[0_0_10px_rgba(0,255,255,0.3)]' : 'bg-white/10'
+                               }`}>
+                                  <div className={`absolute top-1 w-3 h-3 rounded-full transition-all duration-300 ${
+                                    result.mandatoryChecks?.[check.id as keyof typeof result.mandatoryChecks] ? 'right-1 bg-black' : 'left-1 bg-gray-600'
+                                  }`}></div>
+                               </div>
+                            </div>
+                          ))}
+                       </div>
+                    </div>
+
                     <div className="bg-neon-cyan/5 border border-neon-cyan/10 rounded-2xl p-6 relative overflow-hidden">
                        <div className="absolute top-0 right-0 p-4 opacity-5">
                           <Activity size={80} />
@@ -341,7 +371,9 @@ const UserConsole: React.FC = () => {
                           <div className="p-3 bg-cyber-950/50 rounded-xl border border-white/5">
                              <p className="text-[9px] text-gray-600 font-mono uppercase mb-1">Last Update</p>
                              <p className="text-[10px] text-white font-mono">
-                               {result.lastUpdated ? new Date(result.lastUpdated.toDate()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'SYNCING...'}
+                               {result.lastUpdated ? (typeof result.lastUpdated.toDate === 'function' ? 
+                                 result.lastUpdated.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 
+                                 new Date(result.lastUpdated).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })) : 'SYNCING...'}
                              </p>
                           </div>
                        </div>
@@ -379,11 +411,15 @@ const UserConsole: React.FC = () => {
               <h4 className="text-white font-bold mb-2 text-sm uppercase tracking-widest">Sync Help</h4>
               <p className="text-[10px] text-gray-500 leading-relaxed font-mono">Node ID mismatch? Broadcast to <span className="text-white">sync@oorulogix.com</span>.</p>
            </div>
-           <div className="p-6 bg-neon-cyan/10 border border-neon-cyan/20 rounded-2xl group relative overflow-hidden">
-              <div className="absolute inset-0 bg-neon-cyan opacity-0 group-hover:opacity-5 transition-opacity"></div>
-              <Activity className="text-neon-cyan mb-4 group-hover:scale-110 transition-transform" size={24} />
-              <h4 className="text-neon-cyan font-bold mb-2 text-sm uppercase tracking-widest">Priority Sync</h4>
-              <p className="text-[10px] text-cyan-400/70 leading-relaxed font-mono">Founders' Nodes (Green Glen Zone) bypass standard audit buffers.</p>
+           <div className="p-8 bg-neon-cyan/5 border border-neon-cyan/20 rounded-3xl group relative overflow-hidden transition-all hover:bg-neon-cyan/10">
+              <div className="absolute inset-0 bg-gradient-to-br from-neon-cyan/5 to-transparent opacity-50"></div>
+              <Activity className="text-neon-cyan mb-4 group-hover:scale-110 transition-all duration-500" size={32} />
+              <h4 className="text-white font-bold mb-3 text-sm uppercase tracking-widest flex items-center gap-2">
+                 PRIORITY SYNC <span className="text-[10px] bg-neon-cyan text-black px-1.5 py-0.5 rounded font-mono">ACTIVE</span>
+              </h4>
+              <p className="text-[11px] text-gray-400 font-mono leading-relaxed relative z-10">
+                Founders' Nodes in the <span className="text-neon-cyan">Green Glen Zone</span> bypass standard audit buffers. Priority activation is enabled for your cluster. Nodes are processed at <span className="text-white">L1 speed</span> (Handshake &lt; 2h).
+              </p>
            </div>
         </div>
       </div>
