@@ -3,12 +3,23 @@ import { ShieldCheck, CheckCircle, Users, TrendingUp, Zap, Clock, ArrowRight, Sh
 import { db, collection, addDoc, serverTimestamp } from '../services/firebase';
 import toast from 'react-hot-toast';
 import PaymentPortal from '../components/PaymentPortal';
+import { useAuth } from '../context/AuthContext';
+import { PageRoute } from '../types';
 
 const Contact: React.FC = () => {
+  const { user } = useAuth();
   const [step, setStep] = useState(1);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  
+  // Update email if user logs in/out
+  React.useEffect(() => {
+    if (user?.email) {
+      setFormData(prev => ({ ...prev, email: user.email! }));
+    }
+  }, [user]);
+
   const [formData, setFormData] = useState({
     businessName: '',
     ownerName: '',
@@ -263,9 +274,13 @@ const Contact: React.FC = () => {
                           required
                           value={formData.email}
                           onChange={handleInputChange}
-                          className="w-full bg-cyber-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-garden-500 transition-colors"
+                          disabled={!!user?.email}
+                          className={`w-full bg-cyber-950 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-garden-500 transition-colors ${!!user?.email ? 'opacity-50 cursor-not-allowed' : ''}`}
                           placeholder="owner@business.com"
                         />
+                        {user?.email && (
+                          <p className="text-[9px] font-mono text-garden-500 mt-1 uppercase">✓ Linked to authenticated session</p>
+                        )}
                       </div>
                       <div>
                         <label htmlFor="merchantType" className="block text-xs font-mono uppercase tracking-widest text-gray-500 mb-2">Merchant Classification</label>
@@ -366,6 +381,14 @@ const Contact: React.FC = () => {
                       </label>
                     </div>
                   </div>
+
+                  {!user && (
+                    <div className="p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-xl mb-6">
+                      <p className="text-[11px] text-yellow-500 font-mono leading-relaxed">
+                        NOTICE: You are not logged in. To track your application progress later, ensure you register with an email you can use to create an account.
+                      </p>
+                    </div>
+                  )}
 
                   <button
                     type="submit"

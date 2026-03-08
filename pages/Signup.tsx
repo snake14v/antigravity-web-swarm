@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { auth, createUserWithEmailAndPassword, db, doc, setDoc, serverTimestamp, signInWithPopup, googleAuthProvider, getDoc } from '../services/firebase';
 import { PageRoute } from '../types';
 import { UserPlus, Mail, Lock, Loader2, AlertCircle } from 'lucide-react';
@@ -11,7 +11,9 @@ const Signup: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate();
+   const navigate = useNavigate();
+   const location = useLocation();
+   const from = location.state?.from?.pathname || PageRoute.HOME;
 
   const handleGoogleSignup = async () => {
     setLoading(true);
@@ -33,7 +35,7 @@ const Signup: React.FC = () => {
       }
       
       toast.success('Successfully signed up with Google');
-      navigate(PageRoute.HOME);
+      navigate(from, { replace: true });
     } catch (err: any) {
       console.error('Google signup error:', err);
       setError(err.message || 'Failed to sign up with Google.');
@@ -75,7 +77,7 @@ const Signup: React.FC = () => {
       setEmail('');
       setPassword('');
       setConfirmPassword('');
-      navigate(PageRoute.HOME);
+      navigate(from, { replace: true });
     } catch (err: any) {
       console.error('Signup error:', err);
       setError(err.message || 'Failed to create account.');

@@ -88,8 +88,9 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode; adminOnly?: boolean 
     );
   }
 
+  const location = useLocation();
   if (!user) {
-    return <Navigate to={PageRoute.LOGIN} />;
+    return <Navigate to={PageRoute.LOGIN} state={{ from: location }} replace />;
   }
 
   if (adminOnly && !isAdmin) {
@@ -142,7 +143,14 @@ const App: React.FC = () => {
                 <Route path={PageRoute.SIGNUP} element={<Signup />} />
                 <Route path={PageRoute.ABOUT} element={<AboutUs />} />
                 <Route path={PageRoute.PARTNERS} element={<Partners />} />
-                <Route path={PageRoute.TRACK} element={<UserConsole />} />
+                <Route 
+                  path={PageRoute.TRACK} 
+                  element={
+                    <ProtectedRoute>
+                      <UserConsole />
+                    </ProtectedRoute>
+                  } 
+                />
                 <Route path={PageRoute.DYNAMIC_PRICING} element={<DynamicPricing />} />
                 <Route path={PageRoute.LANGUAGE_BRIDGE} element={<LanguageBridge />} />
                 <Route path={PageRoute.WEBSITE_DESIGN} element={<WebsiteDesign />} />

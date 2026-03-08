@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { auth, signInWithEmailAndPassword, signInWithPopup, googleAuthProvider, db, doc, getDoc, setDoc, serverTimestamp } from '../services/firebase';
 import { PageRoute } from '../types';
 import { LogIn, Mail, Lock, Loader2, AlertCircle } from 'lucide-react';
@@ -10,7 +10,9 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate();
+   const navigate = useNavigate();
+   const location = useLocation();
+   const from = location.state?.from?.pathname || PageRoute.HOME;
 
   const handleGoogleLogin = async () => {
     setLoading(true);
@@ -32,7 +34,7 @@ const Login: React.FC = () => {
       }
       
       toast.success('Successfully logged in with Google');
-      navigate(PageRoute.HOME);
+      navigate(from, { replace: true });
     } catch (err: any) {
       console.error('Google login error:', err);
       setError(err.message || 'Failed to login with Google.');
@@ -60,7 +62,7 @@ const Login: React.FC = () => {
       toast.success('Successfully logged in');
       setEmail('');
       setPassword('');
-      navigate(PageRoute.HOME);
+      navigate(from, { replace: true });
     } catch (err: any) {
       console.error('Login error:', err);
       setError(err.message || 'Failed to login. Please check your credentials.');
