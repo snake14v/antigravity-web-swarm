@@ -264,6 +264,108 @@ const Home: React.FC = () => {
         </div>
       </section>
 
+      {/* ===== WHO WE ARE - Simple Explainer Section ===== */}
+      <section className="relative z-10 py-20 sm:py-28 bg-gradient-to-b from-cyber-950 via-cyber-900/80 to-cyber-950 border-t border-white/5 overflow-hidden">
+        {/* Subtle animated background dots */}
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
+          <div className="absolute inset-0 bg-[radial-gradient(circle,_rgba(255,255,255,0.15)_1px,_transparent_1px)] [background-size:32px_32px]"></div>
+        </div>
+        {/* Glow accents */}
+        <div className="absolute top-0 left-1/4 w-[400px] h-[200px] bg-neon-cyan/5 rounded-full blur-[120px] pointer-events-none"></div>
+        <div className="absolute bottom-0 right-1/4 w-[300px] h-[200px] bg-neon-purple/5 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+          {/* Section Label */}
+          <div className="text-center mb-12 sm:mb-16">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[10px] sm:text-xs font-mono text-gray-400 tracking-[0.15em] mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-neon-cyan animate-pulse"></span>
+              IN SIMPLE WORDS
+            </span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight mb-4">
+              What is <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan to-neon-purple">ShopSmart</span>?
+            </h2>
+            <p className="text-base sm:text-lg text-gray-400 font-light max-w-2xl mx-auto leading-relaxed">
+              No jargon. No buzzwords. Here's what we actually do.
+            </p>
+          </div>
+
+          {/* Three Cards: WHO / WHAT / HOW */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+
+            {/* WHO WE ARE */}
+            <div className="group relative bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl p-6 sm:p-8 hover:border-neon-cyan/40 transition-all duration-500 hover:shadow-[0_0_40px_rgba(0,255,255,0.08)]">
+              <div className="w-12 h-12 rounded-xl bg-neon-cyan/10 border border-neon-cyan/20 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                <span className="text-2xl">🏪</span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-bold text-white mb-3">Who We Are</h3>
+              <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
+                We're a <strong className="text-white">Bangalore-based tech team</strong> that builds smart tools for local shop owners. Think of us as the tech partner your neighbourhood kirana store never had.
+              </p>
+              <div className="mt-5 pt-4 border-t border-white/5">
+                <p className="text-[11px] sm:text-xs text-gray-500 font-mono">
+                  Built by locals, for locals — from Koramangala to Whitefield.
+                </p>
+              </div>
+            </div>
+
+            {/* WHAT WE DO */}
+            <div className="group relative bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl p-6 sm:p-8 hover:border-neon-purple/40 transition-all duration-500 hover:shadow-[0_0_40px_rgba(188,19,254,0.08)]">
+              <div className="w-12 h-12 rounded-xl bg-neon-purple/10 border border-neon-purple/20 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                <span className="text-2xl">🧠</span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-bold text-white mb-3">What We Do</h3>
+              <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
+                We help shops <strong className="text-white">sell more and waste less</strong>. Our app tells you what to stock, when to reorder, and what your customers actually want — before they even walk in.
+              </p>
+              <div className="mt-5 pt-4 border-t border-white/5">
+                <p className="text-[11px] sm:text-xs text-gray-500 font-mono">
+                  Inventory, sales, customers — all in one simple app.
+                </p>
+              </div>
+            </div>
+
+            {/* HOW WE DO IT */}
+            <div className="group relative bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl p-6 sm:p-8 hover:border-neon-amber/40 transition-all duration-500 hover:shadow-[0_0_40px_rgba(251,191,36,0.08)]">
+              <div className="w-12 h-12 rounded-xl bg-neon-amber/10 border border-neon-amber/20 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                <span className="text-2xl">⚡</span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-bold text-white mb-3">How We Do It</h3>
+              <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
+                We use <strong className="text-white">AI that understands Bangalore</strong> — rain patterns, traffic jams, local festivals, even IPL match nights. Our system learns your area and gives you advice that actually makes sense.
+              </p>
+              <div className="mt-5 pt-4 border-t border-white/5">
+                <p className="text-[11px] sm:text-xs text-gray-500 font-mono">
+                  Smart AI + local knowledge = real results.
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Bottom summary line */}
+          <div className="mt-12 sm:mt-16 text-center">
+            <div className="inline-flex flex-col sm:flex-row items-center gap-3 sm:gap-6 px-6 py-4 bg-white/[0.03] border border-white/10 rounded-2xl backdrop-blur-sm">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-garden-500"></span>
+                <span className="text-xs sm:text-sm text-gray-300">Your data stays <strong className="text-white">yours</strong></span>
+              </div>
+              <span className="hidden sm:inline text-gray-600">•</span>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-neon-cyan"></span>
+                <span className="text-xs sm:text-sm text-gray-300">Works even with <strong className="text-white">slow internet</strong></span>
+              </div>
+              <span className="hidden sm:inline text-gray-600">•</span>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-neon-amber"></span>
+                <span className="text-xs sm:text-sm text-gray-300">Made for <strong className="text-white">Bangalore shops</strong></span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
       {/* Live Data Ticker - Pan Bangalore */}
       <div className="w-full bg-cyber-900/90 border-y border-white/20 py-2 overflow-hidden z-10 relative backdrop-blur-md shadow-lg">
         <div className="flex animate-marquee whitespace-nowrap gap-12 text-xs font-mono tracking-wide">
