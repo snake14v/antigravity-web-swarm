@@ -2,22 +2,42 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
   Home, Grid, CreditCard, Info, Share2, 
-  Search, Rocket, Activity, Cpu, Globe, Zap
+  Search, Rocket, Activity, Cpu, Globe, Zap,
+  LogOut, LayoutDashboard, User
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PageRoute } from '../types';
 import { OoruLogixLogo } from './Logo';
+import { useAuth } from '../context/AuthContext';
+import toast from 'react-hot-toast';
 
 const BottomNav: React.FC = () => {
   const location = useLocation();
   const [showMenu, setShowMenu] = useState(false);
+  const { user, isAdmin, logout } = useAuth();
 
   const primaryItems = [
     { icon: OoruLogixLogo, label: 'Root', path: PageRoute.HOME, isLogo: true },
     { icon: Grid, label: 'Grid', path: PageRoute.FEATURES },
-    { icon: Zap, label: 'Design', path: PageRoute.WEBSITE_DESIGN }, // Added prominent Web Design
+    { icon: Zap, label: 'Design', path: PageRoute.WEBSITE_DESIGN },
     { icon: Activity, label: 'Track', path: PageRoute.TRACK },
   ];
+
+  const handleLogout = async () => {
+    await logout();
+    toast.success('System Disconnected');
+    setShowMenu(false);
+  };
+
+  const menuItems = [
+    { label: 'Partners', path: PageRoute.PARTNERS, icon: Share2, color: 'text-neon-cyan' },
+    { label: 'Pricing', path: PageRoute.PRICING, icon: CreditCard, color: 'text-neon-amber' },
+    { label: 'About', path: PageRoute.ABOUT, icon: Info, color: 'text-neon-purple' },
+    isAdmin ? { label: 'Admin', path: PageRoute.DASHBOARD, icon: LayoutDashboard, color: 'text-neon-cyan' } : null,
+    user 
+      ? { label: 'Logout', path: '#', onClick: handleLogout, icon: LogOut, color: 'text-red-400' }
+      : { label: 'Login', path: PageRoute.LOGIN, icon: Cpu, color: 'text-white' },
+  ].filter(Boolean) as any[];
 
   return (
     <div className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[94%] max-w-xl z-[60]">
@@ -31,21 +51,27 @@ const BottomNav: React.FC = () => {
             exit={{ opacity: 0, y: 20, scale: 0.8 }}
             className="absolute bottom-[110%] left-0 w-full grid grid-cols-2 gap-3 p-4 bg-cyber-900 border border-white/10 rounded-[2rem] shadow-[0_20px_60px_rgba(0,0,0,0.8)] glass-panel"
           >
-            {[
-              { label: 'Partners', path: PageRoute.PARTNERS, icon: Share2, color: 'text-neon-cyan' },
-              { label: 'Pricing', path: PageRoute.PRICING, icon: CreditCard, color: 'text-neon-amber' },
-              { label: 'About', path: PageRoute.ABOUT, icon: Info, color: 'text-neon-purple' },
-              { label: 'Login', path: PageRoute.LOGIN, icon: Cpu, color: 'text-white' },
-            ].map((item) => (
-              <Link
-                key={item.label}
-                to={item.path}
-                onClick={() => setShowMenu(false)}
-                className="flex items-center gap-3 p-4 rounded-2xl bg-white/5 border border-white/5 active:bg-white/10"
-              >
-                <item.icon className={item.color} size={18} />
-                <span className="text-[10px] font-mono tracking-widest text-white uppercase">{item.label}</span>
-              </Link>
+            {menuItems.map((item) => (
+              item.onClick ? (
+                <button
+                  key={item.label}
+                  onClick={item.onClick}
+                  className="flex items-center gap-3 p-4 rounded-2xl bg-white/5 border border-white/5 active:bg-white/10 text-left w-full"
+                >
+                  <item.icon className={item.color} size={18} />
+                  <span className="text-[10px] font-mono tracking-widest text-white uppercase">{item.label}</span>
+                </button>
+              ) : (
+                <Link
+                  key={item.label}
+                  to={item.path}
+                  onClick={() => setShowMenu(false)}
+                  className="flex items-center gap-3 p-4 rounded-2xl bg-white/5 border border-white/5 active:bg-white/10"
+                >
+                  <item.icon className={item.color} size={18} />
+                  <span className="text-[10px] font-mono tracking-widest text-white uppercase">{item.label}</span>
+                </Link>
+              )
             ))}
           </motion.div>
         )}

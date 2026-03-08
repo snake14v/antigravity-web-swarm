@@ -6,12 +6,14 @@ interface AuthContextType {
   user: User | null;
   loading: boolean;
   isAdmin: boolean;
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
   loading: true,
   isAdmin: false,
+  logout: async () => {},
 });
 
 export const useAuth = () => useContext(AuthContext);
@@ -20,6 +22,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
+
+  const logout = async () => {
+    try {
+      await auth.signOut();
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
@@ -50,7 +60,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading, isAdmin }}>
+    <AuthContext.Provider value={{ user, loading, isAdmin, logout }}>
       {children}
     </AuthContext.Provider>
   );

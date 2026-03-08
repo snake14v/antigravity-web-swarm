@@ -10,7 +10,6 @@ import toast from 'react-hot-toast';
 import { PageRoute } from '../types';
 import Logo from './Logo';
 import { useAuth } from '../context/AuthContext';
-import { auth, signOut } from '../services/firebase';
 
 const Navbar: React.FC = () => {
   const [activeSection, setActiveSection] = useState('');
@@ -19,7 +18,7 @@ const Navbar: React.FC = () => {
   
   const location = useLocation();
   const navigate = useNavigate();
-  const { user, isAdmin } = useAuth();
+  const { user, isAdmin, logout } = useAuth();
   const { scrollY } = useScroll();
 
   const navOpacity = useTransform(scrollY, [0, 50], [0, 1]);
@@ -64,7 +63,7 @@ const Navbar: React.FC = () => {
 
   const handleLogout = async () => {
     try {
-      await signOut(auth);
+      await logout();
       toast.success('Logged out successfully');
       navigate(PageRoute.HOME);
     } catch (err) {

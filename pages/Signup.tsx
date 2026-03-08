@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { auth, createUserWithEmailAndPassword, db, doc, setDoc, serverTimestamp, signInWithPopup, googleAuthProvider, getDoc } from '../services/firebase';
 import { PageRoute } from '../types';
 import { UserPlus, Mail, Lock, Loader2, AlertCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { useAuth } from '../context/AuthContext';
 
 const Signup: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -11,9 +12,16 @@ const Signup: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-   const navigate = useNavigate();
-   const location = useLocation();
-   const from = location.state?.from?.pathname || PageRoute.HOME;
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { user, loading: authLoading } = useAuth();
+  const from = location.state?.from?.pathname || PageRoute.HOME;
+
+  useEffect(() => {
+    if (user && !authLoading) {
+      navigate(from, { replace: true });
+    }
+  }, [user, authLoading, navigate, from]);
 
   const handleGoogleSignup = async () => {
     setLoading(true);

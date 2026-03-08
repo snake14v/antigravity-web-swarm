@@ -1,18 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { auth, signInWithEmailAndPassword, signInWithPopup, googleAuthProvider, db, doc, getDoc, setDoc, serverTimestamp } from '../services/firebase';
 import { PageRoute } from '../types';
 import { LogIn, Mail, Lock, Loader2, AlertCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { useAuth } from '../context/AuthContext';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-   const navigate = useNavigate();
-   const location = useLocation();
-   const from = location.state?.from?.pathname || PageRoute.HOME;
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { user, loading: authLoading } = useAuth();
+  const from = location.state?.from?.pathname || PageRoute.HOME;
+
+  useEffect(() => {
+    if (user && !authLoading) {
+      navigate(from, { replace: true });
+    }
+  }, [user, authLoading, navigate, from]);
 
   const handleGoogleLogin = async () => {
     setLoading(true);
