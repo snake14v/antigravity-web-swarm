@@ -42,3 +42,50 @@ export enum PageRoute {
   LANGUAGE_BRIDGE = '/language-bridge',
   WEBSITE_DESIGN = '/web-design'
 }
+
+export type RegistrationStatus = 'pending' | 'contacted' | 'audited' | 'rejected';
+export type PaymentStatus = 'pending_verification' | 'verified' | 'failed' | 'unpaid';
+
+export interface CommunicationLogEntry {
+  date: any;
+  message: string;
+  type: 'email' | 'whatsapp' | 'call' | 'system';
+  sender: string;
+}
+
+export interface MandatoryChecklist {
+  phoneVerified: boolean;
+  addressVerified: boolean;
+  kycUploaded: boolean;
+  termsAgreed: boolean;
+  siteSurveyDone: boolean;
+}
+
+export interface Registration {
+  id: string;
+  businessName: string;
+  ownerName: string;
+  phone: string;
+  email: string;
+  address: string;
+  merchantType: string;
+  currentPos: string;
+  dailyOrders: string;
+  challenges: string;
+  foundersDiscount: boolean;
+  agreedToAudit: boolean;
+  status: RegistrationStatus;
+  utr?: string;
+  amountPaid?: number;
+  paymentStatus?: PaymentStatus;
+  timestamp: any;
+  
+  // New Admin fields
+  assignedEngineer?: string;
+  auditScore?: number;
+  adminNotes?: string;
+  feedbackToUser?: string;
+  communicationLog?: CommunicationLogEntry[];
+  mandatoryChecks?: MandatoryChecklist;
+  lastUpdated?: any;
+}

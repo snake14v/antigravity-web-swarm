@@ -48,7 +48,20 @@ const Contact: React.FC = () => {
         amountPaid: 100,
         paymentStatus: 'pending_verification',
         timestamp: serverTimestamp(),
-        status: 'pending'
+        status: 'pending',
+        mandatoryChecks: {
+          phoneVerified: false,
+          addressVerified: false,
+          kycUploaded: false,
+          termsAgreed: formData.agreedToAudit,
+          siteSurveyDone: false
+        },
+        communicationLog: [{
+          date: new Date().toISOString(),
+          message: 'Node initialization handshake received. Awaiting manual logic audit.',
+          type: 'system',
+          sender: 'OORU_LOGIX_HUB'
+        }]
       });
       setSubmitted(true);
       toast.success('Registration and payment submitted successfully');
@@ -185,7 +198,12 @@ const Contact: React.FC = () => {
               
               <div className="mb-8">
                 <h2 className="text-2xl font-bold text-white mb-2">Request System Audit</h2>
-                <p className="text-sm text-gray-500">Enter your credentials to begin synchronization.</p>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <p className="text-sm text-gray-500">Enter your credentials to begin synchronization.</p>
+                  <a href="#/track" className="text-[10px] font-mono text-neon-cyan hover:underline hover:text-cyan-400 uppercase tracking-widest flex items-center gap-1.5">
+                    Already registered? Track Node <ArrowRight size={10} />
+                  </a>
+                </div>
               </div>
 
               {step === 1 ? (
