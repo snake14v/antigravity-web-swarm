@@ -491,16 +491,23 @@ const Home: React.FC = () => {
 
           </div>
 
-          <div className="mt-16 flex flex-wrap justify-center gap-4 px-4">
-            {[...Array(6)].map((_, i) => (
-              <Link 
-                key={i} 
-                to={PageRoute.FEATURES}
-                className="px-6 py-2 bg-white/5 border border-white/10 rounded-full text-[10px] font-mono hover:bg-neon-cyan hover:text-black hover:border-neon-cyan transition-all uppercase tracking-widest flex items-center gap-2 group whitespace-nowrap"
-              >
-                <Zap size={12} className="group-hover:animate-pulse text-neon-cyan group-hover:text-black" /> Explore Features
-              </Link>
-            ))}
+          <div className="mt-16 flex justify-center px-4">
+            <Link 
+              to={PageRoute.FEATURES}
+              className="relative group overflow-hidden px-10 py-4 rounded-full bg-black border border-white/20 transition-all duration-500 hover:border-neon-cyan/50 hover:shadow-[0_0_30px_rgba(0,255,255,0.2)] flex items-center gap-3"
+            >
+              {/* Background gradient animation */}
+              <div className="absolute inset-0 bg-gradient-to-r from-neon-cyan/10 via-neon-purple/10 to-neon-cyan/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 animate-marquee-slow"></div>
+              
+              {/* Scanning line effect */}
+              <div className="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-[scan-fast_2s_linear_infinite]"></div>
+
+              <Zap size={18} className="text-neon-cyan group-hover:animate-pulse transition-transform group-hover:scale-110" /> 
+              <span className="relative z-10 font-mono text-sm uppercase tracking-[0.3em] text-gray-300 group-hover:text-white transition-colors">
+                Access Feature Core
+              </span>
+              <ArrowRight size={18} className="text-gray-500 group-hover:text-neon-cyan group-hover:translate-x-1 transition-all" />
+            </Link>
           </div>
 
         </div>

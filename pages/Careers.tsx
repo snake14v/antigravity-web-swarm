@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Code, Database, Users, ArrowLeft } from 'lucide-react';
+import { PageRoute } from '../types';
 
 const Careers: React.FC = () => {
   return (
@@ -55,7 +56,7 @@ const Careers: React.FC = () => {
             <p className="text-gray-300 max-w-2xl mx-auto mb-8">
                 Not a coder? We need "Feet-on-Street" engineers who understand the pulse of the market. Your job is to deploy nodes and train merchants.
             </p>
-            <Link to="/register" className="inline-block bg-garden-600 hover:bg-garden-500 text-white font-bold py-3 px-8 rounded-full transition-colors">
+            <Link to={PageRoute.CONTACT} className="inline-block bg-garden-600 hover:bg-garden-500 text-white font-bold py-3 px-8 rounded-full transition-colors">
                 Join the Field Team
             </Link>
         </div>
