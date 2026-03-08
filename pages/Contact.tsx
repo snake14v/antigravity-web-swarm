@@ -55,6 +55,7 @@ const Contact: React.FC = () => {
     try {
       await addDoc(collection(db, 'registrations'), {
         ...formData,
+        email: formData.email.toLowerCase().trim(),
         utr,
         amountPaid: 100,
         paymentStatus: 'pending_verification',
