@@ -216,13 +216,23 @@ const Partners: React.FC = () => {
                 Ready to transform your business with the most advanced hyper-local operating system in Bangalore? Our integration team is standing by.
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-6">
-                 <Link 
-                   to={PageRoute.CONTACT}
+                 <button 
+                   onClick={() => {
+                     const message = "Hi Ooru Logix, I'm interested in becoming a partner node in the mesh ecosystem. How do I start the onboarding process?";
+                     window.open(`https://wa.me/919591015279?text=${encodeURIComponent(message)}`, '_blank');
+                   }}
                    className="px-10 py-5 bg-white text-black rounded-full font-black text-sm uppercase tracking-widest hover:scale-105 transition-all shadow-2xl flex items-center justify-center gap-3"
                  >
                    Request Onboarding <ArrowRight size={20} />
-                 </Link>
-                 <button onClick={() => toast.success('Partner deck request sent! We will email it shortly.')} className="px-10 py-5 bg-white/5 text-white border border-white/10 rounded-full font-black text-sm uppercase tracking-widest hover:bg-white/10 transition-all flex items-center justify-center gap-3">
+                 </button>
+                 <button 
+                  onClick={() => {
+                    const message = "Hi Ooru Logix, please send me the Partner Deck for the Bangalore Mesh Ecosystem.";
+                    window.open(`https://wa.me/919591015279?text=${encodeURIComponent(message)}`, '_blank');
+                    toast.success('Partner deck broadcast sent!');
+                  }}
+                  className="px-10 py-5 bg-white/5 text-white border border-white/10 rounded-full font-black text-sm uppercase tracking-widest hover:bg-white/10 transition-all flex items-center justify-center gap-3"
+                >
                    <Briefcase size={20} className="text-neon-purple" /> Partner Deck
                  </button>
               </div>

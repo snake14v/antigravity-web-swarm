@@ -88,6 +88,8 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode; adminOnly?: boolean 
   return <>{children}</>;
 };
 
+import SystemHealthHUD from './components/SystemHealthHUD';
+
 const App: React.FC = () => {
   return (
     <AuthProvider>
@@ -97,6 +99,7 @@ const App: React.FC = () => {
           <ScrollToTop />
           <HashScroll />
           <CustomCursor />
+          <SystemHealthHUD />
           <Toaster 
             position="top-right"
             toastOptions={{

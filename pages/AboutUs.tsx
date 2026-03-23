@@ -269,6 +269,29 @@ const AboutUs: React.FC = () => {
             </div>
           </FadeInWhenVisible>
 
+          {/* New: Connect with Command */}
+          <FadeInWhenVisible delay={400}>
+            <div className="flex flex-col items-center justify-center pt-24 border-t border-white/20 text-center">
+              <div className="w-20 h-20 rounded-full bg-neon-cyan/10 border border-neon-cyan/30 flex items-center justify-center text-neon-cyan mb-8 animate-pulse shadow-[0_0_30px_rgba(0,255,255,0.2)]">
+                <Globe size={40} />
+              </div>
+              <h2 className="text-4xl md:text-6xl font-normal tracking-[0.2em] mb-6">CONNECT_WITH_COMMAND</h2>
+              <p className="text-gray-500 max-w-xl mb-12 font-mono text-sm leading-relaxed uppercase">
+                Direct frequency for merchant node inquiries and strategic collaborations. 
+                Average response latency: <span className="text-neon-cyan font-bold animate-pulse">4ms</span>.
+              </p>
+              <button 
+                onClick={() => {
+                  const message = "Hi Ooru Logix Command, I'm reaching out from the About Us page. I want to discuss a strategic collaboration on the Bangalore Grid.";
+                  window.open(`https://wa.me/919591015279?text=${encodeURIComponent(message)}`, '_blank');
+                }}
+                className="px-12 py-5 bg-white text-black font-bold tracking-[0.3em] uppercase hover:bg-neon-cyan hover:text-black transition-all shadow-[0_0_50px_rgba(255,255,255,0.25)] hover:shadow-neon-cyan/50"
+              >
+                INITIALIZE_BROADCAST
+              </button>
+            </div>
+          </FadeInWhenVisible>
+
         </div>
       </div>
     </div>

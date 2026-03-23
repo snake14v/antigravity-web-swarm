@@ -503,6 +503,39 @@ const Pricing: React.FC = () => {
           </div>
         </div>
 
+        {/* Custom Quote / Negotiation Section */}
+        <div className="mt-24 max-w-4xl mx-auto text-center animate-in fade-in zoom-in duration-700">
+          <div className="glass-panel p-10 rounded-[3rem] border border-neon-cyan/20 bg-cyber-900/60 relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-neon-cyan/5 rounded-full blur-[80px] group-hover:bg-neon-cyan/10 transition-all duration-700"></div>
+            
+            <div className="relative z-10">
+              <div className="inline-flex items-center justify-center p-3 bg-neon-cyan/10 rounded-2xl text-neon-cyan mb-6 border border-neon-cyan/20">
+                <MessageSquare size={32} />
+              </div>
+              <h3 className="text-3xl font-bold text-white mb-4">Enterprise & Custom Protocols</h3>
+              <p className="text-gray-400 mb-8 max-w-xl mx-auto leading-relaxed">
+                Operating a multi-city franchise or need custom edge-AI integration? 
+                Connect directly with our architects to negotiate a volume-based protocol.
+              </p>
+              
+              <button 
+                onClick={() => {
+                  const message = "Hi Ooru Logix, I'm interested in a Custom Enterprise Protocol for my business. Can we discuss volume pricing?";
+                  window.open(`https://wa.me/919591015279?text=${encodeURIComponent(message)}`, '_blank');
+                }}
+                className="inline-flex items-center gap-3 bg-white text-black px-10 py-4 rounded-2xl font-black text-xs tracking-[0.2em] uppercase hover:scale-105 active:scale-95 transition-all shadow-[0_0_30px_rgba(255,255,255,0.2)]"
+              >
+                Negotiate Quote <ArrowRight size={18} />
+              </button>
+              
+              <div className="flex justify-center gap-8 mt-10 text-[10px] font-mono text-gray-500 uppercase tracking-widest">
+                <div className="flex items-center gap-2"><Check size={14} className="text-neon-cyan" /> Multi-City Sync</div>
+                <div className="flex items-center gap-2"><Check size={14} className="text-neon-cyan" /> Custom Edge AI</div>
+                <div className="flex items-center gap-2"><Check size={14} className="text-neon-cyan" /> White-Label Nodes</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -56,9 +56,19 @@ const Footer: React.FC = () => {
             <p className="text-[10px] text-gray-600">
               © {new Date().getFullYear()} Ooru Logix. All rights reserved.
             </p>
-            <div className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
-                <span className="text-[10px] text-gray-500 font-mono">SYSTEM STATUS: OPERATIONAL</span>
+            <div className="flex items-center gap-4">
+                <a 
+                  href="https://wa.me/919591015279?text=Hi%20Ooru%20Logix%2C%20I%20need%20support%20with%20my%20node%20synchronization." 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 hover:text-white transition-all text-garden-400 group"
+                >
+                    <span className="text-[10px] font-mono font-bold tracking-widest border border-garden-500/30 px-2 py-0.5 rounded-md group-hover:bg-garden-500/10">WHATSAPP_SUPPORT</span>
+                </a>
+                <div className="flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                    <span className="text-[10px] text-gray-500 font-mono">SYSTEM STATUS: OPERATIONAL</span>
+                </div>
             </div>
         </div>
       </div>
