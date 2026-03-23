@@ -27,10 +27,10 @@ const tiers = [
     name: 'The Logic Core',
     monthlyPrice: 4999,
     annualPrice: 3999,
-    description: 'Full ShopSmart-OS for busy cafes and retail.',
+    description: 'Full Ooru Logix system for busy cafes and retail.',
     features: [
       'Everything in Basic',
-      'Full ShopSmart-OS Dashboard',
+      'Full Ooru Logix Dashboard',
       'Staff Task Management',
       'WhatsApp Alerts',
       'Predictive Depletion'
@@ -50,7 +50,7 @@ const tiers = [
     description: 'Total domination package for multi-outlet brands.',
     features: [
       'Everything in Core',
-      'ShopSmart-Vision AI Insights',
+      'Vision AI Insights',
       'Professional Monthly Reel',
       'Local SEO Boost',
       'Priority Support (Feet-on-Street)'

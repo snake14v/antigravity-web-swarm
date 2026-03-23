@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { PageRoute } from '../types';
+import SEO from '../components/SEO';
 
 // --- CUSTOM HELPER COMPONENTS ---
 
@@ -111,15 +112,6 @@ const WebsiteDesign: React.FC = () => {
   ];
 
   useEffect(() => {
-    // SEO Optimization: Update document title and meta tags
-    document.title = "Website Design Bangalore | JP Nagar, Bellandur, Jayanagar | ₹499 Offer";
-    
-    // Update Meta Description
-    const metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc) {
-      metaDesc.setAttribute('content', "Get professional React-based website design in Bangalore for just ₹499. Serving JP Nagar, Bellandur, Jayanagar, and Whitefield. High-performance, SEO-optimized business platforms.");
-    }
-    
     // Scoring animation
     const timer = setTimeout(() => {
       let score = 0;
@@ -146,6 +138,12 @@ const WebsiteDesign: React.FC = () => {
 
   return (
     <div ref={scrollRef} className="bg-[#020205] text-white selection:bg-neon-cyan selection:text-black overflow-x-hidden">
+      <SEO 
+        title="Website Design Bangalore | JP Nagar, Kothnur, Jayanagar | ₹499 Offer"
+        description="Premium React-based website design and Interior Design Portfolios in Bangalore for ₹499. Serving JP Nagar, Kothnur, Jayanagar, and beyond."
+        keywords="Website Design Bangalore, Interiors JP Nagar, Interiors Kothnur, React Website Development, Budget Web Design"
+        canonical="https://www.oorulogix.com/web-design"
+      />
       
       {/* Dynamic Background Overlays */}
       <div className="fixed inset-0 pointer-events-none z-0">
@@ -593,12 +591,14 @@ const WebsiteDesign: React.FC = () => {
                   </div>
                </div>
 
-               <Link
-                to={PageRoute.CONTACT}
+               <a
+                href="https://wa.me/919591015279?text=Hi%20Ooru%20Logix,%20I'm%20interested%20in%20the%20Rs%20499%20Website%20Design%20offer"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-full md:w-auto px-16 py-8 bg-neon-magenta text-white font-black text-2xl rounded-full uppercase tracking-tighter shadow-[0_0_60px_rgba(255,0,255,0.4)] hover:scale-105 active:scale-95 transition-all text-center flex items-center justify-center gap-4 group"
                >
-                 Book My Slot <Rocket className="group-hover:translate-x-2 transition-transform" />
-               </Link>
+                 Message on WhatsApp <Rocket className="group-hover:translate-x-2 transition-transform" />
+               </a>
             </div>
 
             <div className="mt-16 flex items-center justify-center gap-12 border-t border-white/10 pt-10">
@@ -618,7 +618,7 @@ const WebsiteDesign: React.FC = () => {
       <section className="py-16 bg-black relative z-10 border-t border-white/5">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-wrap justify-center gap-x-12 gap-y-6 opacity-40 grayscale hover:grayscale-0 transition-all duration-700">
-            {["JP NAGAR", "BELLANDUR", "JAYANAGAR", "WHITEFIELD", "HSR LAYOUT", "KORAMANGALA"].map((loc, i) => (
+            {["JP NAGAR", "KOTHNUR", "JAYANAGAR", "WHITEFIELD", "HSR LAYOUT", "KORAMANGALA"].map((loc, i) => (
               <div key={i} className="flex items-center gap-2 font-mono text-[10px] tracking-[0.3em] text-white">
                 <Globe size={12} className="text-neon-cyan" /> 
                 {loc}_NODE_ACTIVE
@@ -627,7 +627,7 @@ const WebsiteDesign: React.FC = () => {
           </div>
           <div className="mt-12 text-center">
             <p className="text-[10px] font-mono text-gray-500 uppercase tracking-widest max-w-2xl mx-auto leading-relaxed">
-              Now providing hyper-local web engineering services at <span className="text-white">₹499</span> in South Bangalore. Specialized React deployments for retail and service hubs in <span className="text-neon-cyan">JP Nagar 4th Phase</span>, <span className="text-neon-cyan">Bellandur Tech-Parks</span>, and <span className="text-neon-cyan">Jayanagar 4th Block</span>.
+              Now providing hyper-local web engineering & <strong>Premium Interior Design</strong> services at <span className="text-white">₹499</span> in South Bangalore. Specialized React deployments for retail and design hubs in <span className="text-neon-cyan">JP Nagar 4th Phase</span>, <span className="text-neon-cyan">Kothnur</span>, and <span className="text-neon-cyan">Jayanagar 4th Block</span>.
             </p>
           </div>
         </div>

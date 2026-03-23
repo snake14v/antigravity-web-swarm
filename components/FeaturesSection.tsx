@@ -75,7 +75,7 @@ const FeaturesSection: React.FC = () => {
         <div className="inline-block p-1.5 px-4 rounded-full bg-neon-blue/10 border border-neon-blue/30 text-neon-blue text-xs font-mono mb-6 tracking-widest uppercase">
           System Architecture
         </div>
-        <h2 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight">The ShopSmart-OS Pipeline</h2>
+        <h2 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight">The Ooru Logix Pipeline</h2>
         <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
           From street-level sensors in Jayanagar to boardroom-level insights in UB City. A complete data pipeline powered by a <span className="text-white font-semibold">Model Mesh</span> (Claude, Gemini, OpenAI, Kimi).
         </p>
@@ -169,7 +169,7 @@ const FeaturesSection: React.FC = () => {
           )}
         </div>
 
-        {/* Feature 2: ShopSmart-Vision */}
+        {/* Feature 2: Ooru Vision */}
         <div className="glass-panel rounded-3xl border border-white/10 overflow-hidden bg-cyber-900/50">
           <button 
             onClick={() => toggleFeature('vision')}
@@ -181,7 +181,7 @@ const FeaturesSection: React.FC = () => {
               <div className="p-3 bg-neon-cyan/10 rounded-2xl text-neon-cyan border border-neon-cyan/20 shadow-[0_0_20px_rgba(6,182,212,0.1)]">
                 <Camera size={28} />
               </div>
-              <h2 className="text-2xl md:text-3xl font-bold text-white text-left">ShopSmart-Vision <span className="text-neon-cyan">Edge Intelligence</span></h2>
+              <h2 className="text-2xl md:text-3xl font-bold text-white text-left">Ooru Vision <span className="text-neon-cyan">Edge Intelligence</span></h2>
             </div>
             {expandedFeatures.vision ? <ChevronUp size={28} className="text-gray-400" /> : <ChevronDown size={28} className="text-gray-400" />}
           </button>

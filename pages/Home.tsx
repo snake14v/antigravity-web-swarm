@@ -8,6 +8,7 @@ import VividOrbs from '../components/VividOrbs';
 import PixelText from '../components/PixelText';
 import { SwarmAgentConcept } from '../components/SwarmAgentConcept';
 import BlackboxTerminal from '../components/BlackboxTerminal.tsx';
+import SEO from '../components/SEO';
 
 const FeaturesSection = lazy(() => import('../components/FeaturesSection'));
 const ManifestoSection = lazy(() => import('../components/ManifestoSection'));
@@ -60,6 +61,13 @@ const Home: React.FC = () => {
 
   return (
     <div className="flex flex-col min-h-screen relative bg-cyber-950 overflow-hidden">
+      <SEO 
+        title="Hyper-Local Intelligence & Premium Interiors"
+        description="Ooru Logix: The AI operating system for Bangalore merchants and Premium Interior Design Professionals in JP Nagar, Kothnur, and beyond."
+        keywords="Interiors JP Nagar, Interiors Kothnur, Ooru Logix, Bangalore Interiors, AI for retail, interior design Bangalore, hyper-local data"
+        canonical="https://www.oorulogix.com"
+        ogUrl="https://www.oorulogix.com"
+      />
       
       {showIntro && (
         <IntroScreen onComplete={() => setShowIntro(false)} />
@@ -116,7 +124,7 @@ const Home: React.FC = () => {
                 {/* PixelText inside the pill - Scaled down for mobile */}
                 <div className="relative z-10 px-1 sm:px-4 flex justify-center overflow-hidden">
                   <PixelText 
-                    text="ShopSmart" 
+                    text="Ooru Logix" 
                     triggerAnimation={animateHero} 
                     pixelSize="w-1 h-1 sm:w-2 sm:h-2 md:w-3 md:h-3 lg:w-4 lg:h-4 lg:w-5 lg:h-5" 
                     gap="gap-[1px] sm:gap-0.5 md:gap-1" 
@@ -168,7 +176,7 @@ const Home: React.FC = () => {
                        </svg>
                     </div>
                     
-                    {/* Alternating Flip for Ooru Logix (Inverted from ShopSmart) */}
+                    {/* Alternating Flip for Ooru Logix */}
                     <div className="font-mono text-lg sm:text-2xl md:text-3xl font-bold tracking-tight relative z-10 flex items-center shrink-0">
                       <PixelText 
                         text="Ooru" 
@@ -196,13 +204,13 @@ const Home: React.FC = () => {
           {/* Expanded Subtext - Slides in aggressively from right */}
           <div className={`space-y-4 sm:space-y-6 mb-8 sm:mb-12 transform transition-all duration-[900ms] ease-[cubic-bezier(0.25,0.8,0.25,1)] delay-500 ${animateHero ? 'translate-x-0 opacity-100 blur-none' : 'translate-x-[100vw] opacity-0 blur-xl'}`}>
             <p className="text-lg sm:text-xl md:text-2xl text-gray-200 leading-relaxed font-light max-w-3xl mx-auto px-2">
-              From the chaotic traffic of <strong>Silk Board</strong> to the bustling breweries of <strong>Indiranagar</strong>, we digitize the pulse of the city. 
+              From the chaotic traffic of <strong>Silk Board</strong> to the premium <strong>Interiors of Kothnur</strong>, we digitize the pulse of the city. 
             </p>
             <p className="text-sm sm:text-base md:text-lg text-gray-400 leading-relaxed max-w-2xl mx-auto px-4">
               Ooru Logix creates a unified data mesh for Bangalore's 12 million residents. We turn hyper-local variables into precise, real-time operational directives.
             </p>
             <p className={`text-[10px] sm:text-xs md:text-sm text-gray-500 font-mono bg-white/5 inline-block px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg border border-white/10 transform transition-all duration-[800ms] delay-[900ms] ${animateHero ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-50 translate-y-10'}`}>
-              COVERAGE: KORAMANGALA • WHITEFIELD • JAYANAGAR • HSR LAYOUT
+              COVERAGE: KORAMANGALA • WHITEFIELD • JAYANAGAR • HSR LAYOUT • JP NAGAR • KOTHNUR
             </p>
           </div>
           
@@ -283,7 +291,7 @@ const Home: React.FC = () => {
               IN SIMPLE WORDS
             </span>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight mb-4">
-              What is <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan to-neon-purple">ShopSmart</span>?
+              What is <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan to-neon-purple">Ooru Logix</span>?
             </h2>
             <p className="text-base sm:text-lg text-gray-400 font-light max-w-2xl mx-auto leading-relaxed">
               No jargon. No buzzwords. Here's what we actually do.
@@ -370,9 +378,9 @@ const Home: React.FC = () => {
       <div className="w-full bg-cyber-900/90 border-y border-white/20 py-2 overflow-hidden z-10 relative backdrop-blur-md shadow-lg">
         <div className="flex animate-marquee whitespace-nowrap gap-12 text-xs font-mono tracking-wide">
           <span className="flex items-center gap-2 text-neon-pink font-bold"><Activity size={14}/> HSR LAYOUT: Inventory Critical (Milk &lt; 10%)</span>
-          <span className="flex items-center gap-2 text-neon-cyan font-bold"><CloudLightning size={14}/> WHITEFIELD: Heavy Rain Alert &rarr; Swiggy Surge Active</span>
+          <span className="flex items-center gap-2 text-neon-cyan font-bold"><CloudLightning size={14}/> KOTHNUR: Premium Interiors Launch &rarr; Site Audit Active</span>
           <span className="flex items-center gap-2 text-neon-amber font-bold"><Zap size={14}/> INDIRANAGAR: Footfall Spike (Friday Night Mode)</span>
-          <span className="flex items-center gap-2 text-garden-400 font-bold"><ShieldCheck size={14}/> MG ROAD: Compliance Audit Passed</span>
+          <span className="flex items-center gap-2 text-garden-400 font-bold"><ShieldCheck size={14}/> JP NAGAR: Interiors Compliance Audit Passed</span>
           <span className="flex items-center gap-2 text-purple-400 font-bold"><Wifi size={14}/> KORAMANGALA: Network Optimization Active</span>
           <span className="flex items-center gap-2 text-neon-pink font-bold"><Activity size={14}/> JAYANAGAR: Stock Reorder Triggered</span>
         </div>
@@ -537,11 +545,11 @@ const Home: React.FC = () => {
           </div>
 
           <p className="text-lg md:text-xl text-gray-400 font-light max-w-2xl mx-auto leading-relaxed mb-6 mt-6">
-            Get a high-performance React architecture for just <span className="text-white font-bold">₹499</span>. Now onboarding beta clients in <span className="text-white">JP Nagar</span>, <span className="text-white">Bellandur</span>, and <span className="text-white">Jayanagar</span>.
+            Get a high-performance React architecture or <strong>Premium Interior Design</strong> for just <span className="text-white font-bold">₹499</span>. Now onboarding beta clients in <span className="text-white">JP Nagar</span>, <span className="text-white">Kothnur</span>, and <span className="text-white">Jayanagar</span>.
           </p>
           
           <div className="flex flex-wrap justify-center gap-4 mb-10 opacity-60">
-            {["JP Nagar", "Bellandur", "Jayanagar", "Whitefield"].map((loc, i) => (
+            {["JP Nagar", "Kothnur", "Jayanagar", "Whitefield"].map((loc, i) => (
               <span key={i} className="text-[10px] font-mono border border-white/10 px-3 py-1 rounded-md uppercase tracking-widest">{loc}</span>
             ))}
           </div>

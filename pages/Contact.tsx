@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import PaymentPortal from '../components/PaymentPortal';
 import { useAuth } from '../context/AuthContext';
 import { PageRoute } from '../types';
+import SEO from '../components/SEO';
 
 const Contact: React.FC = () => {
   const { user } = useAuth();
@@ -129,6 +130,12 @@ const Contact: React.FC = () => {
 
   return (
     <div className="pt-32 pb-20 min-h-screen bg-cyber-950 relative overflow-hidden">
+      <SEO 
+        title="Register & Contact | Hyper-Local Intelligence & Interiors"
+        description="Join the Ooru Logix mesh. Request a system audit for your merchant node or a consultation for premium interior design in JP Nagar, Kothnur, and beyond."
+        keywords="Contact Ooru Logix, Register Merchant Bangalore, Interior Consultation JP Nagar, Kothnur Interiors Contact"
+        canonical="https://www.oorulogix.com/register"
+      />
       {/* Background Glows */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-garden-500/5 rounded-full blur-[128px]"></div>
@@ -421,7 +428,7 @@ const Contact: React.FC = () => {
           </p>
           <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 font-mono text-[9px] text-gray-400">
             <span>JP_NAGAR</span>
-            <span>BELLANDUR</span>
+            <span>KOTHNUR</span>
             <span>JAYANAGAR</span>
             <span>WHITEFIELD</span>
             <span>HSR_LAYOUT</span>

@@ -16,7 +16,7 @@ const Legal: React.FC = () => {
                         We do not sell, rent, or trade end-customer data to third parties.
                     </p>
                     <p>
-                        All personally identifiable information (PII) captured via ShopSmart-Vision (CCTV Analysis) is processed at the edge or anonymously. 
+                        All personally identifiable information (PII) captured via Ooru Vision (CCTV Analysis) is processed at the edge or anonymously. 
                         Faces are blurred before any cloud retention unless explicitly authorized for security incidents.
                     </p>
                 </div>

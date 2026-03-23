@@ -42,7 +42,7 @@ const Logo: React.FC<{ className?: string }> = ({ className = "h-8 w-auto" }) =>
         <div className="w-full h-full bg-white rounded-full"></div>
       </div>
 
-      {/* RESTORED ShopSmart Logo (Tech Core / Heartbeat style) */}
+      {/* RESTORED Logo (Tech Core / Heartbeat style) */}
       <div className="h-full w-auto relative z-10 p-0.5 sm:p-1">
         <svg
           viewBox="0 0 100 100"
@@ -125,11 +125,11 @@ const Logo: React.FC<{ className?: string }> = ({ className = "h-8 w-auto" }) =>
       {/* Text Container */}
       <div className="flex flex-col justify-center leading-none ml-1 relative z-10">
         <span className="text-cyber-950 font-black text-lg sm:text-xl md:text-2xl tracking-tight leading-tight uppercase">
-          ShopSmart
+          Ooru Logix
         </span>
         <div className="flex items-center gap-1 sm:gap-1.5 mt-0.5 whitespace-nowrap">
           <span className="text-gray-600 font-bold font-mono text-[8px] sm:text-[10px] md:text-[11px] tracking-widest uppercase">
-            by Ooru Logix
+            Hyper-Local Systems
           </span>
           
           {/* Ooru Logix SVG Logo Integration */}

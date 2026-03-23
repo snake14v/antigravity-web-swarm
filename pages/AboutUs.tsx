@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, ChevronRight, HelpCircle, MapPin, Mail, Globe, Sparkles } from 'lucide-react';
 import { OoruLogixLogo } from '../components/Logo';
+import SEO from '../components/SEO';
 
 const FadeInWhenVisible: React.FC<{ children: React.ReactNode; delay?: number }> = ({ children, delay = 0 }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -61,35 +62,18 @@ const AboutUs: React.FC = () => {
   const handleScroll = () => setOffsetY(window.pageYOffset);
 
   useEffect(() => {
-    // SEO Meta Tags
-    document.title = "About Us | Ooru Logix - Hyper-Local Data Intelligence";
-    
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute("content", "Ooru Logix provides hyper-local data intelligence and a powerful merchant OS for Bangalore retail tech. Empowering local businesses with sovereign data and AI.");
-    } else {
-      const desc = document.createElement('meta');
-      desc.name = "description";
-      desc.content = "Ooru Logix provides hyper-local data intelligence and a powerful merchant OS for Bangalore retail tech. Empowering local businesses with sovereign data and AI.";
-      document.head.appendChild(desc);
-    }
-
-    const metaKeywords = document.querySelector('meta[name="keywords"]');
-    if (metaKeywords) {
-      metaKeywords.setAttribute("content", "hyper-local data intelligence, merchant OS, Bangalore retail tech, Ooru Logix, retail AI, sovereign data");
-    } else {
-      const keywords = document.createElement('meta');
-      keywords.name = "keywords";
-      keywords.content = "hyper-local data intelligence, merchant OS, Bangalore retail tech, Ooru Logix, retail AI, sovereign data";
-      document.head.appendChild(keywords);
-    }
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <div className="min-h-screen bg-black text-white font-vt323 uppercase selection:bg-neon-cyan selection:text-black relative overflow-hidden text-xl pb-24">
+      <SEO 
+        title="About Us | Hyper-Local Intelligence & Interiors"
+        description="Learn about Ooru Logix, the team building Bangalore's digital operating system for merchants and premium interior design solutions in JP Nagar and Kothnur."
+        keywords="About Ooru Logix, Interiors Bangalore, JP Nagar Interiors, Kothnur Interiors, Hyper-local data, Retail AI"
+        canonical="https://www.oorulogix.com/about"
+      />
       <div className="fixed top-24 left-6 z-20 font-sans">
         <Link to="/" className="inline-flex items-center gap-2 text-gray-400 hover:text-neon-cyan transition-colors group px-4 py-2 bg-white/5 backdrop-blur-md rounded-full border border-white/10">
           <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
@@ -228,9 +212,9 @@ const AboutUs: React.FC = () => {
                   <div className="relative transform transition-all hover:translate-x-2 duration-300">
                     <div className="absolute -left-[41px] top-1 w-5 h-5 bg-black border-2 border-neon-pink rounded-full"></div>
                     <div className="text-neon-pink text-2xl mb-1">Q2 2025: BETA PROPAGATION</div>
-                    <h4 className="text-white text-xl mb-2">SHOPSMART-OS LIVE TEST</h4>
+                    <h4 className="text-white text-xl mb-2">OORU LOGIX LIVE TEST</h4>
                     <p className="text-gray-400 text-lg">
-                      Deployed ShopSmart-OS to 100 select merchants across HSR Layout. Finalized the real-time context-aware AI suggestion engine.
+                      Deployed Ooru Logix to 100 select merchants across HSR Layout. Finalized the real-time context-aware AI suggestion engine.
                     </p>
                   </div>
 
@@ -265,8 +249,8 @@ const AboutUs: React.FC = () => {
                 
                 <div className="space-y-2">
                   <FaqItem 
-                    question="HOW IS SHOPSMART-OS DIFFERENT FROM EXISTING ERPs?" 
-                    answer="Traditional ERPs are static. ShopSmart-OS is dynamic. It ingests thousands of hyper-local data points—from traffic bottlenecks to weather spikes—to provide real-time operational directives that actually matter for a merchant's bottom line in Bangalore."
+                    question="HOW IS OORU LOGIX DIFFERENT FROM EXISTING ERPs?" 
+                    answer="Traditional ERPs are static. Ooru Logix is dynamic. It ingests thousands of hyper-local data points—from traffic bottlenecks to weather spikes—to provide real-time operational directives that actually matter for a merchant's bottom line in Bangalore."
                   />
                   <FaqItem 
                     question="WHAT DO YOU MEAN BY SOVEREIGN DATA?" 

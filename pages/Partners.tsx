@@ -3,6 +3,8 @@ import { ExternalLink, CheckCircle2, ArrowRight, Layers, Globe, Zap, Users, Shie
 import { PageRoute } from '../types';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import toast from 'react-hot-toast';
+import SEO from '../components/SEO';
 
 interface PartnerInfo {
   name: string;
@@ -75,6 +77,12 @@ const Partners: React.FC = () => {
 
   return (
     <div className="pt-24 pb-20 min-h-screen bg-cyber-950 relative overflow-hidden">
+      <SEO 
+        title="Partners | Hyper-Local Intelligence & Interiors"
+        description="Our ecosystem of partners transforming Bangalore's digital and physical skyline, including premium interior designers and retail tech innovators."
+        keywords="Ooru Logix Partners, Bangalore Tech Ecosystem, JP Nagar Business Network, Kothnur Collaborations"
+        canonical="https://www.oorulogix.com/partners"
+      />
       
       {/* Mesh Background Diagram */}
       <div className="absolute inset-0 z-0 pointer-events-none opacity-20">
@@ -214,7 +222,7 @@ const Partners: React.FC = () => {
                  >
                    Request Onboarding <ArrowRight size={20} />
                  </Link>
-                 <button className="px-10 py-5 bg-white/5 text-white border border-white/10 rounded-full font-black text-sm uppercase tracking-widest hover:bg-white/10 transition-all flex items-center justify-center gap-3">
+                 <button onClick={() => toast.success('Partner deck request sent! We will email it shortly.')} className="px-10 py-5 bg-white/5 text-white border border-white/10 rounded-full font-black text-sm uppercase tracking-widest hover:bg-white/10 transition-all flex items-center justify-center gap-3">
                    <Briefcase size={20} className="text-neon-purple" /> Partner Deck
                  </button>
               </div>

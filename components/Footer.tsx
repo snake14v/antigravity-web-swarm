@@ -10,15 +10,15 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           
           <div className="col-span-1 md:col-span-1">
-            <h3 className="text-xl font-bold text-white mb-3 tracking-tighter">SHOPSMART<span className="text-garden-500">LOGIX</span></h3>
+            <h3 className="text-xl font-bold text-white mb-3 tracking-tighter">OORU<span className="text-garden-500">LOGIX</span></h3>
             <p className="text-gray-400 text-xs leading-relaxed mb-4">
-              The Hyper-Local Data Intelligence Agency. <br/>
-              Building the operating system for the next 100 years of Bangalore's commercial life.
+              The Hyper-Local Data Intelligence & <strong>Premium Interiors</strong> Agency. <br/>
+              Building the operating system for Bangalore's retail and design excellence.
             </p>
             <div className="flex space-x-3 text-gray-400">
-                <a href="#" className="hover:text-neon-cyan transition-colors"><Linkedin size={18}/></a>
-                <a href="#" className="hover:text-neon-pink transition-colors"><Twitter size={18}/></a>
-                <a href="#" className="hover:text-white transition-colors"><Github size={18}/></a>
+                <a href="https://linkedin.com/company/oorulogix" target="_blank" rel="noopener noreferrer" className="hover:text-neon-cyan transition-colors"><Linkedin size={18}/></a>
+                <a href="https://twitter.com/oorulogix" target="_blank" rel="noopener noreferrer" className="hover:text-neon-pink transition-colors"><Twitter size={18}/></a>
+                <a href="https://github.com/oorulogix" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors"><Github size={18}/></a>
             </div>
           </div>
 
@@ -43,17 +43,11 @@ const Footer: React.FC = () => {
           </div>
 
           <div>
-            <h3 className="text-[10px] font-bold text-garden-400 tracking-widest uppercase mb-4">Operational HQ</h3>
-            <div className="flex items-start space-x-2 text-gray-400 text-xs mb-2">
-              <MapPin size={14} className="mt-0.5 flex-shrink-0 text-garden-500" />
-              <p>Green Glen Layout,<br/>Bellandur, Bangalore 560103</p>
-            </div>
-            <div className="flex items-center space-x-2 text-gray-400 text-xs">
-              <Mail size={14} className="text-garden-500" />
-              <div className="flex flex-col">
-                <a href="mailto:hello@oorulogix.com" className="hover:text-white transition-colors">hello@oorulogix.com</a>
-                <Link to={PageRoute.CONTACT} className="text-[10px] text-garden-400 hover:text-white transition-colors mt-1 font-mono uppercase tracking-widest">→ Contact System</Link>
-              </div>
+            <h3 className="text-[10px] font-bold text-garden-400 tracking-widest uppercase mb-4">Active Coverage</h3>
+            <div className="flex flex-wrap gap-2">
+              {["JP Nagar", "Kothnur", "HSR", "Koramangala", "Indiranagar"].map(loc => (
+                <span key={loc} className="text-[9px] px-2 py-0.5 border border-white/10 rounded-full text-gray-500 font-mono uppercase">{loc}</span>
+              ))}
             </div>
           </div>
         </div>

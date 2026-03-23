@@ -26,14 +26,20 @@ const UserConsole: React.FC = () => {
     // Use onSnapshot for real-time updates from administrative changes
     const q = query(
       collection(db, 'registrations'),
-      where('email', '==', user.email.toLowerCase().trim()),
-      orderBy('timestamp', 'desc'),
-      limit(1)
+      where('email', '==', user.email.toLowerCase().trim())
     );
     
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       if (!querySnapshot.empty) {
-        setResult({ id: querySnapshot.docs[0].id, ...querySnapshot.docs[0].data() } as Registration);
+        // Sort by timestamp manually if needed, or just take the most recent doc
+        const docs = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Registration));
+        const mostRecent = docs.sort((a, b) => {
+          const timeA = a.timestamp?.toMillis ? a.timestamp.toMillis() : 0;
+          const timeB = b.timestamp?.toMillis ? b.timestamp.toMillis() : 0;
+          return timeB - timeA;
+        })[0];
+        
+        setResult(mostRecent);
         setNoAppFound(false);
       } else {
         setResult(null);

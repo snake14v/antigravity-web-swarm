@@ -10,6 +10,7 @@ import {
 import { Link } from 'react-router-dom';
 import { PageRoute } from '../types';
 import BlackboxTerminal from '../components/BlackboxTerminal';
+import SEO from '../components/SEO';
 
 // --- Types & Data ---
 
@@ -77,7 +78,7 @@ const tiers = [
     note: 'Total digital sovereignty with edge hardware acceleration.',
     features: [
       'Everything in Logic Core',
-      'ShopSmart-Vision AI (Beta)',
+      'Ooru Vision AI (Beta)',
       'Professional Brand Reels',
       'Local SEO Context Boosting',
       'Dedicated Field Engineer'
@@ -111,7 +112,7 @@ const featureRows = [
   { name: 'Unified OS Dashboard', key: 'ossDashboard' },
   { name: 'Inventory Management', key: 'inventory' },
   { name: 'Communication Channel', key: 'alerts' },
-  { name: 'ShopSmart AI Vision', key: 'aiVision' },
+  { name: 'Ooru AI Vision', key: 'aiVision' },
   { name: 'Support SLA', key: 'support' },
   { name: 'Node Scalability', key: 'scalability' },
 ];
@@ -242,6 +243,12 @@ const Pricing: React.FC = () => {
 
   return (
     <div className="pt-32 pb-24 min-h-screen bg-cyber-950 relative overflow-hidden">
+      <SEO 
+        title="Pricing | Hyper-Local Intelligence & Interiors"
+        description="Choose the right plan for your business. Affordable AI-driven operating systems and premium interior design packages in Bangalore."
+        keywords="Ooru Logix Pricing, Interiors JP Nagar Cost, Bangalore Interior Packages, Retail AI Pricing"
+        canonical="https://www.oorulogix.com/pricing"
+      />
       {/* Background Ambient Glows */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
         <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-cyan-500/10 rounded-full blur-[120px]"></div>

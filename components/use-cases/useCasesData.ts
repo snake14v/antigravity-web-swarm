@@ -45,7 +45,7 @@ export const slides = [
     bgColor: "bg-green-400/10",
     borderColor: "border-green-400/20",
     title: "Vendor Auto-Negotiation",
-    description: "ShopSmart-OS aggregates order volume from 5 nearby cafes in Koramangala. It automatically negotiates a bulk discount with the vegetable vendor for the combined order.",
+    description: "Ooru Logix aggregates order volume from 5 nearby cafes in Koramangala. It automatically negotiates a bulk discount with the vegetable vendor for the combined order.",
     tag: "SUPPLY CHAIN",
     stat: "15% Cost Reduction"
   },

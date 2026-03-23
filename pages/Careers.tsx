@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Code, Database, Users, ArrowLeft } from 'lucide-react';
+import toast from 'react-hot-toast';
 import { PageRoute } from '../types';
 
 const Careers: React.FC = () => {
@@ -31,7 +32,7 @@ const Careers: React.FC = () => {
                 </div>
                 <h3 className="text-2xl font-bold mb-2">Frontend Architect</h3>
                 <p className="text-gray-400 mb-6">Expertise in React, Tailwind, and WebGL. You will build high-performance dashboards that run on low-end Android tablets in kitchens.</p>
-                <button className="text-neon-cyan font-bold flex items-center gap-2 group-hover:translate-x-2 transition-transform">
+                <button onClick={() => toast.success('Application portal opening soon!')} className="text-neon-cyan font-bold flex items-center gap-2 group-hover:translate-x-2 transition-transform">
                     Apply Now <ArrowRight size={16} />
                 </button>
             </div>
@@ -45,7 +46,7 @@ const Careers: React.FC = () => {
                 </div>
                 <h3 className="text-2xl font-bold mb-2">Data Engineer (Gemini Specialist)</h3>
                 <p className="text-gray-400 mb-6">You will fine-tune Gemini 2.5 Flash models on unstructured Indian retail data. Python and Firebase expertise required.</p>
-                <button className="text-neon-purple font-bold flex items-center gap-2 group-hover:translate-x-2 transition-transform">
+                <button onClick={() => toast.success('Application portal opening soon!')} className="text-neon-purple font-bold flex items-center gap-2 group-hover:translate-x-2 transition-transform">
                     Apply Now <ArrowRight size={16} />
                 </button>
             </div>

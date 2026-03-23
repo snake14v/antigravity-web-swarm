@@ -1,9 +1,16 @@
 import React from 'react';
 import { Users, Database, Globe, Network, Cpu, ArrowUpRight, GitMerge, Shield } from 'lucide-react';
+import SEO from '../components/SEO';
 
 const Manifesto: React.FC = () => {
   return (
     <div className="pt-24 min-h-screen bg-cyber-900 overflow-x-hidden">
+      <SEO 
+        title="Our Manifesto | Hyper-Local Intelligence & Interiors"
+        description="The philosophy behind Ooru Logix: Building a sovereign data mesh for Bangalore's merchants and premium interior design professionals."
+        keywords="Ooru Logix Manifesto, Bangalore Tech Philosophy, Hyper-local Data Mesh, Retail Sovereignty, JP Nagar Tech"
+        canonical="https://www.oorulogix.com/manifesto"
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         
         <header className="mb-20 text-center max-w-4xl mx-auto">
@@ -16,7 +23,7 @@ const Manifesto: React.FC = () => {
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-garden-400 to-cyan-400">Intelligence Grid</span>
           </h1>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            We don't just build websites. We construct a "Human-in-the-Loop" operating system where organic intuition meets algorithmic precision.
+            We don't just build websites. We construct a <strong>"Human-in-the-Loop"</strong> operating system for merchants and <strong>Premium Interior Design</strong> logic where organic intuition meets algorithmic precision.
           </p>
         </header>
 

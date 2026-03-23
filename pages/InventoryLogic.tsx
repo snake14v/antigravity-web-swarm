@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft, TrendingUp, ShoppingBag, Zap, Activity, BarChart3, PieChart, Info } from 'lucide-react';
 import { PageRoute } from '../types';
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, BarChart, Bar } from 'recharts';
+import SEO from '../components/SEO';
 
 const data = [
   { name: 'Mon', burn: 4000, revenue: 2400, amt: 2400 },
@@ -17,6 +18,12 @@ const data = [
 const InventoryLogic: React.FC = () => {
   return (
     <div className="pt-24 min-h-screen bg-cyber-950 text-white relative overflow-hidden">
+      <SEO 
+        title="Inventory Logic & Burn Rate Analytics"
+        description="Optimize your retail or interior design operations with predictive inventory logic. Real-time data synchronization for JP Nagar and Kothnur nodes."
+        keywords="Inventory Logic, Predictive Analytics Bangalore, Retail Burn Rate, Kothnur Logistics AI"
+        canonical="https://www.oorulogix.com/inventory-logic"
+      />
       {/* Background Elements */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-neon-purple/5 to-transparent"></div>
@@ -131,7 +138,7 @@ const InventoryLogic: React.FC = () => {
               </div>
               <div className="text-4xl font-bold text-neon-cyan mb-2">94.2%</div>
               <p className="text-sm text-gray-400 leading-relaxed">
-                Your inventory utilization is optimal. Minimal wastage detected in the Koramangala node.
+                Your inventory utilization is optimal. Minimal wastage detected in the <strong>Kothnur</strong> & <strong>Koramangala</strong> nodes.
               </p>
             </div>
 

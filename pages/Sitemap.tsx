@@ -53,7 +53,7 @@ const Sitemap: React.FC = () => {
             Sitemap
           </h1>
           <p className="text-gray-400 max-w-2xl">
-            A comprehensive index of the ShopSmart by Ooru Logix digital infrastructure.
+            A comprehensive index of the <strong>Ooru Logix</strong> digital & physical infrastructure. Serving premium Interiors in <strong>JP Nagar</strong>, <strong>Kothnur</strong>, and the greater Bangalore grid.
           </p>
         </header>
 
@@ -88,7 +88,7 @@ const Sitemap: React.FC = () => {
 
         <div className="mt-16 pt-8 border-t border-white/5 text-center">
           <p className="text-xs text-gray-500 font-mono uppercase tracking-widest">
-            End of Directory • Ooru Logix Systems
+            End of Directory • oorulogix.com Systems
           </p>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Newspaper, ExternalLink } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 const Press: React.FC = () => {
   return (
@@ -18,16 +19,16 @@ const Press: React.FC = () => {
                 <p className="text-gray-400 mb-4">
                     Leading venture capital firms back the "Local-First" operating system designed for India's unorganized retail sector.
                 </p>
-                <a href="#" className="text-neon-cyan flex items-center gap-2 text-sm font-bold">Read Release <ExternalLink size={14}/></a>
+                <a href="#" onClick={(e) => { e.preventDefault(); toast.error('Press release coming soon!', { style: { background: '#333', color: '#00ffff' } }); }} className="text-neon-cyan flex items-center gap-2 text-sm font-bold">Read Release <ExternalLink size={14}/></a>
             </div>
 
             <div className="bg-cyber-800 border border-white/10 p-6 rounded-xl hover:border-neon-cyan/50 transition-colors">
                 <span className="text-xs font-mono text-gray-500">JAN 2026</span>
                 <h2 className="text-2xl font-bold text-white mb-2">Case Study: Reducing Food Waste by 40%</h2>
                 <p className="text-gray-400 mb-4">
-                    How 'xgo3dfood labs' used ShopSmart-OS predictive depletion algorithms to save ₹4.5 Lakhs in annual inventory costs.
+                    How 'xgo3dfood labs' used Ooru Logix predictive depletion algorithms to save ₹4.5 Lakhs in annual inventory costs.
                 </p>
-                <a href="#" className="text-neon-cyan flex items-center gap-2 text-sm font-bold">Read Case Study <ExternalLink size={14}/></a>
+                <a href="#" onClick={(e) => { e.preventDefault(); toast.error('Case study coming soon!', { style: { background: '#333', color: '#00ffff' } }); }} className="text-neon-cyan flex items-center gap-2 text-sm font-bold">Read Case Study <ExternalLink size={14}/></a>
             </div>
 
             <div className="bg-cyber-800 border border-white/10 p-6 rounded-xl hover:border-neon-cyan/50 transition-colors">
@@ -36,7 +37,7 @@ const Press: React.FC = () => {
                 <p className="text-gray-400 mb-4">
                     Our founder speaks at TechSparks about why data ownership is the only moat left for small businesses in the age of AI.
                 </p>
-                <a href="#" className="text-neon-cyan flex items-center gap-2 text-sm font-bold">Watch Keynote <ExternalLink size={14}/></a>
+                <a href="#" onClick={(e) => { e.preventDefault(); toast.error('Keynote video coming soon!', { style: { background: '#333', color: '#00ffff' } }); }} className="text-neon-cyan flex items-center gap-2 text-sm font-bold">Watch Keynote <ExternalLink size={14}/></a>
             </div>
         </div>
 
