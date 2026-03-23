@@ -5,7 +5,6 @@ import { PageRoute } from '../types';
 import IntroScreen from '../components/IntroScreen';
 import Logo, { OoruLogixLogo } from '../components/Logo';
 import VividOrbs from '../components/VividOrbs';
-import PixelText from '../components/PixelText';
 import { SwarmAgentConcept } from '../components/SwarmAgentConcept';
 import BlackboxTerminal from '../components/BlackboxTerminal.tsx';
 import SEO from '../components/SEO';
@@ -83,121 +82,19 @@ const Home: React.FC = () => {
       <section className={`relative pt-24 pb-16 overflow-hidden z-10 flex flex-col justify-center min-h-[85vh]`}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
           
-          {/* Logo drops in from top */}
-          <div className={`mb-8 transform transition-all duration-[1000ms] ease-[cubic-bezier(0.25,0.8,0.25,1)] delay-100 ${animateHero ? 'translate-y-0 opacity-100 scale-100' : '-translate-y-40 opacity-0 scale-150'}`}>
-            <Logo className="h-16 md:h-20 w-auto" />
-          </div>
-
-          <div className={`inline-flex items-center gap-3 px-4 py-2 rounded-full border border-white/10 bg-white/5 text-gray-200 text-xs font-mono mb-8 backdrop-blur-md shadow-lg shadow-garden-500/10 transform transition-all duration-[800ms] ease-out delay-300 ${animateHero ? 'translate-y-0 opacity-100' : '-translate-y-20 opacity-0'}`}>
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-garden-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-garden-500" />
-            </span>
-            <span className="tracking-widest">BANGALORE GRID: <span className="text-garden-400 font-bold">ONLINE</span></span>
-            <span className="text-gray-500 hidden sm:inline">|</span>
-            <span className="text-gray-400 hidden sm:inline">NODES: 1,402 ACTIVE</span>
-          </div>
-          
-          {/* Main Headline - Dot Matrix Pixel Assembly in Pitch Black Pill */}
-          <div className={`flex flex-col md:block items-center justify-center mb-6 sm:mb-10 transform transition-all duration-[900ms] ease-[cubic-bezier(0.25,0.8,0.25,1)] delay-300 ${animateHero ? 'translate-x-0 opacity-100 blur-none' : '-translate-x-[100vw] opacity-0 blur-md'}`}>
-            <div className="flex justify-center w-full mb-4 sm:mb-6 px-4">
-              <div className="relative group">
-                {/* Pitch Black Pill Background - Scaled for Mobile */}
-                <div className="absolute -inset-x-4 sm:-inset-x-8 -inset-y-3 sm:-inset-y-4 bg-black rounded-full border border-white/10 shadow-[0_0_40px_rgba(0,0,0,0.8)] z-0 overflow-hidden">
-                  {/* Internal Sparkles / Starfield */}
-                  <div className="absolute inset-0 opacity-30">
-                    {[...Array(6)].map((_, i) => (
-                      <div 
-                        key={i}
-                        className="absolute w-1 h-1 bg-white rounded-full animate-pulse"
-                        style={{
-                          top: `${Math.random() * 100}%`,
-                          left: `${Math.random() * 100}%`,
-                          animationDelay: `${i * 0.5}s`,
-                          boxShadow: '0 0 5px #fff'
-                        }}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                {/* PixelText inside the pill - Scaled down for mobile */}
-                <div className="relative z-10 px-1 sm:px-4 flex justify-center overflow-hidden">
-                  <PixelText 
-                    text="Ooru Logix" 
-                    triggerAnimation={animateHero} 
-                    pixelSize="w-1 h-1 sm:w-2 sm:h-2 md:w-3 md:h-3 lg:w-4 lg:h-4 lg:w-5 lg:h-5" 
-                    gap="gap-[1px] sm:gap-0.5 md:gap-1" 
-                    externalFlip={globalFlip}
-                  />
-                </div>
-
-                {/* Floating SVG Sparkles - hidden on smallest screens to save space */}
-                <div className="absolute -top-6 -right-6 w-6 h-6 sm:w-8 sm:h-8 text-yellow-400 animate-bounce opacity-80 hidden xs:block">
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.5 6h6l-5 4 2 7-4.5-5-4.5 5 2-7-5-4h6z"/></svg>
-                </div>
-                <div className="absolute -bottom-4 -left-6 w-5 h-5 sm:w-6 sm:h-6 text-cyan-400 animate-pulse opacity-60 hidden xs:block">
-                   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.5 6h6l-5 4 2 7-4.5-5-4.5 5 2-7-5-4h6z"/></svg>
-                </div>
-              </div>
-            </div>
-            
-            <div className="flex flex-col sm:flex-row items-center justify-center sm:inline-flex mt-4 sm:mt-6 md:mt-0 gap-3 sm:gap-0">
-               <span className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl text-gray-300 font-light sm:mr-4 align-middle">by</span>
-               
-               {/* Carbon Fiber / PCB Theme Assembly for Ooru Logix */}
-               <div className="inline-flex relative items-center justify-center align-middle h-14 sm:h-16">
-                 <div className={`flex items-center justify-center gap-3 sm:gap-4 transform transition-all duration-[800ms] ease-[cubic-bezier(0.175,0.885,0.32,1.275)] delay-[800ms] ${animateHero ? 'scale-100 opacity-100 filter-none translate-x-0' : 'scale-90 opacity-0 blur-xl translate-x-[50px]'} bg-black border border-gray-800 rounded-lg px-3 sm:px-5 py-2 sm:py-2.5 shadow-[0_0_30px_rgba(0,0,0,0.9)] relative overflow-hidden group max-w-[90vw]`}>
-                    
-                    {/* Background patterns and SVG icons omitted for brevity, keeping same logic */}
-                    <div className="absolute inset-0 opacity-40 bg-[radial-gradient(#333_1px,transparent_1px)] [background-size:4px_4px] mix-blend-overlay"></div>
-                    <div className="absolute inset-0 opacity-20 bg-[linear-gradient(45deg,#111_25%,transparent_25%,transparent_75%,#111_75%,#111),linear-gradient(45deg,#111_25%,transparent_25%,transparent_75%,#111_75%,#111)] [background-size:10px_10px] [background-position:0_0,5px_5px]"></div>
-                    
-                    <div className="absolute top-0 right-0 w-12 h-12 sm:w-16 sm:h-16 opacity-30 pointer-events-none">
-                      <svg viewBox="0 0 100 100" fill="none" stroke="#4ade80" strokeWidth="1">
-                         <path d="M100 20 L80 20 L70 30 L70 50" />
-                         <circle cx="70" cy="50" r="3" fill="#4ade80"/>
-                         <path d="M100 40 L90 40 L80 50 L80 80" />
-                         <circle cx="80" cy="80" r="3" fill="#4ade80"/>
-                      </svg>
-                    </div>
-
-                    <div className={`relative z-10 hidden xs:flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 transition-all duration-1000 delay-[1000ms] ${animateHero ? 'opacity-100' : 'opacity-0'}`}>
-                       <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full drop-shadow-[0_0_5px_rgba(255,255,255,0.3)]">
-                         <path d="M50 10 L50 90" stroke="white" strokeWidth="2" />
-                         <path d="M30 40 L50 40 M35 30 L50 30 M40 20 L50 20 M25 50 L50 50 M20 60 L50 60 M15 70 L50 70 M10 80 L50 80" stroke="white" strokeWidth="2" strokeLinecap="square" />
-                         <path d="M30 40 L40 30 M25 50 L35 40 M20 60 L30 50 M15 70 L25 60 M10 80 L20 70" stroke="white" strokeWidth="2" />
-                         <path d="M50 50 L65 35 L75 35 M65 35 L65 20 M50 60 L70 60 L80 50 M50 70 L60 80 L70 80 M60 80 L60 95" stroke="#4ade80" strokeWidth="2" strokeLinejoin="round" />
-                         <circle cx="75" cy="35" r="3" fill="#4ade80" />
-                         <circle cx="65" cy="20" r="3" fill="#4ade80" />
-                         <circle cx="80" cy="50" r="3" fill="#4ade80" />
-                         <circle cx="70" cy="80" r="3" fill="#4ade80" />
-                         <circle cx="60" cy="95" r="3" fill="#4ade80" />
-                       </svg>
-                    </div>
-                    
-                    {/* Alternating Flip for Ooru Logix */}
-                    <div className="font-mono text-lg sm:text-2xl md:text-3xl font-bold tracking-tight relative z-10 flex items-center shrink-0">
-                      <PixelText 
-                        text="Ooru" 
-                        triggerAnimation={animateHero} 
-                        pixelSize="w-[1px] h-[1px] xs:w-1 xs:h-1 sm:w-1.5 sm:h-1.5 md:w-2 md:h-2"
-                        gap="gap-[1px]"
-                        className="mr-1 sm:mr-2"
-                        externalFlip={!globalFlip}
-                      />
-                      <span className="text-gray-500 mx-1 sm:mx-2 animate-pulse">_</span>
-                      <PixelText 
-                        text="Logix" 
-                        triggerAnimation={animateHero} 
-                        pixelSize="w-[1px] h-[1px] xs:w-1 xs:h-1 sm:w-1.5 sm:h-1.5 md:w-2 md:h-2"
-                        gap="gap-[1px]"
-                        className="ml-1 sm:ml-2"
-                        externalFlip={!globalFlip}
-                      />
-                    </div>
-                 </div>
-               </div>
+          {/* Main Headline - Sleek Premium Text */}
+          <div className={`flex flex-col items-center justify-center mb-6 sm:mb-10 transform transition-all duration-[900ms] ease-[cubic-bezier(0.25,0.8,0.25,1)] delay-300 ${animateHero ? 'translate-y-0 opacity-100 blur-none scale-100' : 'translate-y-[20px] opacity-0 blur-md scale-95'}`}>
+            <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan via-white to-neon-purple tracking-tighter mb-8 filter drop-shadow-[0_0_30px_rgba(0,255,255,0.3)]">
+              OORU LOGIX
+            </h1>
+            <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full border border-white/10 bg-white/5 text-gray-200 text-xs sm:text-sm font-mono backdrop-blur-md shadow-[0_0_30px_rgba(0,255,255,0.1)]">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-neon-cyan opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-neon-cyan" />
+              </span>
+              <span className="tracking-widest">BANGALORE GRID: <span className="text-neon-cyan font-bold">ONLINE</span></span>
+              <span className="text-gray-500 hidden sm:inline">|</span>
+              <span className="text-gray-400 hidden sm:inline">NODES: 1,402 ACTIVE</span>
             </div>
           </div>
           

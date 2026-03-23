@@ -33,24 +33,15 @@ export const OoruLogixLogo: React.FC<{ className?: string; color?: string }> = (
 const Logo: React.FC<{ className?: string }> = ({ className = "h-8 w-auto" }) => {
   return (
     <div className={`flex items-center gap-3 group relative ${className}`}>
-      
-      {/* Background Pill Container with RGB Glow */}
-      <div className="absolute inset-0 bg-white rounded-full shadow-[0_0_20px_rgba(255,255,255,0.2)] md:-inset-x-6 md:-inset-y-3 -inset-x-3 -inset-y-1 sm:-inset-x-4 sm:-inset-y-2 z-0"></div>
-      
-      {/* Animated RGB Border */}
-      <div className="absolute inset-0 rounded-full md:-inset-x-6 md:-inset-y-3 -inset-x-3 -inset-y-1 sm:-inset-x-4 sm:-inset-y-2 z-0 p-[1.5px] sm:p-[2px] bg-gradient-to-r from-neon-pink via-neon-cyan to-neon-amber animate-gradient-fast mix-blend-overlay opacity-80 group-hover:opacity-100 transition-opacity">
-        <div className="w-full h-full bg-white rounded-full"></div>
-      </div>
-
       {/* RESTORED Logo (Tech Core / Heartbeat style) */}
-      <div className="h-full w-auto relative z-10 p-0.5 sm:p-1">
+      <div className="h-full w-auto relative z-10 p-0.5 sm:p-1 flex-shrink-0">
         <svg
           viewBox="0 0 100 100"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="h-full w-auto animate-logo-power-up shrink-0 drop-shadow-md"
+          className="h-full w-auto animate-logo-power-up drop-shadow-md"
         >
-          {/* Core Ring - Darker for white bg */}
+          {/* Core Ring */}
           <circle 
             cx="50" cy="50" r="40" 
             stroke="url(#neon-gradient-base)" 
@@ -108,7 +99,6 @@ const Logo: React.FC<{ className?: string }> = ({ className = "h-8 w-auto" }) =>
             className="animate-pulse-fast" 
           />
 
-          {/* Gradients updated for white bg contrast */}
           <defs>
             <linearGradient id="neon-gradient-base" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stopColor="#ff00ff" stopOpacity="0.8"/>
@@ -123,17 +113,15 @@ const Logo: React.FC<{ className?: string }> = ({ className = "h-8 w-auto" }) =>
       </div>
 
       {/* Text Container */}
-      <div className="flex flex-col justify-center leading-none ml-1 relative z-10">
-        <span className="text-cyber-950 font-black text-lg sm:text-xl md:text-2xl tracking-tight leading-tight uppercase">
+      <div className="flex flex-col justify-center leading-none relative z-10 flex-shrink-0">
+        <span className="text-white font-black text-lg sm:text-xl md:text-2xl tracking-tight leading-tight uppercase group-hover:text-neon-cyan transition-colors">
           Ooru Logix
         </span>
         <div className="flex items-center gap-1 sm:gap-1.5 mt-0.5 whitespace-nowrap">
-          <span className="text-gray-600 font-bold font-mono text-[8px] sm:text-[10px] md:text-[11px] tracking-widest uppercase">
+          <span className="text-gray-400 font-bold font-mono text-[8px] sm:text-[10px] md:text-[11px] tracking-widest uppercase">
             Hyper-Local Systems
           </span>
-          
-          {/* Ooru Logix SVG Logo Integration */}
-          <OoruLogixLogo className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" color="#1f2937" />
+          <OoruLogixLogo className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" color="#10b981" />
         </div>
       </div>
     </div>
