@@ -29,24 +29,16 @@ const UserConsole = lazy(() => import('./pages/UserConsole'));
 const DynamicPricing = lazy(() => import('./pages/DynamicPricing'));
 const LanguageBridge = lazy(() => import('./pages/LanguageBridge'));
 const WebsiteDesign = lazy(() => import('./pages/WebsiteDesign'));
+const Surveillance = lazy(() => import('./pages/Surveillance'));
+const HomeAutomation = lazy(() => import('./pages/HomeAutomation'));
 
-// Loading Fallback with Skeleton
+const RandomLoader = lazy(() => import('./components/RandomLoader'));
+
+// Loading Fallback with Randomized Themes
 const PageLoader = () => (
-  <div className="min-h-screen bg-cyber-950 flex flex-col pt-24 px-4 sm:px-6 lg:px-8">
-    <div className="max-w-4xl mx-auto w-full flex flex-col items-center">
-      <div className="w-48 h-12 bg-white/5 rounded-full animate-pulse mb-8" />
-      <div className="w-full h-8 bg-white/5 rounded-lg animate-pulse mb-4" />
-      <div className="w-3/4 h-8 bg-white/5 rounded-lg animate-pulse mb-12" />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-        <div className="h-64 bg-white/5 rounded-2xl animate-pulse" />
-        <div className="h-64 bg-white/5 rounded-2xl animate-pulse" />
-      </div>
-    </div>
-    <div className="fixed bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
-      <div className="w-8 h-8 border-2 border-neon-cyan border-t-transparent rounded-full animate-spin" />
-      <p className="text-neon-cyan font-mono text-[10px] tracking-widest animate-pulse uppercase">Syncing_Nodes...</p>
-    </div>
-  </div>
+  <Suspense fallback={<div className="min-h-screen bg-cyber-950" />}>
+    <RandomLoader />
+  </Suspense>
 );
 
 const ScrollToTop = () => {
@@ -81,11 +73,7 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode; adminOnly?: boolean 
   const { user, loading, isAdmin } = useAuth();
 
   if (loading) {
-    return (
-      <div className="min-h-screen bg-cyber-950 flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-neon-cyan border-t-transparent rounded-full animate-spin"></div>
-      </div>
-    );
+    return <PageLoader />;
   }
 
   const location = useLocation();
@@ -154,6 +142,8 @@ const App: React.FC = () => {
                 <Route path={PageRoute.DYNAMIC_PRICING} element={<DynamicPricing />} />
                 <Route path={PageRoute.LANGUAGE_BRIDGE} element={<LanguageBridge />} />
                 <Route path={PageRoute.WEBSITE_DESIGN} element={<WebsiteDesign />} />
+                <Route path={PageRoute.SURVEILLANCE} element={<Surveillance />} />
+                <Route path={PageRoute.HOME_AUTOMATION} element={<HomeAutomation />} />
                 <Route 
                   path={PageRoute.DASHBOARD} 
                   element={

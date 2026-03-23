@@ -1223,6 +1223,14 @@ const UseCasesGrid: React.FC = () => {
                   <div className="w-1.5 h-1.5 bg-garden-500 rounded-full animate-pulse"></div>
                   {slide.stat}
                 </div>
+                {(slide.tag === "SECURITY" || slide.tag === "COST SAVING") && (
+                  <Link 
+                    to={slide.tag === "SECURITY" ? PageRoute.SURVEILLANCE : PageRoute.HOME_AUTOMATION}
+                    className={`text-[10px] font-bold uppercase tracking-widest ${slide.color} hover:underline flex items-center gap-1`}
+                  >
+                    Configure Deployment <ArrowRight size={10} />
+                  </Link>
+                )}
               </div>
             </motion.div>
           ))}

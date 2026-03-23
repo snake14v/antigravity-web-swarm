@@ -40,7 +40,9 @@ export enum PageRoute {
   TRACK = '/track',
   DYNAMIC_PRICING = '/dynamic-pricing',
   LANGUAGE_BRIDGE = '/language-bridge',
-  WEBSITE_DESIGN = '/web-design'
+  WEBSITE_DESIGN = '/web-design',
+  SURVEILLANCE = '/surveillance',
+  HOME_AUTOMATION = '/home-automation'
 }
 
 export type RegistrationStatus = 'pending' | 'contacted' | 'audited' | 'rejected';

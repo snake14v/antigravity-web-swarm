@@ -10,6 +10,7 @@ import toast from 'react-hot-toast';
 import PaymentPortal from '../components/PaymentPortal';
 import { Registration, PageRoute } from '../types';
 import { useAuth } from '../context/AuthContext';
+import RandomLoader from '../components/RandomLoader';
 
 const UserConsole: React.FC = () => {
   const { user } = useAuth();
@@ -163,10 +164,7 @@ const UserConsole: React.FC = () => {
         </div>
 
         {loading ? (
-          <div className="py-24 flex flex-col items-center justify-center text-gray-500">
-            <Loader2 className="animate-spin mb-4 text-neon-cyan" size={48} />
-            <p className="font-mono text-xs uppercase tracking-widest animate-pulse">Requesting Node Status...</p>
-          </div>
+          <RandomLoader fullScreen={false} className="py-24" />
         ) : noAppFound ? (
           <div className="glass-panel rounded-3xl border border-white/10 p-12 text-center animate-in fade-in duration-500 bg-cyber-900/40 backdrop-blur-xl">
             <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6 text-gray-600">
