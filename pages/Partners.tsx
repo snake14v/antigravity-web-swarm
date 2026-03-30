@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ExternalLink, CheckCircle2, ArrowRight, Layers, Globe, Zap, Users, Shield, Briefcase, Car, Palette, ShoppingBag, GraduationCap, Coffee, Sparkles } from 'lucide-react';
+import { ExternalLink, CheckCircle2, ArrowRight, Layers, Globe, Zap, Users, Shield, Briefcase, Car, Palette, ShoppingBag, GraduationCap, Coffee, Sparkles, Edit3 } from 'lucide-react';
 import { PageRoute } from '../types';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -25,6 +25,15 @@ const partners: PartnerInfo[] = [
     features: ['Signature Hexagonal Lighting', 'Automated Armor Quote', 'The Vault Studio Concept', 'Mission Briefing v2.0'],
     themeColor: 'border-yellow-500',
     icon: Car,
+  },
+  {
+    name: 'The Handwriting Expert',
+    url: 'https://handwritin.vercel.app/',
+    category: 'Education',
+    description: 'A science-backed, gamified platform designed to transform handwriting into a superpower through brain training.',
+    features: ['Expert Method (4-Step)', 'Brain-Boosting Neural Paths', 'Exam Performance Booster', 'Fine Motor Skill Training'],
+    themeColor: 'border-purple-500',
+    icon: Edit3,
   },
   {
     name: 'Triangle Inside',
