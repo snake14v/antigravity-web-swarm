@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ooru Logix — Business Command Center</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #0B2648 0%, #051a35 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* HEADER */
+        .header {
+            background: rgba(11, 38, 72, 0.8);
+            border: 2px solid #06B6D4;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            box-shadow: 0 8px 32px rgba(6, 182, 212, 0.15);
+        }
+
+        .header-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #06B6D4;
+            letter-spacing: 0.5px;
+        }
+
+        .header-info {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .header-date {
+            font-size: 14px;
+            color: #a0a0a0;
+            text-align: right;
+        }
+
+        .health-indicator {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            padding: 12px 20px;
+            border-radius: 8px;
+            background: rgba(6, 182, 212, 0.1);
+        }
+
+        .health-emoji {
+            font-size: 28px;
+        }
+
+        /* PANEL */
+        .panel {
+            background: rgba(11, 38, 72, 0.6);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .panel-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #06B6D4;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .panel-title-emoji {
+            font-size: 24px;
+        }
+
+        /* HYPOTHESIS PANEL */
+        .hypothesis-content {
+            background: rgba(6, 182, 212, 0.05);
+            border-left: 4px solid #06B6D4;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .hypothesis-text {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #ffffff;
+        }
+
+        .progress-container {
+            margin: 20px 0;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(6, 182, 212, 0.3);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #06B6D4, #0891b2);
+            border-radius: 12px;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: #0B2648;
+        }
+
+        .progress-input {
+            width: 80px;
+            padding: 8px 12px;
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid #06B6D4;
+            border-radius: 6px;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .progress-input:focus {
+            outline: none;
+            background: rgba(6, 182, 212, 0.2);
+            box-shadow: 0 0 8px rgba(6, 182, 212, 0.4);
+        }
+
+        .verdict {
+            margin-top: 20px;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+        }
+
+        .verdict.on-track {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: rgba(34, 197, 94, 0.3);
+            color: #86efac;
+        }
+
+        .verdict.at-risk {
+            background: rgba(251, 146, 60, 0.1);
+            border-color: rgba(251, 146, 60, 0.3);
+            color: #fed7aa;
+        }
+
+        .verdict.off-track {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+        }
+
+        /* KPI CARDS */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .kpi-card {
+            background: rgba(11, 38, 72, 0.8);
+            border: 1px solid rgba(6, 182, 212, 0.4);
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kpi-card:hover {
+            background: rgba(11, 38, 72, 0.95);
+            border-color: #06B6D4;
+            box-shadow: 0 8px 24px rgba(6, 182, 212, 0.2);
+            transform: translateY(-4px);
+        }
+
+        .kpi-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #06B6D4, transparent);
+        }
+
+        .kpi-label {
+            font-size: 13px;
+            color: #a0a0a0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .kpi-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #06B6D4;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        .kpi-target {
+            font-size: 14px;
+            color: #a0a0a0;
+        }
+
+        .kpi-progress {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .kpi-progress-bar {
+            flex: 1;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .kpi-progress-fill {
+            height: 100%;
+            background: #06B6D4;
+            border-radius: 3px;
+        }
+
+        .kpi-percent {
+            font-size: 12px;
+            color: #a0a0a0;
+            min-width: 40px;
+            text-align: right;
+        }
+
+        .kpi-trend {
+            margin-top: 12px;
+            font-size: 12px;
+            padding: 6px;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .trend-neutral {
+            background: rgba(148, 163, 184, 0.2);
+            color: #cbd5e1;
+        }
+
+        .trend-up {
+            background: rgba(34, 197, 94, 0.2);
+            color: #86efac;
+        }
+
+        .trend-down {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+        }
+
+        /* CHART */
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin-bottom: 24px;
+        }
+
+        /* PIPELINE */
+        .pipeline {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .pipeline-column {
+            background: rgba(11, 38, 72, 0.8);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .pipeline-header {
+            font-size: 14px;
+            font-weight: 700;
+            color: #06B6D4;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pipeline-count {
+            background: rgba(6, 182, 212, 0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .pipeline-items {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .pipeline-item {
+            background: rgba(6, 182, 212, 0.15);
+            border: 1px solid rgba(6, 182, 212, 0.4);
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: grab;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .pipeline-item:active {
+            cursor: grabbing;
+            opacity: 0.7;
+        }
+
+        .item-delete {
+            color: #ef4444;
+            cursor: pointer;
+            font-weight: 600;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+
+        .item-delete:hover {
+            opacity: 1;
+        }
+
+        .pipeline-add {
+            display: flex;
+            gap: 6px;
+            margin-top: 12px;
+        }
+
+        .pipeline-input {
+            flex: 1;
+            padding: 8px;
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: 4px;
+            color: #ffffff;
+            font-size: 12px;
+        }
+
+        .pipeline-input::placeholder {
+            color: #606f7b;
+        }
+
+        .pipeline-btn {
+            padding: 8px 12px;
+            background: #06B6D4;
+            color: #0B2648;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        .pipeline-btn:hover {
+            background: #0891b2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+        }
+
+        /* FOCUS BLOCK */
+        .focus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
+        }
+
+        .focus-item {
+            background: rgba(6, 182, 212, 0.05);
+            border-left: 4px solid #06B6D4;
+            padding: 16px;
+            border-radius: 8px;
+        }
+
+        .focus-label {
+            font-size: 12px;
+            color: #a0a0a0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .focus-input {
+            width: 100%;
+            padding: 10px;
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: 6px;
+            color: #ffffff;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .focus-input:focus {
+            outline: none;
+            background: rgba(6, 182, 212, 0.2);
+            border-color: #06B6D4;
+            box-shadow: 0 0 12px rgba(6, 182, 212, 0.3);
+        }
+
+        .focus-toggle {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .toggle {
+            position: relative;
+            width: 50px;
+            height: 28px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            cursor: pointer;
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            transition: all 0.3s;
+        }
+
+        .toggle.active {
+            background: rgba(6, 182, 212, 0.4);
+            border-color: #06B6D4;
+        }
+
+        .toggle::after {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: #ffffff;
+            border-radius: 12px;
+            top: 2px;
+            left: 2px;
+            transition: left 0.3s;
+        }
+
+        .toggle.active::after {
+            left: 24px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #06B6D4;
+        }
+
+        /* GATES */
+        .gates-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+
+        .gates-table thead {
+            background: rgba(6, 182, 212, 0.1);
+            border-bottom: 2px solid rgba(6, 182, 212, 0.3);
+        }
+
+        .gates-table th {
+            padding: 12px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 700;
+            color: #a0a0a0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .gates-table td {
+            padding: 14px 12px;
+            border-bottom: 1px solid rgba(6, 182, 212, 0.2);
+            font-size: 14px;
+        }
+
+        .gate-trigger {
+            color: #a0a0a0;
+        }
+
+        .gate-status {
+            font-weight: 600;
+        }
+
+        .gate-status.pending {
+            color: #f59e0b;
+        }
+
+        .gate-status.complete {
+            color: #22c55e;
+        }
+
+        .gate-button {
+            padding: 6px 12px;
+            background: rgba(6, 182, 212, 0.2);
+            border: 1px solid #06B6D4;
+            color: #06B6D4;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .gate-button:hover {
+            background: rgba(6, 182, 212, 0.3);
+            box-shadow: 0 0 8px rgba(6, 182, 212, 0.3);
+        }
+
+        .gate-button:disabled {
+            background: rgba(34, 197, 94, 0.2);
+            border-color: #22c55e;
+            color: #22c55e;
+            cursor: default;
+        }
+
+        /* PRODUCT STATUS */
+        .product-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+
+        .product-table thead {
+            background: rgba(6, 182, 212, 0.1);
+            border-bottom: 2px solid rgba(6, 182, 212, 0.3);
+        }
+
+        .product-table th {
+            padding: 12px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 700;
+            color: #a0a0a0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .product-table td {
+            padding: 14px 12px;
+            border-bottom: 1px solid rgba(6, 182, 212, 0.2);
+            font-size: 14px;
+        }
+
+        .product-name {
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            background: rgba(6, 182, 212, 0.2);
+            color: #06B6D4;
+        }
+
+        .status-badge.active {
+            background: rgba(34, 197, 94, 0.2);
+            color: #86efac;
+        }
+
+        .status-badge.frozen {
+            background: rgba(251, 146, 60, 0.2);
+            color: #fed7aa;
+        }
+
+        .status-badge.paused {
+            background: rgba(148, 163, 184, 0.2);
+            color: #cbd5e1;
+        }
+
+        .verdict-text {
+            color: #a0a0a0;
+            font-size: 13px;
+        }
+
+        /* RISK MONITOR */
+        .risk-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .risk-item {
+            background: rgba(11, 38, 72, 0.8);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .risk-name {
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #ffffff;
+        }
+
+        .risk-severity {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 6px;
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .risk-severity:hover {
+            background: rgba(6, 182, 212, 0.2);
+        }
+
+        .severity-low {
+            color: #86efac;
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+
+        .severity-medium {
+            color: #fed7aa;
+            border-color: rgba(251, 146, 60, 0.3);
+        }
+
+        .severity-high {
+            color: #fca5a5;
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            color: #606f7b;
+            font-size: 13px;
+            padding: 32px 0;
+            border-top: 1px solid rgba(6, 182, 212, 0.2);
+            margin-top: 40px;
+        }
+
+        .export-button {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #06B6D4, #0891b2);
+            color: #0B2648;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 14px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+        }
+
+        .export-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(6, 182, 212, 0.4);
+        }
+
+        .export-button:active {
+            transform: translateY(0);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .header-title {
+                font-size: 24px;
+            }
+
+            .header-info {
+                justify-content: center;
+            }
+
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pipeline {
+                grid-template-columns: 1fr;
+            }
+
+            .focus-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .risk-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gates-table,
+            .product-table {
+                font-size: 12px;
+            }
+
+            .gates-table th,
+            .product-table th {
+                padding: 8px;
+            }
+
+            .gates-table td,
+            .product-table td {
+                padding: 8px;
+            }
+        }
+
+        /* INPUT EDIT MODE */
+        .editable {
+            cursor: pointer;
+            position: relative;
+        }
+
+        .editable:hover::after {
+            content: '✎';
+            position: absolute;
+            right: 4px;
+            color: #06B6D4;
+            opacity: 0.6;
+            font-size: 12px;
+        }
+
+        .edit-mode {
+            animation: fadeIn 0.2s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <div>
+                <h1 class="header-title">Ooru Logix</h1>
+                <p style="font-size: 13px; color: #a0a0a0; margin-top: 4px;">Business Command Center</p>
+            </div>
+            <div class="header-info">
+                <div class="header-date">
+                    <div id="weekInfo" style="font-weight: 600; font-size: 16px; color: #06B6D4;"></div>
+                    <div id="dateInfo"></div>
+                </div>
+                <div class="health-indicator">
+                    <span class="health-emoji" id="healthEmoji">🟢</span>
+                    <span id="healthStatus">On Track</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- HYPOTHESIS TEST PANEL -->
+        <div class="panel">
+            <div class="panel-title">
+                <span class="panel-title-emoji">🎯</span>
+                Core Hypothesis Test
+            </div>
+            <div class="hypothesis-content">
+                <div class="hypothesis-text">Will chai shop owners pay ₹25K for ShopSense?</div>
+                <p style="font-size: 14px; color: #a0a0a0; margin-bottom: 16px;">By June 30, 2026, we will have 3 paying ShopSense customers</p>
+
+                <div class="progress-container">
+                    <div class="progress-info">
+                        <span>Paying Customers</span>
+                        <div style="display: flex; gap: 12px; align-items: center;">
+                            <input type="number" id="hypothesisProgress" class="progress-input" value="0" min="0" max="3">
+                            <span style="font-size: 14px;">of 3</span>
+                        </div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="hypothesisFill" style="width: 0%;"></div>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; margin: 16px 0; font-size: 13px; color: #a0a0a0;">
+                    <span id="daysRemaining"></span>
+                    <span id="daysElapsed"></span>
+                </div>
+
+                <div class="verdict" id="hypothesisVerdict">
+                    ⏱️ In Progress — No customers yet
+                </div>
+            </div>
+        </div>
+
+        <!-- KPI CARDS -->
+        <div style="margin-bottom: 32px;">
+            <div class="panel-title">
+                <span class="panel-title-emoji">📊</span>
+                Key Performance Indicators
+            </div>
+            <div class="kpi-grid" id="kpiGrid"></div>
+        </div>
+
+        <!-- REVENUE CHART -->
+        <div class="panel">
+            <div class="panel-title">
+                <span class="panel-title-emoji">💰</span>
+                Revenue Forecast vs. Actual
+            </div>
+            <div class="chart-container">
+                <canvas id="revenueChart"></canvas>
+            </div>
+        </div>
+
+        <!-- PIPELINE TRACKER -->
+        <div class="panel">
+            <div class="panel-title">
+                <span class="panel-title-emoji">🔄</span>
+                ShopSense Sales Pipeline
+            </div>
+            <div class="pipeline" id="pipeline"></div>
+        </div>
+
+        <!-- WEEKLY FOCUS -->
+        <div class="panel">
+            <div class="panel-title">
+                <span class="panel-title-emoji">📌</span>
+                Weekly Focus Block
+            </div>
+            <div class="focus-grid">
+                <div class="focus-item">
+                    <div class="focus-label">#1 Priority This Week</div>
+                    <textarea class="focus-input" id="weeklyPriority" placeholder="What's your #1 focus?"></textarea>
+                </div>
+                <div class="focus-item">
+                    <div class="focus-label">What's Blocking Progress?</div>
+                    <textarea class="focus-input" id="weeklyBlocker" placeholder="What obstacles are in the way?"></textarea>
+                </div>
+                <div class="focus-item">
+                    <div class="focus-label">Accountability Check</div>
+                    <div class="focus-toggle">
+                        <span>Spreading thin?</span>
+                        <div class="toggle" id="spreadingThin"></div>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" class="checkbox" id="customerTalk">
+                        <label for="customerTalk" style="cursor: pointer; font-size: 14px;">Talked to real customer this week</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DECISION GATES -->
+        <div class="panel">
+            <div class="panel-title">
+                <span class="panel-title-emoji">🚪</span>
+                Decision Gates
+            </div>
+            <table class="gates-table">
+                <thead>
+                    <tr>
+                        <th>Gate</th>
+                        <th>Trigger</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="gatesBody"></tbody>
+            </table>
+        </div>
+
+        <!-- PRODUCT FOCUS -->
+        <div class="panel">
+            <div class="panel-title">
+                <span class="panel-title-emoji">🎪</span>
+                Product Focus Status
+            </div>
+            <table class="product-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Status</th>
+                        <th>Verdict</th>
+                    </tr>
+                </thead>
+                <tbody id="productsBody"></tbody>
+            </table>
+        </div>
+
+        <!-- RISK MONITOR -->
+        <div class="panel">
+            <div class="panel-title">
+                <span class="panel-title-emoji">⚠️</span>
+                Risk Monitor
+            </div>
+            <div class="risk-grid" id="riskGrid"></div>
+        </div>
+
+        <!-- EXPORT -->
+        <div style="text-align: center; margin: 32px 0;">
+            <button class="export-button" onclick="exportWeekly()">📥 Export This Week's Summary</button>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <div>Last updated: <span id="lastUpdated">Today</span> | Next review: <span id="nextReview">Next Monday</span></div>
+            <div style="margin-top: 12px;">Ooru Logix Business Command Center v1.0 | Vaishak, Founder</div>
+        </div>
+    </div>
+
+    <script>
+        // ============ DATA STORE ============
+        const DEFAULT_STATE = {
+            kpis: {
+                revenue: { current: 0, target: 25000, trend: 'neutral' },
+                deployed: { current: 0, target: 15, trend: 'neutral' },
+                pilots: { current: 0, target: 3, trend: 'neutral' },
+                customers: { current: 0, target: 3, trend: 'neutral' },
+                linkedin: { current: 0, target: 500, trend: 'neutral' },
+                github: { current: 0, target: 100, trend: 'neutral' }
+            },
+            pipeline: {
+                identified: [],
+                contacted: [],
+                pilot: [],
+                converted: [],
+                lost: []
+            },
+            focus: {
+                priority: '',
+                blocker: '',
+                spreadingThin: false,
+                customerTalk: false
+            },
+            gates: {
+                gate1: false,
+                gate2: false,
+                gate3: false,
+                gate4: false,
+                gate5: false
+            },
+            risks: {
+                risk1: 'medium',
+                risk2: 'medium',
+                risk3: 'high',
+                risk4: 'high',
+                risk5: 'medium'
+            }
+        };
+
+        class Dashboard {
+            constructor() {
+                this.loadState();
+                this.init();
+            }
+
+            loadState() {
+                const saved = localStorage.getItem('ooruLogixDashboard');
+                this.state = saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(DEFAULT_STATE));
+            }
+
+            saveState() {
+                localStorage.setItem('ooruLogixDashboard', JSON.stringify(this.state));
+            }
+
+            init() {
+                this.renderHeader();
+                this.renderHypothesis();
+                this.renderKPIs();
+                this.renderChart();
+                this.renderPipeline();
+                this.renderFocus();
+                this.renderGates();
+                this.renderProducts();
+                this.renderRisks();
+                this.updateHealthIndicator();
+                this.setupEventListeners();
+            }
+
+            renderHeader() {
+                const today = new Date();
+                const startOfYear = new Date(today.getFullYear(), 0, 1);
+                const weekNum = Math.ceil((today - startOfYear + 1) / (7 * 24 * 60 * 60 * 1000));
+                const dateStr = today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+                document.getElementById('weekInfo').textContent = `Week ${weekNum} of 2026`;
+                document.getElementById('dateInfo').textContent = dateStr;
+
+                const nextMonday = new Date(today);
+                nextMonday.setDate(today.getDate() + (1 + 7 - today.getDay()) % 7);
+                const nextMondayStr = nextMonday.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
+                document.getElementById('lastUpdated').textContent = today.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                document.getElementById('nextReview').textContent = nextMondayStr;
+            }
+
+            renderHypothesis() {
+                const input = document.getElementById('hypothesisProgress');
+                const value = parseInt(input.value) || 0;
+                const target = 3;
+                const percent = (value / target) * 100;
+
+                document.getElementById('hypothesisFill').style.width = percent + '%';
+                if (percent > 0) {
+                    document.getElementById('hypothesisFill').textContent = value + '/' + target;
+                }
+
+                const deadline = new Date(2026, 5, 30); // June 30, 2026
+                const today = new Date();
+                const daysRemaining = Math.ceil((deadline - today) / (1000 * 60 * 60 * 24));
+                const daysElapsed = Math.ceil((today - new Date(2026, 3, 1)) / (1000 * 60 * 60 * 24));
+
+                document.getElementById('daysRemaining').textContent = `${daysRemaining} days remaining`;
+                document.getElementById('daysElapsed').textContent = `${daysElapsed} days elapsed`;
+
+                // Verdict logic
+                let verdict = '';
+                if (value === 0 && daysElapsed > 30) {
+                    verdict = '⚠️ Hypothesis at risk — zero customers after 30 days';
+                } else if (value === 1 && daysElapsed > 45) {
+                    verdict = '✅ On track — 1 customer achieved, momentum building';
+                } else if (value === 3) {
+                    verdict = '✅ Hypothesis PROVEN — 3 paying customers secured!';
+                } else if (daysRemaining < 0 && value === 0) {
+                    verdict = '❌ Pivot required — deadline passed, zero traction';
+                } else if (value >= 1) {
+                    verdict = '✅ On track — ' + value + ' customer' + (value > 1 ? 's' : '') + ' acquired';
+                } else {
+                    verdict = '⏱️ In Progress — No customers yet';
+                }
+
+                const verdictEl = document.getElementById('hypothesisVerdict');
+                verdictEl.textContent = verdict;
+                verdictEl.className = 'verdict';
+
+                if (verdict.includes('PROVEN')) {
+                    verdictEl.classList.add('on-track');
+                } else if (verdict.includes('at risk') || verdict.includes('Pivot')) {
+                    verdictEl.classList.add('off-track');
+                } else if (verdict.includes('On track')) {
+                    verdictEl.classList.add('on-track');
+                }
+            }
+
+            renderKPIs() {
+                const kpiData = [
+                    { key: 'revenue', label: 'Revenue This Month', unit: '₹', icon: '💰' },
+                    { key: 'deployed', label: 'ShopSense Units Deployed', unit: '', icon: '📦' },
+                    { key: 'pilots', label: 'Active Pilots', unit: '', icon: '🛠️' },
+                    { key: 'customers', label: 'Paying Customers', unit: '', icon: '👥' },
+                    { key: 'linkedin', label: 'LinkedIn Followers', unit: '', icon: '🔗' },
+                    { key: 'github', label: 'GitHub Stars', unit: '⭐', icon: '🐙' }
+                ];
+
+                const grid = document.getElementById('kpiGrid');
+                grid.innerHTML = kpiData.map(kpi => {
+                    const data = this.state.kpis[kpi.key];
+                    const percent = Math.min((data.current / data.target) * 100, 100);
+                    const trend = data.trend === 'up' ? '📈' : data.trend === 'down' ? '📉' : '→';
+                    const trendClass = data.trend === 'up' ? 'trend-up' : data.trend === 'down' ? 'trend-down' : 'trend-neutral';
+
+                    return `
+                        <div class="kpi-card" data-kpi="${kpi.key}">
+                            <div class="kpi-label">${kpi.icon} ${kpi.label}</div>
+                            <div class="kpi-value">
+                                <span class="editable" onclick="dashboard.editKPI('${kpi.key}', 'current')">${kpi.unit}${data.current.toLocaleString('en-IN')}</span>
+                            </div>
+                            <div class="kpi-target">Target: ${kpi.unit}${data.target.toLocaleString('en-IN')}</div>
+                            <div class="kpi-progress">
+                                <div class="kpi-progress-bar">
+                                    <div class="kpi-progress-fill" style="width: ${percent}%;"></div>
+                                </div>
+                                <div class="kpi-percent">${Math.round(percent)}%</div>
+                            </div>
+                            <div class="kpi-trend ${trendClass}">
+                                <span class="editable" onclick="dashboard.editKPI('${kpi.key}', 'trend')">${trend} Trend</span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            editKPI(key, field) {
+                const current = this.state.kpis[key][field];
+                let newValue;
+
+                if (field === 'trend') {
+                    const trends = ['neutral', 'up', 'down'];
+                    const idx = trends.indexOf(current);
+                    newValue = trends[(idx + 1) % trends.length];
+                } else {
+                    newValue = prompt(`Enter new ${field} for ${key}:`, current);
+                    if (newValue !== null) {
+                        newValue = parseInt(newValue) || 0;
+                    } else {
+                        return;
+                    }
+                }
+
+                this.state.kpis[key][field] = newValue;
+                this.saveState();
+                this.renderKPIs();
+                this.updateHealthIndicator();
+                if (field === 'current') this.renderChart();
+            }
+
+            renderChart() {
+                const canvas = document.getElementById('revenueChart');
+                const ctx = canvas.getContext('2d');
+
+                if (window.revenueChart) {
+                    window.revenueChart.destroy();
+                }
+
+                const months = ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar'];
+                const targetRevenue = [0, 0, 0, 25000, 25000, 50000, 50000, 75000, 75000, 100000, 125000, 125000];
+
+                // Build actual revenue array from KPI
+                const actualRevenue = new Array(12).fill(0);
+                const currentMonth = new Date().getMonth() - 3; // April = 0
+                if (currentMonth >= 0 && currentMonth < 12) {
+                    actualRevenue[currentMonth] = this.state.kpis.revenue.current;
+                }
+
+                window.revenueChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: months.map((m, i) => m + " '26"),
+                        datasets: [
+                            {
+                                label: 'Actual Revenue',
+                                data: actualRevenue,
+                                backgroundColor: 'rgba(6, 182, 212, 0.7)',
+                                borderRadius: 6,
+                                borderColor: '#06B6D4',
+                                borderWidth: 1
+                            },
+                            {
+                                label: 'Target Revenue',
+                                data: targetRevenue,
+                                type: 'line',
+                                borderColor: 'rgba(160, 160, 160, 0.5)',
+                                borderWidth: 2,
+                                borderDash: [5, 5],
+                                fill: false,
+                                pointRadius: 4,
+                                pointBackgroundColor: 'rgba(160, 160, 160, 0.5)',
+                                tension: 0.4
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: { color: '#a0a0a0', font: { size: 12 } }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: { color: '#a0a0a0', callback: (v) => '₹' + (v / 1000).toFixed(0) + 'K' },
+                                grid: { color: 'rgba(6, 182, 212, 0.1)' }
+                            },
+                            x: {
+                                ticks: { color: '#a0a0a0' },
+                                grid: { color: 'rgba(6, 182, 212, 0.1)' }
+                            }
+                        }
+                    }
+                });
+            }
+
+            renderPipeline() {
+                const columns = [
+                    { key: 'identified', label: '🎯 Identified', emoji: '🎯' },
+                    { key: 'contacted', label: '📞 Contacted', emoji: '📞' },
+                    { key: 'pilot', label: '🛠️ Pilot Active', emoji: '🛠️' },
+                    { key: 'converted', label: '✅ Converted', emoji: '✅' },
+                    { key: 'lost', label: '❌ Lost', emoji: '❌' }
+                ];
+
+                const pipeline = document.getElementById('pipeline');
+                pipeline.innerHTML = columns.map(col => {
+                    const items = this.state.pipeline[col.key];
+                    return `
+                        <div class="pipeline-column">
+                            <div class="pipeline-header">
+                                ${col.label}
+                                <span class="pipeline-count">${items.length}</span>
+                            </div>
+                            <div class="pipeline-items" data-column="${col.key}">
+                                ${items.map((item, i) => `
+                                    <div class="pipeline-item">
+                                        <span title="${item}">${item.substring(0, 20)}${item.length > 20 ? '...' : ''}</span>
+                                        <span class="item-delete" onclick="dashboard.deleteFromPipeline('${col.key}', ${i})">✕</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div class="pipeline-add">
+                                <input type="text" class="pipeline-input" placeholder="Add shop..." data-column="${col.key}" onkeypress="if(event.key==='Enter') dashboard.addToPipeline('${col.key}', this.value); this.value='';"/>
+                                <button class="pipeline-btn" onclick="const inp = event.target.previousElementSibling; dashboard.addToPipeline('${col.key}', inp.value); inp.value='';">+</button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            addToPipeline(column, value) {
+                if (value.trim()) {
+                    this.state.pipeline[column].push(value.trim());
+                    this.saveState();
+                    this.renderPipeline();
+                }
+            }
+
+            deleteFromPipeline(column, index) {
+                this.state.pipeline[column].splice(index, 1);
+                this.saveState();
+                this.renderPipeline();
+            }
+
+            renderFocus() {
+                document.getElementById('weeklyPriority').value = this.state.focus.priority;
+                document.getElementById('weeklyBlocker').value = this.state.focus.blocker;
+                document.getElementById('spreadingThin').classList.toggle('active', this.state.focus.spreadingThin);
+                document.getElementById('customerTalk').checked = this.state.focus.customerTalk;
+            }
+
+            renderGates() {
+                const gates = [
+                    { num: 1, trigger: '1 pilot deployed', status: 'gate1', action: 'Proceed → gather data' },
+                    { num: 2, trigger: '3 pilots running', status: 'gate2', action: 'Assess model accuracy' },
+                    { num: 3, trigger: '1 paying customer', status: 'gate3', action: 'Prove Assumption B' },
+                    { num: 4, trigger: '5 paying customers', status: 'gate4', action: 'Consider first hire' },
+                    { num: 5, trigger: '10 units + ₹2.5L revenue', status: 'gate5', action: 'Start investor conversations' }
+                ];
+
+                const tbody = document.getElementById('gatesBody');
+                tbody.innerHTML = gates.map(gate => {
+                    const isComplete = this.state.gates[gate.status];
+                    return `
+                        <tr>
+                            <td><strong>Gate ${gate.num}</strong></td>
+                            <td class="gate-trigger">${gate.trigger}</td>
+                            <td class="gate-status ${isComplete ? 'complete' : 'pending'}">
+                                ${isComplete ? '✅ Complete' : '⏳ Pending'}
+                            </td>
+                            <td>
+                                <button class="gate-button" ${isComplete ? 'disabled' : ''} onclick="dashboard.toggleGate('${gate.status}')">
+                                    ${isComplete ? '✓ Done' : 'Mark Complete'}
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+
+            toggleGate(gateKey) {
+                this.state.gates[gateKey] = !this.state.gates[gateKey];
+                this.saveState();
+                this.renderGates();
+                this.updateHealthIndicator();
+            }
+
+            renderProducts() {
+                const products = [
+                    { name: 'ShopSense', status: 'active', verdict: 'Primary focus' },
+                    { name: 'OLOG Platform', status: 'frozen', verdict: 'Resume after Gate 3' },
+                    { name: 'Web Design', status: 'paused', verdict: 'Only take inbound' },
+                    { name: 'AurumGuard', status: 'paused', verdict: 'Q4 2026 at earliest' },
+                    { name: 'Surveillance', status: 'paused', verdict: '2027' }
+                ];
+
+                const tbody = document.getElementById('productsBody');
+                tbody.innerHTML = products.map(product => {
+                    const emoji = product.status === 'active' ? '🟢' : product.status === 'frozen' ? '🟡' : '⏸️';
+                    const badgeClass = product.status === 'active' ? 'active' : product.status === 'frozen' ? 'frozen' : 'paused';
+
+                    return `
+                        <tr>
+                            <td class="product-name">${product.name}</td>
+                            <td>
+                                <span class="status-badge ${badgeClass}">
+                                    ${emoji} ${product.status.charAt(0).toUpperCase() + product.status.slice(1)}
+                                </span>
+                            </td>
+                            <td class="verdict-text">${product.verdict}</td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+
+            renderRisks() {
+                const risks = [
+                    { name: 'Hardware support burden', key: 'risk1' },
+                    { name: 'Solo founder scaling wall', key: 'risk2' },
+                    { name: 'Model accuracy in real shops', key: 'risk3' },
+                    { name: '₹25K price resistance', key: 'risk4' },
+                    { name: 'Cash burn before first sale', key: 'risk5' }
+                ];
+
+                const grid = document.getElementById('riskGrid');
+                grid.innerHTML = risks.map(risk => {
+                    const severity = this.state.risks[risk.key];
+                    const emoji = severity === 'high' ? '🔴' : severity === 'medium' ? '🟡' : '🟢';
+                    const severityClass = 'severity-' + severity;
+
+                    return `
+                        <div class="risk-item">
+                            <div class="risk-name">${risk.name}</div>
+                            <button class="risk-severity ${severityClass}" onclick="dashboard.cycleRiskSeverity('${risk.key}')">
+                                ${emoji} ${severity.charAt(0).toUpperCase() + severity.slice(1)}
+                            </button>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            cycleRiskSeverity(riskKey) {
+                const severities = ['low', 'medium', 'high'];
+                const current = this.state.risks[riskKey];
+                const idx = severities.indexOf(current);
+                this.state.risks[riskKey] = severities[(idx + 1) % severities.length];
+                this.saveState();
+                this.renderRisks();
+            }
+
+            updateHealthIndicator() {
+                // Calculate health from hypothesis + gates
+                const hypothesisVal = parseInt(document.getElementById('hypothesisProgress').value) || 0;
+                const gatesComplete = Object.values(this.state.gates).filter(Boolean).length;
+
+                let status = 'On Track';
+                let emoji = '🟢';
+
+                if (hypothesisVal === 0 && gatesComplete === 0) {
+                    status = 'Watch';
+                    emoji = '🟡';
+                } else if (hypothesisVal > 0 || gatesComplete > 1) {
+                    status = 'On Track';
+                    emoji = '🟢';
+                }
+
+                document.getElementById('healthStatus').textContent = status;
+                document.getElementById('healthEmoji').textContent = emoji;
+            }
+
+            setupEventListeners() {
+                // Hypothesis progress
+                document.getElementById('hypothesisProgress').addEventListener('change', () => {
+                    this.saveState();
+                    this.renderHypothesis();
+                    this.updateHealthIndicator();
+                    this.renderChart();
+                });
+
+                // Weekly focus
+                document.getElementById('weeklyPriority').addEventListener('change', (e) => {
+                    this.state.focus.priority = e.target.value;
+                    this.saveState();
+                });
+
+                document.getElementById('weeklyBlocker').addEventListener('change', (e) => {
+                    this.state.focus.blocker = e.target.value;
+                    this.saveState();
+                });
+
+                document.getElementById('spreadingThin').addEventListener('click', () => {
+                    this.state.focus.spreadingThin = !this.state.focus.spreadingThin;
+                    this.saveState();
+                    this.renderFocus();
+                });
+
+                document.getElementById('customerTalk').addEventListener('change', (e) => {
+                    this.state.focus.customerTalk = e.target.checked;
+                    this.saveState();
+                });
+            }
+        }
+
+        // Initialize
+        const dashboard = new Dashboard();
+
+        // Export function
+        function exportWeekly() {
+            const today = new Date();
+            const weekNum = Math.ceil((today - new Date(today.getFullYear(), 0, 1) + 1) / (7 * 24 * 60 * 60 * 1000));
+
+            let summary = `OORU LOGIX — WEEKLY REVIEW\n`;
+            summary += `Week ${weekNum}, 2026 | ${today.toLocaleDateString()}\n`;
+            summary += `${'='.repeat(60)}\n\n`;
+
+            summary += `HYPOTHESIS PROGRESS\n`;
+            const hypVal = parseInt(document.getElementById('hypothesisProgress').value) || 0;
+            summary += `Paying Customers: ${hypVal}/3\n`;
+            summary += `Verdict: ${document.getElementById('hypothesisVerdict').textContent}\n\n`;
+
+            summary += `KEY METRICS\n`;
+            Object.entries(dashboard.state.kpis).forEach(([key, data]) => {
+                const labels = {
+                    revenue: 'Revenue',
+                    deployed: 'Units Deployed',
+                    pilots: 'Active Pilots',
+                    customers: 'Paying Customers',
+                    linkedin: 'LinkedIn Followers',
+                    github: 'GitHub Stars'
+                };
+                summary += `${labels[key]}: ${data.current} (Target: ${data.target})\n`;
+            });
+            summary += '\n';
+
+            summary += `WEEKLY PRIORITIES\n`;
+            summary += `#1 Priority: ${dashboard.state.focus.priority || 'Not set'}\n`;
+            summary += `Blocker: ${dashboard.state.focus.blocker || 'None'}\n`;
+            summary += `Spreading thin: ${dashboard.state.focus.spreadingThin ? 'YES' : 'NO'}\n`;
+            summary += `Customer talk: ${dashboard.state.focus.customerTalk ? 'YES' : 'NO'}\n\n`;
+
+            summary += `PIPELINE SUMMARY\n`;
+            Object.entries(dashboard.state.pipeline).forEach(([stage, items]) => {
+                const labels = { identified: 'Identified', contacted: 'Contacted', pilot: 'Pilot', converted: 'Converted', lost: 'Lost' };
+                summary += `${labels[stage]}: ${items.length} shops\n`;
+            });
+            summary += '\n';
+
+            summary += `GATES PROGRESS\n`;
+            const gateNames = ['1 pilot deployed', '3 pilots running', '1 paying customer', '5 paying customers', '10 units + ₹2.5L revenue'];
+            Object.entries(dashboard.state.gates).forEach(([key, complete], i) => {
+                summary += `Gate ${i + 1}: ${gateNames[i]} - ${complete ? 'COMPLETE' : 'PENDING'}\n`;
+            });
+
+            const blob = new Blob([summary], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `OoruLogix_Week${weekNum}_Review.txt`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
