@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ExternalLink, CheckCircle2, ArrowRight, Layers, Globe, Zap, Users, Shield, Briefcase, Car, Palette, ShoppingBag, GraduationCap, Coffee, Sparkles, Edit3, Cpu, Activity, BarChart3, CloudConnect, Database } from 'lucide-react';
+import { ExternalLink, CheckCircle2, ArrowRight, Layers, Globe, Zap, Users, Shield, Briefcase, Car, Palette, ShoppingBag, GraduationCap, Coffee, Sparkles, Edit3, Cpu, Activity, BarChart3, Database } from 'lucide-react';
 import { PageRoute } from '../types';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -288,7 +288,7 @@ const Partners: React.FC = () => {
         {/* Global Connection Stats */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 mb-40">
           {[
-            { label: 'Mesh Integration Nodes', value: '742', icon: CloudConnect },
+            { label: 'Mesh Integration Nodes', value: '742', icon: Globe },
             { label: 'Hyper-Local Throughput', value: '1.2PB', icon: Zap },
             { label: 'Neural Path Syncs', value: '98%', icon: Activity },
             { label: 'Edge Latency', value: '0.4ms', icon: Globe }
