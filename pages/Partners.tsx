@@ -45,6 +45,7 @@ const partners: PartnerInfo[] = [
     metric: { label: 'Design Velocity', value: '3x Faster', icon: Zap },
     techStack: ['AI Hub', '3D Sync', 'Firebase'],
     status: 'ACTIVE NODE',
+    featured: true,
   },
   {
     name: 'Mouthful Tribal Chicken',
@@ -82,6 +83,7 @@ const partners: PartnerInfo[] = [
     metric: { label: 'Sourcing Speed', value: '40%', icon: Cpu },
     techStack: ['Marketplace API', 'Edge Cache'],
     status: 'STABILIZING',
+    featured: true,
   },
   {
     name: 'XGO3D Engineering',
@@ -156,6 +158,20 @@ const Partners: React.FC = () => {
       glow: 'bg-white/10',
       ctaColor: 'bg-white text-black hover:bg-gray-200',
       tagline: 'PRECISION AT EVERY POLYGON',
+    },
+    'Triangle Inside': {
+      gradient: 'from-cyan-950/40 via-cyber-950 to-teal-950/20',
+      accent: 'text-cyan-400',
+      glow: 'bg-cyan-500/10',
+      ctaColor: 'bg-cyan-500 text-black hover:bg-cyan-400',
+      tagline: 'LOGIC MEETS AESTHETIC',
+    },
+    'A Venue Services': {
+      gradient: 'from-purple-950/40 via-cyber-950 to-violet-950/20',
+      accent: 'text-purple-400',
+      glow: 'bg-purple-500/10',
+      ctaColor: 'bg-purple-500 text-black hover:bg-purple-400',
+      tagline: 'BUILD · DESIGN · CELEBRATE',
     },
   };
 
