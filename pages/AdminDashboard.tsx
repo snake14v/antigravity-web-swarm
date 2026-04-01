@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { db, collection, query, orderBy, onSnapshot, doc, updateDoc, deleteDoc, serverTimestamp } from '../services/firebase';
-import { 
-  LayoutDashboard, Users, Clock, CheckCircle, XCircle, Trash2, 
-  ExternalLink, Search, Filter, Loader2, MoreVertical, 
-  Kanban, List, Edit2, MessageSquare, ShieldCheck, 
-  ArrowRight, Phone, MapPin, Mail, AlertTriangle, Save, X, Plus, Terminal
+import {
+  LayoutDashboard, Users, Clock, CheckCircle, XCircle, Trash2,
+  ExternalLink, Search, Filter, Loader2, MoreVertical,
+  Kanban, List, Edit2, MessageSquare, ShieldCheck,
+  ArrowRight, Phone, MapPin, Mail, AlertTriangle, Save, X, Plus, Terminal,
+  ChevronLeft, ChevronRight,
+  Zap, Server, Network, Activity
 } from 'lucide-react';
+import SEO from '../components/SEO';
+import { CompanyOSStats, AgentsView, SkillsView, McpServersView, ScheduledTasksView, WorkflowsView } from '../components/CompanyOSTabs';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { 
@@ -24,7 +28,7 @@ const AdminDashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState<string>('all');
-  const [activeTab, setActiveTab] = useState<'registry' | 'payments' | 'kanban'>('registry');
+  const [activeTab, setActiveTab] = useState<'registry' | 'payments' | 'kanban' | 'agents' | 'skills' | 'mcps' | 'tasks' | 'workflows'>('registry');
   const [selectedRegId, setSelectedRegId] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
 
@@ -164,10 +168,27 @@ const AdminDashboard: React.FC = () => {
     }
   };
 
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 10;
+
+  const paginatedData = useMemo(() => {
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredData.slice(start, start + ITEMS_PER_PAGE);
+  }, [filteredData, currentPage]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredData.length / ITEMS_PER_PAGE));
+
+  // Reset page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, filterStatus]);
+
   return (
     <div className="pt-32 pb-20 min-h-screen bg-cyber-950 px-4 sm:px-6 lg:px-8">
+      <SEO title="Admin Dashboard" noIndex />
       <div className="max-w-7xl mx-auto">
-        
+
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
           <div>
@@ -194,16 +215,21 @@ const AdminDashboard: React.FC = () => {
 
         {/* Filters & View Toggles */}
         <div className="flex flex-col lg:flex-row gap-6 mb-8 items-center justify-between border-b border-white/5 pb-6">
-          <div className="flex gap-2 p-1 bg-cyber-900 border border-white/10 rounded-xl w-full lg:w-auto">
+          <div className="flex gap-2 p-1 bg-cyber-900 border border-white/10 rounded-xl w-full lg:w-auto overflow-x-auto">
             {[
               { id: 'registry', icon: List, label: 'Table View' },
-              { id: 'kanban', icon: Kanban, label: 'Kanban Board' },
-              { id: 'payments', icon: CheckCircle, label: 'Finance' }
+              { id: 'kanban', icon: Kanban, label: 'Kanban' },
+              { id: 'payments', icon: CheckCircle, label: 'Finance' },
+              { id: 'agents', icon: Users, label: 'Agents' },
+              { id: 'skills', icon: Zap, label: 'Skills' },
+              { id: 'mcps', icon: Server, label: 'MCPs' },
+              { id: 'tasks', icon: Clock, label: 'Tasks' },
+              { id: 'workflows', icon: Network, label: 'Flows' },
             ].map((tab) => (
-              <button 
+              <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`flex-1 lg:flex-none flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg text-xs font-bold tracking-widest uppercase transition-all ${
+                className={`flex-none flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-xs font-bold tracking-widest uppercase transition-all whitespace-nowrap ${
                   activeTab === tab.id ? 'bg-neon-cyan text-black shadow-lg shadow-cyan-500/20' : 'text-gray-500 hover:text-white'
                 }`}
               >
@@ -213,31 +239,33 @@ const AdminDashboard: React.FC = () => {
             ))}
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-3/5">
-            <div className="flex-1 relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600" size={18} />
-              <input 
-                type="text" 
-                placeholder="Search GRID nodes (Business, Owner, ID)..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full bg-cyber-900 border border-white/10 rounded-xl pl-12 pr-4 py-3 text-sm text-white focus:outline-none focus:border-neon-cyan transition-colors"
-              />
+          {['registry', 'kanban', 'payments'].includes(activeTab) && (
+            <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-3/5">
+              <div className="flex-1 relative">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600" size={18} />
+                <input
+                  type="text"
+                  placeholder="Search GRID nodes (Business, Owner, ID)..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full bg-cyber-900 border border-white/10 rounded-xl pl-12 pr-4 py-3 text-sm text-white focus:outline-none focus:border-neon-cyan transition-colors"
+                />
+              </div>
+              {activeTab !== 'kanban' && (
+                <select
+                  value={filterStatus}
+                  onChange={(e) => setFilterStatus(e.target.value)}
+                  className="bg-cyber-900 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-neon-cyan transition-colors appearance-none min-w-[150px]"
+                >
+                  <option value="all">All Statuses</option>
+                  <option value="pending">Pending</option>
+                  <option value="contacted">Contacted</option>
+                  <option value="audited">Audited</option>
+                  <option value="rejected">Rejected</option>
+                </select>
+              )}
             </div>
-            {activeTab !== 'kanban' && (
-              <select 
-                value={filterStatus}
-                onChange={(e) => setFilterStatus(e.target.value)}
-                className="bg-cyber-900 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-neon-cyan transition-colors appearance-none min-w-[150px]"
-              >
-                <option value="all">All Statuses</option>
-                <option value="pending">Pending</option>
-                <option value="contacted">Contacted</option>
-                <option value="audited">Audited</option>
-                <option value="rejected">Rejected</option>
-              </select>
-            )}
-          </div>
+          )}
         </div>
 
         {/* Content Area */}
@@ -247,26 +275,73 @@ const AdminDashboard: React.FC = () => {
             <p className="font-mono text-sm uppercase tracking-widest animate-pulse">Synchronizing with GRID Hub...</p>
           </div>
         ) : activeTab === 'kanban' ? (
-          <KanbanBoard 
-            registrations={filteredData} 
-            updateStatus={updateStatus} 
+          <KanbanBoard
+            registrations={filteredData}
+            updateStatus={updateStatus}
             onSelect={(id) => { setSelectedRegId(id); setShowModal(true); }}
           />
         ) : activeTab === 'registry' ? (
-          <NodeTable 
-            data={filteredData} 
-            updateStatus={updateStatus} 
-            onEdit={(reg) => { setSelectedRegId(reg.id); setShowModal(true); }}
-            deleteRegistration={deleteRegistration}
-            getStatusColor={getStatusColor}
-          />
-        ) : (
-          <FinanceTable 
-            data={registrations.filter(r => r.paymentStatus === 'pending_verification' || r.paymentStatus === 'verified')} 
+          <>
+            <NodeTable
+              data={paginatedData}
+              updateStatus={updateStatus}
+              onEdit={(reg) => { setSelectedRegId(reg.id); setShowModal(true); }}
+              deleteRegistration={deleteRegistration}
+              getStatusColor={getStatusColor}
+            />
+            {totalPages > 1 && (
+              <div className="flex items-center justify-between mt-6 px-2">
+                <span className="text-xs font-mono text-gray-500">
+                  Showing {((currentPage - 1) * ITEMS_PER_PAGE) + 1}–{Math.min(currentPage * ITEMS_PER_PAGE, filteredData.length)} of {filteredData.length} nodes
+                </span>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                    disabled={currentPage === 1}
+                    className="p-2 rounded-lg border border-white/10 text-gray-400 hover:text-white hover:border-neon-cyan/30 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                  >
+                    <ChevronLeft size={16} />
+                  </button>
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                    <button
+                      key={page}
+                      onClick={() => setCurrentPage(page)}
+                      className={`w-8 h-8 rounded-lg text-xs font-mono transition-colors ${
+                        page === currentPage
+                          ? 'bg-neon-cyan/20 text-neon-cyan border border-neon-cyan/30'
+                          : 'border border-white/10 text-gray-500 hover:text-white hover:border-white/20'
+                      }`}
+                    >
+                      {page}
+                    </button>
+                  ))}
+                  <button
+                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                    disabled={currentPage === totalPages}
+                    className="p-2 rounded-lg border border-white/10 text-gray-400 hover:text-white hover:border-neon-cyan/30 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                  >
+                    <ChevronRight size={16} />
+                  </button>
+                </div>
+              </div>
+            )}
+          </>
+        ) : activeTab === 'payments' ? (
+          <FinanceTable
+            data={registrations.filter(r => r.paymentStatus === 'pending_verification' || r.paymentStatus === 'verified')}
             verifyPayment={verifyPayment}
             getPaymentStatusColor={getPaymentStatusColor}
             deleteRegistration={deleteRegistration}
           />
+        ) : (
+          <div>
+            <CompanyOSStats />
+            {activeTab === 'agents' && <AgentsView />}
+            {activeTab === 'skills' && <SkillsView />}
+            {activeTab === 'mcps' && <McpServersView />}
+            {activeTab === 'tasks' && <ScheduledTasksView />}
+            {activeTab === 'workflows' && <WorkflowsView />}
+          </div>
         )}
 
         {/* Detailed Modal */}

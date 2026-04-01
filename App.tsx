@@ -4,6 +4,8 @@ import { Toaster } from 'react-hot-toast';
 import Navbar from './components/Navbar';
 import BottomNav from './components/BottomNav';
 import Footer from './components/Footer';
+import ErrorBoundary from './components/ErrorBoundary';
+import StructuredData from './components/StructuredData';
 import { PageRoute } from './types';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { HardwareBridgeProvider } from './context/HardwareBridgeContext';
@@ -92,6 +94,7 @@ import SystemHealthHUD from './components/SystemHealthHUD';
 
 const App: React.FC = () => {
   return (
+    <ErrorBoundary>
     <AuthProvider>
       <HardwareBridgeProvider>
         <Router>
@@ -100,7 +103,8 @@ const App: React.FC = () => {
           <HashScroll />
           <CustomCursor />
           <SystemHealthHUD />
-          <Toaster 
+          <StructuredData type="all" />
+          <Toaster
             position="top-right"
             toastOptions={{
               style: {
@@ -118,6 +122,7 @@ const App: React.FC = () => {
           />
           <Navbar />
           <main className="flex-grow">
+            <ErrorBoundary>
             <Suspense fallback={<PageLoader />}>
               <Routes>
                 <Route path={PageRoute.HOME} element={<Home />} />
@@ -157,6 +162,7 @@ const App: React.FC = () => {
                 />
               </Routes>
             </Suspense>
+            </ErrorBoundary>
           </main>
           <Footer />
           <BottomNav />
@@ -164,6 +170,7 @@ const App: React.FC = () => {
       </Router>
       </HardwareBridgeProvider>
     </AuthProvider>
+    </ErrorBoundary>
   );
 };
 

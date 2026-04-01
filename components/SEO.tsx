@@ -7,15 +7,17 @@ interface SEOProps {
   canonical?: string;
   ogImage?: string;
   ogUrl?: string;
+  noIndex?: boolean;
 }
 
-const SEO: React.FC<SEOProps> = ({ 
-  title, 
-  description, 
-  keywords, 
+const SEO: React.FC<SEOProps> = ({
+  title,
+  description,
+  keywords,
   canonical,
   ogImage,
-  ogUrl 
+  ogUrl,
+  noIndex
 }) => {
   useEffect(() => {
     const baseTitle = "Ooru Logix";
@@ -69,7 +71,18 @@ const SEO: React.FC<SEOProps> = ({
     setMetaTag('og:title', fullTitle, true);
     setMetaTag('twitter:title', fullTitle);
 
-  }, [title, description, keywords, canonical, ogImage, ogUrl]);
+    // Robots meta tag
+    if (noIndex) {
+      setMetaTag('robots', 'noindex, nofollow');
+    } else {
+      // Remove noindex if previously set
+      const robotsMeta = document.querySelector('meta[name="robots"]');
+      if (robotsMeta) {
+        robotsMeta.setAttribute('content', 'index, follow');
+      }
+    }
+
+  }, [title, description, keywords, canonical, ogImage, ogUrl, noIndex]);
 
   return null;
 };

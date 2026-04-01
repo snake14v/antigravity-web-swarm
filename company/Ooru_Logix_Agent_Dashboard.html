@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ooru Logix - Agent Orchestration Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --navy: #0B2648;
+            --chai: #8B6F47;
+            --green: #2DB76F;
+            --cyan: #00FFFF;
+            --purple: #BD00FF;
+            --dark-bg: #0a0e27;
+            --card-bg: rgba(11, 38, 72, 0.4);
+            --border: rgba(0, 255, 255, 0.1);
+            --text-primary: #e0e8ff;
+            --text-secondary: #a0aec0;
+            --text-muted: #718096;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated grid background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(11, 38, 72, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px 30px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--cyan), var(--purple), var(--green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-shift 8s ease infinite;
+            letter-spacing: -0.5px;
+        }
+
+        @keyframes gradient-shift {
+            0%, 100% { filter: hue-rotate(0deg); }
+            50% { filter: hue-rotate(20deg); }
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            background: var(--green);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(45, 183, 111, 0.4); }
+            50% { opacity: 0.8; box-shadow: 0 0 0 8px rgba(45, 183, 111, 0); }
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .clock {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 16px;
+            color: var(--cyan);
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            background: rgba(11, 38, 72, 0.2);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .nav-tab {
+            padding: 10px 20px;
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .nav-tab:hover {
+            color: var(--text-primary);
+            border-color: var(--cyan);
+        }
+
+        .nav-tab.active {
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(189, 0, 255, 0.1));
+            border-color: var(--cyan);
+            color: var(--cyan);
+        }
+
+        /* View containers */
+        .view {
+            display: none;
+        }
+
+        .view.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Agent Grid View */
+        .agent-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .dept-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dept-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--cyan), var(--purple), var(--green));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .dept-card:hover {
+            border-color: var(--cyan);
+            transform: translateY(-5px);
+        }
+
+        .dept-card:hover::before {
+            opacity: 1;
+        }
+
+        .dept-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .dept-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--cyan), var(--purple));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .dept-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .dept-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .stat {
+            background: rgba(0, 255, 255, 0.05);
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid rgba(0, 255, 255, 0.1);
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--cyan);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        .dept-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--green);
+        }
+
+        .expand-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .dept-card.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Expanded Agent List */
+        .agent-list {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+        }
+
+        .agent-list.visible {
+            display: block;
+        }
+
+        .agent-item {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            border-left: 3px solid var(--cyan);
+            font-size: 13px;
+        }
+
+        .agent-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .agent-role {
+            color: var(--text-secondary);
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+        .agent-meta {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(45, 183, 111, 0.2);
+            color: var(--green);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Skill Catalog View */
+        .skill-search {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px 16px;
+            background: rgba(11, 38, 72, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--cyan);
+        }
+
+        .filter-select {
+            padding: 12px 16px;
+            background: rgba(11, 38, 72, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 14px;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--cyan);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .skill-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .skill-card:hover {
+            border-color: var(--cyan);
+            transform: translateY(-3px);
+        }
+
+        .skill-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 5px;
+        }
+
+        .skill-dept {
+            font-size: 12px;
+            color: var(--chai);
+            margin-bottom: 8px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .skill-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .skill-io {
+            font-size: 11px;
+            color: var(--text-muted);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* MCP Connections View */
+        .mcp-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .mcp-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 15px;
+            position: relative;
+        }
+
+        .mcp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 12px;
+        }
+
+        .mcp-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .mcp-status {
+            font-size: 11px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .status-connected {
+            background: rgba(45, 183, 111, 0.2);
+            color: var(--green);
+        }
+
+        .status-planned {
+            background: rgba(189, 0, 255, 0.2);
+            color: var(--purple);
+        }
+
+        .status-disconnected {
+            background: rgba(200, 100, 100, 0.2);
+            color: #ff6b6b;
+        }
+
+        .mcp-info {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .mcp-agents {
+            font-size: 11px;
+            color: var(--text-muted);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        .mcp-ping {
+            font-size: 11px;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--cyan);
+        }
+
+        /* Workflow Timeline View */
+        .timeline-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .timeline-btn {
+            padding: 10px 20px;
+            background: rgba(11, 38, 72, 0.4);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-btn.active {
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(189, 0, 255, 0.1));
+            border-color: var(--cyan);
+            color: var(--cyan);
+        }
+
+        .timeline {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(24, 1fr);
+            gap: 8px;
+            min-width: 1200px;
+        }
+
+        .time-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-align: center;
+            font-family: 'JetBrains Mono', monospace;
+            grid-column: span 1;
+            margin-bottom: 10px;
+        }
+
+        .workflow-block {
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.2), rgba(189, 0, 255, 0.2));
+            border: 1px solid var(--cyan);
+            border-radius: 4px;
+            padding: 8px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--cyan);
+            text-align: center;
+            grid-column: span 2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transition: all 0.3s ease;
+        }
+
+        .workflow-block:hover {
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+        }
+
+        .dept-color-sales { border-color: #ff6b6b; background: linear-gradient(135deg, rgba(255, 107, 107, 0.2), rgba(255, 107, 107, 0.1)); }
+        .dept-color-marketing { border-color: #ffa726; background: linear-gradient(135deg, rgba(255, 167, 38, 0.2), rgba(255, 167, 38, 0.1)); }
+        .dept-color-engineering { border-color: #42a5f5; background: linear-gradient(135deg, rgba(66, 165, 245, 0.2), rgba(66, 165, 245, 0.1)); }
+        .dept-color-finance { border-color: #ab47bc; background: linear-gradient(135deg, rgba(171, 71, 188, 0.2), rgba(171, 71, 188, 0.1)); }
+        .dept-color-webdev { border-color: var(--green); background: linear-gradient(135deg, rgba(45, 183, 111, 0.2), rgba(45, 183, 111, 0.1)); }
+        .dept-color-success { border-color: var(--chai); background: linear-gradient(135deg, rgba(139, 111, 71, 0.2), rgba(139, 111, 71, 0.1)); }
+
+        /* Metrics Dashboard View */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .metric-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .metric-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .metric-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--cyan);
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 8px;
+        }
+
+        .metric-sparkline {
+            width: 100%;
+            height: 30px;
+            margin-bottom: 8px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(0, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--cyan), var(--purple));
+            transition: width 0.5s ease;
+        }
+
+        /* Activity Log */
+        .activity-log {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .activity-log-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-time {
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+            min-width: 60px;
+        }
+
+        .activity-desc {
+            color: var(--text-secondary);
+            flex: 1;
+        }
+
+        .activity-agent {
+            color: var(--cyan);
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .agent-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-tabs {
+                width: 100%;
+                overflow-x: auto;
+            }
+
+            .time-slots {
+                grid-template-columns: repeat(12, 1fr);
+                min-width: 600px;
+            }
+
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .logo {
+                font-size: 24px;
+            }
+        }
+
+        /* Scroll styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 255, 255, 0.3);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="header-left">
+                <div class="logo">◊ OORU LOGIX</div>
+                <div class="status-indicator">
+                    <span class="status-dot"></span>
+                    <span>System Status: OPERATIONAL</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="clock" id="clock">00:00:00</div>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <button class="nav-tab active" data-view="agents">📊 Agent Grid</button>
+            <button class="nav-tab" data-view="skills">🔧 Skill Catalog</button>
+            <button class="nav-tab" data-view="mcp">🔗 MCP Connections</button>
+            <button class="nav-tab" data-view="workflow">⏱️ Workflow Timeline</button>
+            <button class="nav-tab" data-view="metrics">📈 Metrics</button>
+        </div>
+
+        <!-- Agent Grid View -->
+        <div id="agents" class="view active">
+            <div class="agent-grid" id="agent-grid"></div>
+        </div>
+
+        <!-- Skill Catalog View -->
+        <div id="skills" class="view">
+            <div class="skill-search">
+                <input type="text" class="search-input" id="skill-search" placeholder="Search skills...">
+                <select class="filter-select" id="dept-filter">
+                    <option value="">All Departments</option>
+                    <option value="Sales">Sales</option>
+                    <option value="Marketing">Marketing</option>
+                    <option value="Engineering">Engineering</option>
+                    <option value="Finance/Ops">Finance/Ops</option>
+                    <option value="Web Dev">Web Dev</option>
+                    <option value="Customer Success">Customer Success</option>
+                </select>
+            </div>
+            <div class="skills-grid" id="skills-grid"></div>
+        </div>
+
+        <!-- MCP Connections View -->
+        <div id="mcp" class="view">
+            <div class="mcp-grid" id="mcp-grid"></div>
+        </div>
+
+        <!-- Workflow Timeline View -->
+        <div id="workflow" class="view">
+            <div class="timeline-controls">
+                <button class="timeline-btn active" data-timeline="daily">Daily View</button>
+                <button class="timeline-btn" data-timeline="weekly">Weekly View</button>
+            </div>
+            <div class="timeline">
+                <div id="timeline-container"></div>
+            </div>
+        </div>
+
+        <!-- Metrics Dashboard View -->
+        <div id="metrics" class="view">
+            <div class="metrics-grid" id="metrics-grid"></div>
+            <div class="activity-log">
+                <div class="activity-log-title">Recent Agent Activity</div>
+                <div id="activity-log"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data Structure
+        const departments = {
+            Sales: {
+                icon: '💰',
+                color: '#ff6b6b',
+                agents: [
+                    { name: 'Lead Qualifier', role: 'Qualification', trigger: 'New inquiry', skills: 5, status: 'active' },
+                    { name: 'Outreach Drafter', role: 'Outreach', trigger: 'Scheduled daily', skills: 4, status: 'active' },
+                    { name: 'Deal Closer', role: 'Negotiation', trigger: 'Ready to close', skills: 6, status: 'active' },
+                    { name: 'Pilot Manager', role: 'POC Management', trigger: 'Pilot start', skills: 5, status: 'active' }
+                ]
+            },
+            Marketing: {
+                icon: '📢',
+                color: '#ffa726',
+                agents: [
+                    { name: 'Content Creator', role: 'Content Gen', trigger: 'Weekly schedule', skills: 7, status: 'active' },
+                    { name: 'Brand Guardian', role: 'Brand Control', trigger: 'On publish', skills: 4, status: 'active' },
+                    { name: 'SEO Monitor', role: 'SEO Analysis', trigger: 'Daily crawl', skills: 5, status: 'active' },
+                    { name: 'Social Scheduler', role: 'Social Posts', trigger: 'Content ready', skills: 5, status: 'active' }
+                ]
+            },
+            Engineering: {
+                icon: '⚙️',
+                color: '#42a5f5',
+                agents: [
+                    { name: 'Code Architect', role: 'Architecture', trigger: 'Design review', skills: 8, status: 'active' },
+                    { name: 'Deploy Manager', role: 'Deployment', trigger: 'On merge', skills: 6, status: 'active' },
+                    { name: 'Sprint Planner', role: 'Planning', trigger: 'Sprint start', skills: 5, status: 'active' },
+                    { name: 'Firmware Sync', role: 'Firmware', trigger: 'Release ready', skills: 4, status: 'active' },
+                    { name: 'Bug Triager', role: 'QA', trigger: 'Bug filed', skills: 6, status: 'active' }
+                ]
+            },
+            'Finance/Ops': {
+                icon: '💳',
+                color: '#ab47bc',
+                agents: [
+                    { name: 'Revenue Tracker', role: 'Revenue', trigger: 'Daily reconcile', skills: 5, status: 'active' },
+                    { name: 'Expense Logger', role: 'Expenses', trigger: 'Receipt scanned', skills: 4, status: 'active' },
+                    { name: 'Invoice Generator', role: 'Invoicing', trigger: 'Deal closed', skills: 5, status: 'active' },
+                    { name: 'Compliance Monitor', role: 'Compliance', trigger: 'Monthly audit', skills: 4, status: 'active' }
+                ]
+            },
+            'Web Dev': {
+                icon: '🌐',
+                color: var(--green),
+                agents: [
+                    { name: 'Web Architect', role: 'Architecture', trigger: 'Design ready', skills: 7, status: 'active' },
+                    { name: 'Frontend Engineer', role: 'Frontend', trigger: 'Spec ready', skills: 8, status: 'active' },
+                    { name: 'QA Tester', role: 'Testing', trigger: 'Build ready', skills: 6, status: 'active' },
+                    { name: 'SEO Optimizer', role: 'SEO', trigger: 'Content update', skills: 5, status: 'active' }
+                ]
+            },
+            'Customer Success': {
+                icon: '😊',
+                color: '#8B6F47',
+                agents: [
+                    { name: 'Onboarding Manager', role: 'Onboarding', trigger: 'Customer signup', skills: 6, status: 'active' },
+                    { name: 'Support Responder', role: 'Support', trigger: 'Ticket created', skills: 7, status: 'active' },
+                    { name: 'Health Monitor', role: 'Health Check', trigger: 'Weekly audit', skills: 5, status: 'active' }
+                ]
+            }
+        };
+
+        const skills = [
+            { name: 'Lead Scoring', dept: 'Sales', desc: 'AI-powered lead qualification', inputs: 'CRM data', outputs: 'Score 0-100' },
+            { name: 'Email Draft', dept: 'Sales', desc: 'Personalized email generation', inputs: 'Contact info', outputs: 'Email text' },
+            { name: 'Contract Analysis', dept: 'Sales', desc: 'Deal term extraction', inputs: 'Contract PDF', outputs: 'Terms JSON' },
+            { name: 'Pilot Tracking', dept: 'Sales', desc: 'POC metrics monitor', inputs: 'Usage data', outputs: 'Health report' },
+            { name: 'Blog Generator', dept: 'Marketing', desc: 'Long-form content creation', inputs: 'Topic, outline', outputs: 'Blog post' },
+            { name: 'Brand Checker', dept: 'Marketing', desc: 'Brand compliance audit', inputs: 'Content text', outputs: 'Compliance report' },
+            { name: 'SEO Analyzer', dept: 'Marketing', desc: 'Search optimization', inputs: 'Page URL', outputs: 'SEO score' },
+            { name: 'Social Post Gen', dept: 'Marketing', desc: 'Social media content', inputs: 'Topic', outputs: 'Post variants' },
+            { name: 'Code Review', dept: 'Engineering', desc: 'Automated code analysis', inputs: 'Code diff', outputs: 'Review comments' },
+            { name: 'Deployment', dept: 'Engineering', desc: 'Automated deployment', inputs: 'Build artifact', outputs: 'Deploy status' },
+            { name: 'Sprint Planning', dept: 'Engineering', desc: 'Task breakdown', inputs: 'Epics', outputs: 'Sprint backlog' },
+            { name: 'Firmware Update', dept: 'Engineering', desc: 'Device firmware sync', inputs: 'Firmware binary', outputs: 'Deploy report' },
+            { name: 'Bug Classification', dept: 'Engineering', desc: 'Bug triage automation', inputs: 'Bug report', outputs: 'Priority/Category' },
+            { name: 'Revenue Report', dept: 'Finance/Ops', desc: 'Financial reconciliation', inputs: 'Transaction logs', outputs: 'Report PDF' },
+            { name: 'Expense Categorize', dept: 'Finance/Ops', desc: 'Expense classification', inputs: 'Receipt OCR', outputs: 'Category' },
+            { name: 'Invoice Generate', dept: 'Finance/Ops', desc: 'Invoice creation', inputs: 'Deal data', outputs: 'Invoice PDF' },
+            { name: 'Compliance Check', dept: 'Finance/Ops', desc: 'Regulatory compliance', inputs: 'Transactions', outputs: 'Compliance report' },
+            { name: 'UI Design Gen', dept: 'Web Dev', desc: 'Component generation', inputs: 'Design spec', outputs: 'React code' },
+            { name: 'Component Build', dept: 'Web Dev', desc: 'Web component creation', inputs: 'Requirements', outputs: 'Component code' },
+            { name: 'Test Suite Gen', dept: 'Web Dev', desc: 'Automated test generation', inputs: 'Component code', outputs: 'Test file' },
+            { name: 'Page Optimizer', dept: 'Web Dev', desc: 'Page speed optimization', inputs: 'Page metrics', outputs: 'Optimization report' },
+            { name: 'Onboarding Flow', dept: 'Customer Success', desc: 'Customer onboarding', inputs: 'Customer data', outputs: 'Onboarding plan' },
+            { name: 'Ticket Router', dept: 'Customer Success', desc: 'Support ticket routing', inputs: 'Ticket content', outputs: 'Routing decision' },
+            { name: 'Health Score', dept: 'Customer Success', desc: 'Customer health metrics', inputs: 'Usage data', outputs: 'Health score' },
+            { name: 'Churn Predictor', dept: 'Customer Success', desc: 'Churn risk prediction', inputs: 'Customer data', outputs: 'Risk score' }
+        ];
+
+        const mcpServers = [
+            { name: 'GitHub', status: 'connected', agents: 4, ping: '23ms', desc: 'Code repositories' },
+            { name: 'Firebase', status: 'connected', agents: 3, ping: '45ms', desc: 'Auth & Data' },
+            { name: 'Razorpay', status: 'planned', agents: 0, ping: '—', desc: 'Payment gateway' },
+            { name: 'WhatsApp Business', status: 'planned', agents: 0, ping: '—', desc: 'Customer outreach' },
+            { name: 'Apollo', status: 'connected', agents: 2, ping: '67ms', desc: 'Lead enrichment' },
+            { name: 'Common Room', status: 'connected', agents: 1, ping: '34ms', desc: 'Account intelligence' },
+            { name: 'Google Drive', status: 'connected', agents: 5, ping: '56ms', desc: 'Document storage' },
+            { name: 'Slack', status: 'connected', agents: 6, ping: '78ms', desc: 'Team communications' },
+            { name: 'Figma', status: 'connected', agents: 2, ping: '89ms', desc: 'Design system' },
+            { name: 'Vercel', status: 'planned', agents: 0, ping: '—', desc: 'Web deployment' }
+        ];
+
+        const workflows = {
+            daily: [
+                { time: 6, name: 'Morning Briefing', dept: 'Sales' },
+                { time: 8, name: 'Content Check', dept: 'Marketing' },
+                { time: 9, name: 'Standup Prep', dept: 'Engineering' },
+                { time: 10, name: 'Health Monitor', dept: 'Customer Success' },
+                { time: 12, name: 'Revenue Sync', dept: 'Finance/Ops' },
+                { time: 14, name: 'Deploy Pipeline', dept: 'Engineering' },
+                { time: 16, name: 'Support Summary', dept: 'Customer Success' },
+                { time: 18, name: 'Daily Close', dept: 'Sales' }
+            ],
+            weekly: [
+                { day: 'Monday', time: 8, name: 'Weekly Plan', dept: 'Engineering' },
+                { day: 'Tuesday', time: 10, name: 'Content Sprint', dept: 'Marketing' },
+                { day: 'Wednesday', time: 14, name: 'Budget Review', dept: 'Finance/Ops' },
+                { day: 'Thursday', time: 9, name: 'Pipeline Review', dept: 'Sales' },
+                { day: 'Friday', time: 15, name: 'Deployment', dept: 'Web Dev' },
+                { day: 'Saturday', time: 8, name: 'Batch Jobs', dept: 'Engineering' }
+            ]
+        };
+
+        const metrics = [
+            { label: 'Pipeline Value', value: '$2.4M', trend: '+12%' },
+            { label: 'Monthly Revenue', value: '$127K', trend: '+8%' },
+            { label: 'Active Pilots', value: '14', trend: '+3' },
+            { label: 'Deploy Success Rate', value: '98.5%', trend: '+1.2%' },
+            { label: 'Content Published', value: '42', trend: '+18' },
+            { label: 'Model Accuracy', value: '94.2%', trend: '+2.1%' }
+        ];
+
+        const activities = [
+            { time: '14:32', agent: 'Deploy Manager', action: 'Deployed v2.3.1 to production' },
+            { time: '14:15', agent: 'Content Creator', action: 'Published 3 blog posts' },
+            { time: '13:48', agent: 'Revenue Tracker', action: 'Processed $45K revenue' },
+            { time: '13:22', agent: 'Support Responder', action: 'Resolved 12 tickets' },
+            { time: '12:56', agent: 'Code Architect', action: 'Completed design review' },
+            { time: '12:30', agent: 'Lead Qualifier', action: 'Qualified 8 new leads' }
+        ];
+
+        // Initialize Clock
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('clock').textContent = now.toLocaleTimeString();
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Render Agent Grid
+        function renderAgentGrid() {
+            const grid = document.getElementById('agent-grid');
+            grid.innerHTML = '';
+
+            Object.entries(departments).forEach(([deptName, deptData]) => {
+                const card = document.createElement('div');
+                card.className = 'dept-card';
+                card.innerHTML = `
+                    <div class="dept-header">
+                        <div class="dept-icon">${deptData.icon}</div>
+                        <div class="dept-name">${deptName}</div>
+                    </div>
+                    <div class="dept-stats">
+                        <div class="stat">
+                            <div class="stat-value">${deptData.agents.length}</div>
+                            <div class="stat-label">Agents</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">${Math.floor(deptData.agents.length * 1.2)}</div>
+                            <div class="stat-label">Skills</div>
+                        </div>
+                    </div>
+                    <div class="dept-status">
+                        <span class="status-dot" style="width: 8px; height: 8px; margin: 0;"></span>
+                        All operational
+                    </div>
+                    <div class="agent-list" style="display: none;">
+                        ${deptData.agents.map(agent => `
+                            <div class="agent-item">
+                                <div class="agent-name">${agent.name}</div>
+                                <div class="agent-role">${agent.role} • ${agent.trigger}</div>
+                                <div class="agent-meta">
+                                    <span class="badge">${agent.skills} skills</span>
+                                    <span class="badge">Active now</span>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div style="text-align: center; margin-top: 10px; font-size: 12px; color: var(--text-muted);">
+                        <span class="expand-icon">▼</span> Click to expand
+                    </div>
+                `;
+
+                card.addEventListener('click', function() {
+                    card.classList.toggle('expanded');
+                    const list = card.querySelector('.agent-list');
+                    list.classList.toggle('visible');
+                });
+
+                grid.appendChild(card);
+            });
+        }
+
+        // Render Skills
+        function renderSkills(filter = '', search = '') {
+            const grid = document.getElementById('skills-grid');
+            let filtered = skills;
+
+            if (filter) {
+                filtered = filtered.filter(s => s.dept === filter);
+            }
+
+            if (search) {
+                filtered = filtered.filter(s =>
+                    s.name.toLowerCase().includes(search.toLowerCase())
+                );
+            }
+
+            grid.innerHTML = filtered.map(skill => `
+                <div class="skill-card">
+                    <div class="skill-name">${skill.name}</div>
+                    <div class="skill-dept">${skill.dept}</div>
+                    <div class="skill-desc">${skill.desc}</div>
+                    <div class="skill-io"><strong>In:</strong> ${skill.inputs}<br><strong>Out:</strong> ${skill.outputs}</div>
+                </div>
+            `).join('');
+        }
+
+        // Render MCP Connections
+        function renderMCP() {
+            const grid = document.getElementById('mcp-grid');
+            grid.innerHTML = mcpServers.map(mcp => `
+                <div class="mcp-card">
+                    <div class="mcp-header">
+                        <div class="mcp-name">${mcp.name}</div>
+                        <div class="mcp-status status-${mcp.status}">${mcp.status.charAt(0).toUpperCase() + mcp.status.slice(1)}</div>
+                    </div>
+                    <div class="mcp-info">${mcp.desc}</div>
+                    <div class="mcp-agents">Used by: ${mcp.agents > 0 ? mcp.agents + ' agent(s)' : 'Setup pending'}</div>
+                    <div class="mcp-ping">Last ping: ${mcp.ping}</div>
+                </div>
+            `).join('');
+        }
+
+        // Render Workflow Timeline
+        function renderTimeline(type = 'daily') {
+            const container = document.getElementById('timeline-container');
+            const workflowList = workflows[type];
+            let html = '<div class="time-slots">';
+
+            if (type === 'daily') {
+                // Time labels
+                for (let i = 0; i < 24; i++) {
+                    html += `<div class="time-label">${String(i).padStart(2, '0')}h</div>`;
+                }
+
+                // Workflow blocks
+                workflowList.forEach(wf => {
+                    const deptClass = `dept-color-${wf.dept.toLowerCase().replace(/\s+/g, '').replace('/', '')}`;
+                    html += `<div class="workflow-block ${deptClass}" style="grid-column: span 2;">${wf.name}</div>`;
+                });
+            } else {
+                // Weekly view
+                const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+                html = '<div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px;">';
+
+                days.forEach(day => {
+                    const dayWorkflows = workflowList.filter(w => w.day && w.day.includes(day));
+                    const deptClass = dayWorkflows.length > 0 ? `dept-color-${dayWorkflows[0].dept.toLowerCase().replace(/\s+/g, '').replace('/', '')}` : 'dept-color-sales';
+                    html += `
+                        <div style="background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 15px; text-align: center;">
+                            <div style="font-weight: 600; margin-bottom: 10px;">${day}</div>
+                            ${dayWorkflows.map(w => `
+                                <div class="workflow-block ${deptClass}" style="grid-column: auto; margin-bottom: 8px; display: block;">${w.name}</div>
+                            `).join('')}
+                            ${dayWorkflows.length === 0 ? '<div style="color: var(--text-muted); font-size: 12px;">No workflows</div>' : ''}
+                        </div>
+                    `;
+                });
+                html += '</div>';
+                container.innerHTML = html;
+                return;
+            }
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        // Render Metrics
+        function renderMetrics() {
+            const grid = document.getElementById('metrics-grid');
+            grid.innerHTML = metrics.map((m, idx) => `
+                <div class="metric-card">
+                    <div class="metric-label">${m.label}</div>
+                    <div class="metric-value">${m.value}</div>
+                    <svg class="metric-sparkline" viewBox="0 0 100 30">
+                        <polyline points="0,25 10,20 20,22 30,18 40,15 50,20 60,12 70,18 80,10 90,15 100,12"
+                                  fill="none" stroke="var(--cyan)" stroke-width="2" vector-effect="non-scaling-stroke"/>
+                    </svg>
+                    <div style="font-size: 11px; color: var(--green);">${m.trend}</div>
+                </div>
+            `).join('');
+
+            // Revenue gate progress
+            const grid2 = document.createElement('div');
+            grid2.style.cssText = 'background: var(--card-bg); backdrop-filter: blur(10px); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-top: 30px;';
+            grid2.innerHTML = `
+                <div style="font-size: 14px; font-weight: 600; margin-bottom: 15px;">Revenue Gate Progress</div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 15px; margin-bottom: 20px;">
+                    <div>
+                        <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Gate 1</div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 100%;"></div></div>
+                        <div style="font-size: 11px; color: var(--cyan); margin-top: 4px;">$250K (Reached)</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Gate 2</div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 65%;"></div></div>
+                        <div style="font-size: 11px; color: var(--cyan); margin-top: 4px;">$1.95M / $3M</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Gate 3</div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 35%;"></div></div>
+                        <div style="font-size: 11px; color: var(--cyan); margin-top: 4px;">$1.75M / $5M</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Gate 4</div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 12%;"></div></div>
+                        <div style="font-size: 11px; color: var(--cyan); margin-top: 4px;">$2.4M / $20M</div>
+                    </div>
+                </div>
+            `;
+
+            grid.parentElement.insertBefore(grid2, grid.nextSibling);
+        }
+
+        // Render Activity Log
+        function renderActivityLog() {
+            const log = document.getElementById('activity-log');
+            log.innerHTML = activities.map(a => `
+                <div class="activity-item">
+                    <div class="activity-time">${a.time}</div>
+                    <div>
+                        <span class="activity-agent">${a.agent}</span>
+                        <span class="activity-desc"> — ${a.action}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Tab Navigation
+        document.querySelectorAll('.nav-tab').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+
+                btn.classList.add('active');
+                const viewId = btn.getAttribute('data-view');
+                document.getElementById(viewId).classList.add('active');
+            });
+        });
+
+        // Timeline Toggle
+        document.querySelectorAll('.timeline-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.timeline-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const type = btn.getAttribute('data-timeline');
+                renderTimeline(type);
+            });
+        });
+
+        // Skill Search & Filter
+        document.getElementById('skill-search').addEventListener('input', function() {
+            const search = this.value;
+            const filter = document.getElementById('dept-filter').value;
+            renderSkills(filter, search);
+        });
+
+        document.getElementById('dept-filter').addEventListener('change', function() {
+            const filter = this.value;
+            const search = document.getElementById('skill-search').value;
+            renderSkills(filter, search);
+        });
+
+        // Initial Render
+        renderAgentGrid();
+        renderSkills();
+        renderMCP();
+        renderTimeline('daily');
+        renderMetrics();
+        renderActivityLog();
+    </script>
+</body>
+</html>

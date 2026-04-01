@@ -1,3 +1,10 @@
 User-agent: *
 Allow: /
+
+# Block auth and admin pages
+Disallow: /#/login
+Disallow: /#/signup
+Disallow: /#/admin
+Disallow: /#/track
+
 Sitemap: https://www.oorulogix.com/sitemap.xml

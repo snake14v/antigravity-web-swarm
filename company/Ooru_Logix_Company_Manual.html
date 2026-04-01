@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ooru Logix — Company Operating Manual</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lato:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0B2648;
+  --navy-light: #153564;
+  --chai: #8B6F47;
+  --chai-light: #B8976A;
+  --green: #2DB76F;
+  --green-light: #4DD88F;
+  --off-white: #F8F7F4;
+  --dark-gray: #2D2D2D;
+  --light-gray: #7A7A7A;
+  --border: #D8D5CF;
+  --error: #EF4444;
+  --warning: #F59E0B;
+  --info: #3B82F6;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Lato', sans-serif;
+  background: var(--off-white);
+  color: var(--dark-gray);
+  line-height: 1.6;
+  font-size: 16px;
+}
+h1, h2, h3, h4, h5 { font-family: 'Inter', sans-serif; color: var(--navy); }
+h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; }
+h2 { font-size: 1.75rem; font-weight: 700; margin: 2.5rem 0 1rem; padding-bottom: 0.5rem; border-bottom: 3px solid var(--chai); }
+h3 { font-size: 1.3rem; font-weight: 600; margin: 1.5rem 0 0.75rem; color: var(--navy-light); }
+h4 { font-size: 1.1rem; font-weight: 600; margin: 1rem 0 0.5rem; }
+p { margin-bottom: 1rem; }
+a { color: var(--navy); text-decoration: underline; }
+a:hover { color: var(--chai); }
+code, pre { font-family: 'JetBrains Mono', monospace; }
+code { background: #EDE9E3; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+pre { background: var(--navy); color: #E2E8F0; padding: 1.25rem; border-radius: 8px; overflow-x: auto; font-size: 0.85rem; line-height: 1.5; margin: 1rem 0; }
+blockquote { border-left: 4px solid var(--chai); padding: 0.75rem 1.25rem; margin: 1rem 0; background: #F0ECE5; border-radius: 0 8px 8px 0; font-style: italic; color: var(--navy); }
+table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+th { background: var(--navy); color: white; padding: 10px 14px; text-align: left; font-family: 'Inter', sans-serif; font-weight: 600; }
+td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+tr:nth-child(even) { background: #F3F0EB; }
+tr:hover { background: #E8E3DA; }
+
+/* Layout */
+.wrapper { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 280px; background: var(--navy); color: white; padding: 2rem 1.5rem;
+  position: fixed; top: 0; left: 0; height: 100vh; overflow-y: auto;
+  z-index: 100;
+}
+.sidebar h2 { color: var(--chai-light); border-bottom: 2px solid var(--chai); font-size: 1.1rem; margin: 1.5rem 0 0.5rem; }
+.sidebar a { color: #CBD5E1; text-decoration: none; display: block; padding: 4px 0; font-size: 0.85rem; }
+.sidebar a:hover { color: var(--chai-light); }
+.sidebar .logo { font-family: 'Inter', sans-serif; font-weight: 800; font-size: 1.4rem; color: white; margin-bottom: 0.25rem; }
+.sidebar .tagline { color: var(--chai-light); font-size: 0.8rem; margin-bottom: 1.5rem; }
+.main { margin-left: 280px; padding: 3rem 4rem; max-width: 960px; }
+
+/* Cards */
+.card { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin: 1rem 0; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin: 1rem 0; }
+.card h4 { margin-top: 0; }
+
+/* Badges */
+.badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
+.badge-active { background: #D1FAE5; color: #065F46; }
+.badge-pending { background: #FEF3C7; color: #92400E; }
+.badge-frozen { background: #DBEAFE; color: #1E40AF; }
+.badge-deferred { background: #F3F4F6; color: #6B7280; }
+
+/* Status indicators */
+.status { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; }
+.status-green { background: var(--green); }
+.status-yellow { background: var(--warning); }
+.status-red { background: var(--error); }
+.status-gray { background: var(--light-gray); }
+
+/* Flowchart */
+.flow { background: var(--navy); color: #E2E8F0; padding: 1.5rem; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; line-height: 1.6; white-space: pre; overflow-x: auto; margin: 1rem 0; }
+
+/* Cover */
+.cover { background: linear-gradient(135deg, var(--navy) 0%, #1A3A5C 50%, var(--navy) 100%); color: white; padding: 4rem 3rem; border-radius: 12px; margin-bottom: 2rem; text-align: center; }
+.cover h1 { color: white; font-size: 3rem; margin-bottom: 0.5rem; }
+.cover .subtitle { color: var(--chai-light); font-size: 1.2rem; margin-bottom: 2rem; }
+.cover .meta { color: #94A3B8; font-size: 0.9rem; }
+
+/* Agent card */
+.agent-card { border-left: 4px solid var(--chai); }
+.agent-card .dept { color: var(--chai); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* Skill card */
+.skill-card { border-left: 4px solid var(--green); }
+.skill-card code { background: #D1FAE5; color: #065F46; }
+
+/* MCP card */
+.mcp-card { border-left: 4px solid var(--info); }
+
+/* Print */
+@media print {
+  .sidebar { display: none; }
+  .main { margin-left: 0; padding: 1rem; }
+  .cover { page-break-after: always; }
+  h2 { page-break-before: always; }
+  pre, .flow { white-space: pre-wrap; }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .main { margin-left: 0; padding: 1.5rem; }
+  .cover h1 { font-size: 2rem; }
+  .card-grid { grid-template-columns: 1fr; }
+  table { font-size: 0.8rem; }
+  th, td { padding: 6px 8px; }
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+<!-- SIDEBAR NAVIGATION -->
+<nav class="sidebar">
+  <div class="logo">OORU LOGIX</div>
+  <div class="tagline">Company Operating Manual</div>
+
+  <h2>Foundations</h2>
+  <a href="#cover">Cover</a>
+  <a href="#mission">Mission & Vision</a>
+  <a href="#product-focus">Product Focus Policy</a>
+  <a href="#org-chart">Organization Chart</a>
+
+  <h2>Company OS</h2>
+  <a href="#architecture">5-Layer Architecture</a>
+  <a href="#agents">Layer 1: Agents</a>
+  <a href="#skills">Layer 2: Skills</a>
+  <a href="#knowledge">Layer 3: Knowledge</a>
+  <a href="#mcp">Layer 4: MCP Servers</a>
+  <a href="#plugins">Layer 5: Plugins</a>
+
+  <h2>Operations</h2>
+  <a href="#workflows">Workflows</a>
+  <a href="#daily-ops">Daily Operations</a>
+  <a href="#sales-pipeline">Sales Pipeline</a>
+  <a href="#content-calendar">Content Calendar</a>
+  <a href="#weekly-review">Weekly Business Review</a>
+  <a href="#onboarding">Client Onboarding</a>
+
+  <h2>Web Development</h2>
+  <a href="#webdev-team">Web Dev Team</a>
+  <a href="#tech-stack">Tech Stack</a>
+  <a href="#deploy-process">Deploy Process</a>
+
+  <h2>Product</h2>
+  <a href="#shopsense">ShopSense</a>
+  <a href="#revenue-model">Revenue Model</a>
+  <a href="#gtm">Go-To-Market</a>
+  <a href="#gates">Gates & Milestones</a>
+
+  <h2>Brand</h2>
+  <a href="#brand-voice">Voice & Tone</a>
+  <a href="#brand-colors">Colors & Typography</a>
+
+  <h2>Reference</h2>
+  <a href="#file-index">File Index</a>
+  <a href="#glossary">Glossary</a>
+</nav>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+<!-- COVER -->
+<div class="cover" id="cover">
+  <h1>Ooru Logix</h1>
+  <div class="subtitle">Company Operating Manual</div>
+  <p style="color:#CBD5E1; max-width:600px; margin:0 auto 2rem;">A company that runs on agents, skills, knowledge, plugins, and MCP servers. Built by Vaishak. Powered by AI.</p>
+  <div class="meta">
+    Version 2.0 &middot; April 2026 &middot; Bangalore, India<br>
+    Founded by Vaishak &middot; vaishakrn@xgo3d.com<br>
+    oorulogix.com &middot; xgo3d.com
+  </div>
+</div>
+
+<!-- MISSION -->
+<h2 id="mission">Mission & Vision</h2>
+<blockquote>Transform Bangalore's unorganized retail sector with AI-powered intelligence that any shop owner can afford and use — no cloud dependency, no monthly SaaS trap, no complexity.</blockquote>
+
+<h3>Vision</h3>
+<p>Become the default operating system for India's 12 million+ small retail shops by 2030, starting with Bangalore's hyper-local ecosystem.</p>
+
+<h3>Values</h3>
+<div class="card-grid">
+  <div class="card"><h4>Local-First, Always</h4><p>We build for the guy running a chai angadi at 5 AM. Every feature must work offline, on slow internet, in a dimly lit shop.</p></div>
+  <div class="card"><h4>AI That Serves, Not Surveils</h4><p>Our AI helps merchants sell more and waste less. We never sell their data. They own their customers. Period.</p></div>
+  <div class="card"><h4>Hardware Meets Software</h4><p>Through our dual entities (Ooru Logix + xgo3d Engineering), we control the full stack — from 3D-printed camera mounts to YOLO model inference.</p></div>
+  <div class="card"><h4>Build With AI, Not Just For AI</h4><p>Our company itself is run by AI agents. Claude and Antigravity are not tools — they are team members with defined roles, workflows, and memory continuity.</p></div>
+</div>
+
+<h3>What We Are</h3>
+<p>An <strong>AI + Hardware</strong> company that builds intelligence into physical retail spaces. A <strong>local-first</strong> tech company that understands Bangalore deeply. An <strong>agent-orchestrated</strong> company where AI does most operational work.</p>
+
+<h3>What We Are NOT</h3>
+<p>Not a POS software company (we use cameras, not scanners). Not a SaaS platform (one-time hardware cost, no monthly). Not a consulting firm (we ship product).</p>
+
+<!-- PRODUCT FOCUS -->
+<h2 id="product-focus">Product Focus Policy</h2>
+<blockquote>ShopSense is the bet. Everything else is noise until the bet wins.</blockquote>
+
+<table>
+  <tr><th>Product</th><th>Status</th><th>Resume Condition</th></tr>
+  <tr><td><strong>ShopSense</strong></td><td><span class="badge badge-active">ACTIVE</span></td><td>N/A — this IS the priority</td></tr>
+  <tr><td>OLOG Platform</td><td><span class="badge badge-frozen">FROZEN</span></td><td>Gate 2: First paying customer</td></tr>
+  <tr><td>Web Design Services</td><td><span class="badge badge-pending">PAUSED</span></td><td>Gate 4: 5 paying customers</td></tr>
+  <tr><td>AurumGuard MK II</td><td><span class="badge badge-deferred">DEFERRED</span></td><td>Q4 2026 at earliest</td></tr>
+  <tr><td>Surveillance/IoT</td><td><span class="badge badge-deferred">NOT STARTED</span></td><td>2027 or later</td></tr>
+</table>
+
+<p><strong>Decision Rule:</strong> Every hour spent on non-ShopSense work is an hour NOT spent proving the core bet works. ShopSense revenue per hour (₹4,583/hr) beats web design (₹400/hr) by 11x.</p>
+
+<!-- ORG CHART -->
+<h2 id="org-chart">Organization Chart</h2>
+<pre>
+                 ┌─────────────────────────────────┐
+                 │     VAISHAK — FOUNDER / CEO      │
+                 │  Architecture · Strategy · Sales  │
+                 └──────────────┬──────────────────┘
+                                │
+           ┌────────────────────┼────────────────────┐
+           │                    │                    │
+    ┌──────▼──────┐     ┌──────▼──────┐     ┌───────▼──────┐
+    │   CLAUDE    │     │ ANTIGRAVITY │     │  WEB DEV     │
+    │   (Opus)    │     │  (Gemini)   │     │   TEAM       │
+    │             │     │             │     │  (6 agents)  │
+    │ Strategy    │     │ Execution   │     │              │
+    │ Planning    │     │ Building    │     │ Frontend     │
+    │ Research    │     │ UI/UX       │     │ Design Sys   │
+    │ Sales copy  │     │ Deploy      │     │ QA/Testing   │
+    │ Finance     │     │ Testing     │     │ SEO/Deploy   │
+    └─────────────┘     └─────────────┘     └──────────────┘
+</pre>
+
+<h3>Team: Current</h3>
+<table>
+  <tr><th>Role</th><th>Person/Agent</th><th>Responsibility</th></tr>
+  <tr><td>Founder & CEO</td><td>Vaishak</td><td>All human decisions, customer-facing, hardware assembly</td></tr>
+  <tr><td>AI Strategy & Research</td><td>Claude (Opus)</td><td>Architecture, planning, marketing copy, finance, code review</td></tr>
+  <tr><td>AI Execution & Build</td><td>Antigravity (Gemini)</td><td>Feature building, UI/UX, deployment, file operations</td></tr>
+  <tr><td>AI Agents (18 total)</td><td>Defined in Agent Registry</td><td>Autonomous functions across 4 departments</td></tr>
+</table>
+
+<h3>Hiring Triggers</h3>
+<table>
+  <tr><th>Phase</th><th>When</th><th>Hire</th></tr>
+  <tr><td>Phase 2</td><td>Revenue &gt; ₹1L/month</td><td>Field Engineer + Sales Associate</td></tr>
+  <tr><td>Phase 3</td><td>Revenue &gt; ₹5L/month</td><td>Junior Developer + Marketing Intern</td></tr>
+  <tr><td>Phase 4</td><td>Revenue &gt; ₹20L/month</td><td>ML Engineer + Operations Manager</td></tr>
+</table>
+
+<!-- ARCHITECTURE -->
+<h2 id="architecture">5-Layer Company OS Architecture</h2>
+<p>Ooru Logix operates as an AI-native company built on five interconnected layers:</p>
+
+<div class="flow">
+LAYER 1: AGENTS      → 18 AI workers across 4 departments (Sales, Marketing, Engineering, Finance/Ops)
+LAYER 2: SKILLS      → 28 executable capabilities agents invoke to complete tasks
+LAYER 3: KNOWLEDGE   → Persistent memory that survives across sessions (Obsidian vault)
+LAYER 4: MCP SERVERS → 7 authenticated bridges to external platforms
+LAYER 5: PLUGINS     → 5 bundled department packages (agents + skills + MCP)
+</div>
+
+<h3>Design Principles</h3>
+<div class="card-grid">
+  <div class="card"><h4>Agents are stateless</h4><p>They read knowledge, act, and write back. No hidden state between sessions.</p></div>
+  <div class="card"><h4>Skills are pure functions</h4><p>Given inputs, they produce outputs. Side effects only via MCP servers.</p></div>
+  <div class="card"><h4>Knowledge is the single source of truth</h4><p>If it's not in the vault, it doesn't exist.</p></div>
+  <div class="card"><h4>MCP servers are the only external interface</h4><p>Agents never call APIs directly.</p></div>
+  <div class="card"><h4>Plugins are composable</h4><p>Install/uninstall a department without breaking others.</p></div>
+  <div class="card"><h4>Vaishak is the override</h4><p>Any agent decision can be overridden. Agents escalate, never assume.</p></div>
+</div>
+
+<!-- AGENTS -->
+<h2 id="agents">Layer 1: Agents (18 Total)</h2>
+<p>Agents are autonomous AI workers. Each has a name, department, defined triggers, and a set of skills it can invoke.</p>
+
+<h3>Sales & GTM (3 agents)</h3>
+<div class="card-grid">
+  <div class="card agent-card"><div class="dept">Sales</div><h4>Deal Closer</h4><p>Qualifies leads, manages pilots, handles objections, closes deals. Triggers: "new lead", "pilot update", "convert".</p><p><strong>Skills:</strong> <code>lead-qualify</code> <code>pilot-track</code> <code>proposal-draft</code> <code>objection-handle</code></p><p><strong>MCP:</strong> whatsapp, razorpay, gdrive</p></div>
+  <div class="card agent-card"><div class="dept">Sales</div><h4>Outreach Writer</h4><p>Drafts cold outreach, follow-up sequences, personalized DMs. Never sends without Vaishak approval.</p><p><strong>Skills:</strong> <code>outreach-draft</code> <code>follow-up-sequence</code> <code>brand-review</code></p><p><strong>MCP:</strong> linkedin, whatsapp</p></div>
+  <div class="card agent-card"><div class="dept">Sales</div><h4>Pipeline Manager</h4><p>Tracks deal stages, forecasts revenue, flags stale deals, pipeline hygiene.</p><p><strong>Skills:</strong> <code>pipeline-review</code> <code>forecast-gen</code> <code>kpi-dashboard</code></p><p><strong>MCP:</strong> gdrive, razorpay</p></div>
+</div>
+
+<h3>Marketing & Content (4 agents)</h3>
+<div class="card-grid">
+  <div class="card agent-card"><div class="dept">Marketing</div><h4>Content Engine</h4><p>Writes LinkedIn posts, blog articles, Instagram captions, email content.</p><p><strong>Skills:</strong> <code>linkedin-post</code> <code>instagram-caption</code> <code>blog-draft</code></p><p><strong>MCP:</strong> linkedin, gdrive</p></div>
+  <div class="card agent-card"><div class="dept">Marketing</div><h4>Brand Guardian</h4><p>Reviews all outbound content for brand voice, tone, and visual consistency. Score 1-10.</p><p><strong>Skills:</strong> <code>brand-review</code> <code>tone-score</code></p></div>
+  <div class="card agent-card"><div class="dept">Marketing</div><h4>SEO Strategist</h4><p>Meta tags, keyword targeting, Open Graph, sitemap, search ranking.</p><p><strong>Skills:</strong> <code>seo-audit</code> <code>keyword-research</code></p><p><strong>MCP:</strong> vercel, github</p></div>
+  <div class="card agent-card"><div class="dept">Marketing</div><h4>Social Scheduler</h4><p>Content calendar, posting cadence, engagement tracking.</p><p><strong>Skills:</strong> <code>content-schedule</code> <code>engagement-report</code></p><p><strong>MCP:</strong> linkedin, gdrive</p></div>
+</div>
+
+<h3>Engineering & Product (5 agents)</h3>
+<div class="card-grid">
+  <div class="card agent-card"><div class="dept">Engineering</div><h4>Chief Architect</h4><p>System design, architecture decisions, code review, technical debt.</p><p><strong>Skills:</strong> <code>code-review</code> <code>architecture-decision</code> <code>tech-debt-audit</code></p><p><strong>MCP:</strong> github, vercel</p></div>
+  <div class="card agent-card"><div class="dept">Engineering</div><h4>Sprint Driver</h4><p>Chunk management, PROGRESS.md updates, blocker tracking, sprint planning.</p><p><strong>Skills:</strong> <code>sprint-plan</code> <code>chunk-manage</code></p><p><strong>MCP:</strong> github</p></div>
+  <div class="card agent-card"><div class="dept">Engineering</div><h4>Firmware Bridge</h4><p>Pi firmware coordination, sensor data alignment, hardware-software sync.</p><p><strong>Skills:</strong> <code>firmware-sync</code> <code>sensor-validate</code></p><p><strong>MCP:</strong> github</p></div>
+  <div class="card agent-card"><div class="dept">Engineering</div><h4>QA Sentinel</h4><p>Build verification, test execution, accessibility audits.</p><p><strong>Skills:</strong> <code>build-verify</code> <code>test-run</code> <code>accessibility-audit</code></p><p><strong>MCP:</strong> github, vercel</p></div>
+  <div class="card agent-card"><div class="dept">Engineering</div><h4>GitHub Ops</h4><p>Repo health, branch management, CI/CD, release management.</p><p><strong>Skills:</strong> <code>repo-manage</code> <code>release-create</code> <code>ci-monitor</code></p><p><strong>MCP:</strong> github, vercel</p></div>
+</div>
+
+<h3>Finance & Operations (6 agents)</h3>
+<div class="card-grid">
+  <div class="card agent-card"><div class="dept">Finance</div><h4>Revenue Tracker</h4><p>Revenue tracking, payment status, MRR/ARR, invoicing.</p><p><strong>Skills:</strong> <code>revenue-log</code> <code>invoice-create</code> <code>mrr-calc</code></p><p><strong>MCP:</strong> razorpay, gdrive</p></div>
+  <div class="card agent-card"><div class="dept">Finance</div><h4>Expense Logger</h4><p>Cost categorization, runway calculation, burn rate tracking.</p><p><strong>Skills:</strong> <code>expense-track</code> <code>runway-calc</code></p><p><strong>MCP:</strong> razorpay, gdrive</p></div>
+  <div class="card agent-card"><div class="dept">Finance</div><h4>Compliance Bot</h4><p>GST deadlines, MSME status, trademark progress, legal compliance.</p><p><strong>Skills:</strong> <code>compliance-track</code> <code>deadline-alert</code></p><p><strong>MCP:</strong> gdrive</p></div>
+  <div class="card agent-card"><div class="dept">Ops</div><h4>Daily Dispatcher</h4><p>Morning standup, task prioritization, work routing.</p><p><strong>Skills:</strong> <code>standup-gen</code> <code>task-dispatch</code></p><p><strong>MCP:</strong> All servers</p></div>
+  <div class="card agent-card"><div class="dept">Ops</div><h4>Weekly Reviewer</h4><p>Weekly business review, KPI tracking, strategy check.</p><p><strong>Skills:</strong> <code>weekly-review</code> <code>kpi-dashboard</code></p><p><strong>MCP:</strong> All servers</p></div>
+  <div class="card agent-card"><div class="dept">Ops</div><h4>Client Success</h4><p>Customer onboarding, health checks, NPS, support.</p><p><strong>Skills:</strong> <code>client-onboard</code> <code>health-check</code> <code>nps-survey</code></p><p><strong>MCP:</strong> whatsapp, gdrive, firebase</p></div>
+</div>
+
+<!-- SKILLS -->
+<h2 id="skills">Layer 2: Skills (28 Total)</h2>
+<p>Skills are executable capabilities — discrete, reusable functions that agents call to get work done. Each has defined inputs, outputs, and MCP dependencies.</p>
+
+<h3>Sales Skills</h3>
+<table>
+  <tr><th>Skill</th><th>Purpose</th><th>Key Input</th><th>Key Output</th><th>MCP</th></tr>
+  <tr><td><code>lead-qualify</code></td><td>Score leads against ICP</td><td>Name, shop type, location, pain</td><td>Score (1-10), tier, action</td><td>—</td></tr>
+  <tr><td><code>pilot-track</code></td><td>Track 14-day pilots</td><td>Customer ID, pilot day, data</td><td>Summary, shrinkage estimate</td><td>—</td></tr>
+  <tr><td><code>invoice-gen</code></td><td>Generate invoice + payment link</td><td>Customer, amount, tier</td><td>PDF URL, Razorpay link</td><td>razorpay, gdrive</td></tr>
+  <tr><td><code>proposal-draft</code></td><td>Personalized pilot proposal</td><td>Shop details, est. loss</td><td>Proposal PDF, ROI calc</td><td>gdrive</td></tr>
+  <tr><td><code>objection-handle</code></td><td>Match objection to playbook</td><td>Objection text, context</td><td>Response draft, proof point</td><td>—</td></tr>
+  <tr><td><code>outreach-draft</code></td><td>Cold outreach messages</td><td>Prospect, channel, step #</td><td>Message draft, CTA</td><td>—</td></tr>
+</table>
+
+<h3>Marketing Skills</h3>
+<table>
+  <tr><th>Skill</th><th>Purpose</th><th>Key Input</th><th>Key Output</th><th>MCP</th></tr>
+  <tr><td><code>linkedin-post</code></td><td>Generate LinkedIn post</td><td>Topic, pillar, tone</td><td>Post text, hashtags, hook</td><td>—</td></tr>
+  <tr><td><code>instagram-caption</code></td><td>Generate IG caption</td><td>Image context, mood</td><td>Caption, 15-20 hashtags</td><td>—</td></tr>
+  <tr><td><code>blog-draft</code></td><td>Long-form article</td><td>Title, audience, keywords</td><td>Article markdown</td><td>—</td></tr>
+  <tr><td><code>brand-review</code></td><td>Audit content vs brand</td><td>Content text, type</td><td>Score (1-10), violations</td><td>—</td></tr>
+  <tr><td><code>seo-audit</code></td><td>SEO health check</td><td>URL, target keywords</td><td>Score, issues, fixes</td><td>vercel</td></tr>
+</table>
+
+<h3>Engineering Skills</h3>
+<table>
+  <tr><th>Skill</th><th>Purpose</th><th>Key Input</th><th>Key Output</th><th>MCP</th></tr>
+  <tr><td><code>code-review</code></td><td>Review PR for issues</td><td>Repo, PR number</td><td>Verdict, comments</td><td>github</td></tr>
+  <tr><td><code>sprint-plan</code></td><td>Plan sprint from chunks</td><td>Capacity hours</td><td>Ordered chunk list</td><td>—</td></tr>
+  <tr><td><code>deploy-check</code></td><td>Pre-deploy verification</td><td>Repo, branch, target</td><td>Checklist, ready bool</td><td>github, vercel</td></tr>
+  <tr><td><code>firmware-sync</code></td><td>Pi config alignment</td><td>Pi node, config file</td><td>Sync status, diffs</td><td>—</td></tr>
+  <tr><td><code>bug-triage</code></td><td>Categorize & assign bugs</td><td>Description, severity</td><td>Priority, assignment</td><td>—</td></tr>
+</table>
+
+<h3>Finance & Ops Skills</h3>
+<table>
+  <tr><th>Skill</th><th>Purpose</th><th>Key Input</th><th>Key Output</th><th>MCP</th></tr>
+  <tr><td><code>revenue-log</code></td><td>Record revenue event</td><td>Customer, amount, type</td><td>Ledger entry, MTD total</td><td>razorpay</td></tr>
+  <tr><td><code>expense-track</code></td><td>Log expense</td><td>Amount, category, vendor</td><td>Entry, burn rate, runway</td><td>—</td></tr>
+  <tr><td><code>gst-calc</code></td><td>Calculate GST</td><td>Amount, rate, type</td><td>CGST/SGST/IGST breakdown</td><td>—</td></tr>
+  <tr><td><code>standup-gen</code></td><td>Morning standup</td><td>Date</td><td>Summary, priorities, blockers</td><td>—</td></tr>
+  <tr><td><code>weekly-review</code></td><td>Weekly business review</td><td>Week range</td><td>WBR doc, KPIs, next steps</td><td>All</td></tr>
+  <tr><td><code>client-onboard</code></td><td>Customer setup</td><td>Name, phone, tier, date</td><td>Checklist, welcome msg</td><td>whatsapp, gdrive, firebase</td></tr>
+  <tr><td><code>kpi-dashboard</code></td><td>KPI snapshot</td><td>Period</td><td>All-dept metrics, gate status</td><td>—</td></tr>
+</table>
+
+<!-- KNOWLEDGE -->
+<h2 id="knowledge">Layer 3: Knowledge Base</h2>
+<p>Knowledge is persistent context that survives across sessions. Agents read before acting, write after completing work.</p>
+
+<h3>Knowledge Files</h3>
+<table>
+  <tr><th>Domain</th><th>File</th><th>Purpose</th><th>Sacred?</th></tr>
+  <tr><td>ShopSense</td><td>Pilot Tracker</td><td>Active pilots, deal stages, metrics</td><td>Update in-place</td></tr>
+  <tr><td>ShopSense</td><td>Customer Profiles</td><td>ICP data, individual customer notes</td><td>Append-only</td></tr>
+  <tr><td>ShopSense</td><td>Deployment Playbook</td><td>Step-by-step installation guide</td><td>No</td></tr>
+  <tr><td>ShopSense</td><td>Model Accuracy Log</td><td>YOLO model performance tracking</td><td>Append-only</td></tr>
+  <tr><td>Market</td><td>Competitive Intel</td><td>Competitor tracking, positioning</td><td>Append-only</td></tr>
+  <tr><td>Market</td><td>Bangalore Retail Map</td><td>Target neighborhoods, shop density</td><td>No</td></tr>
+  <tr><td>Market</td><td>Pricing Intelligence</td><td>Price sensitivity, willingness-to-pay</td><td>No</td></tr>
+  <tr><td>Operations</td><td>Finance Ledger</td><td>Revenue, expenses, cash position</td><td><strong>YES — Append-only</strong></td></tr>
+  <tr><td>Operations</td><td>Registration Status</td><td>GST, MSME, trademark progress</td><td>No</td></tr>
+  <tr><td>Operations</td><td>Vendor Directory</td><td>Suppliers, component sources, costs</td><td>No</td></tr>
+  <tr><td>Operations</td><td>Team Capacity</td><td>Time allocation, AI agent hours</td><td>No</td></tr>
+</table>
+
+<h3>Sacred Files (Never Delete)</h3>
+<div class="card" style="border-left: 4px solid var(--error);">
+  <h4>PROGRESS.md</h4><p>Global chunk tracker across all agents. Append-only.</p>
+  <h4>PROJECT_MEMORY.md</h4><p>Persistent cross-session context. Append-only.</p>
+  <h4>Finance Ledger.md</h4><p>Revenue and expense audit trail. Append-only.</p>
+  <h4>Customer Profiles.md</h4><p>Customer relationship history. Append-only.</p>
+</div>
+
+<!-- MCP -->
+<h2 id="mcp">Layer 4: MCP Servers (7 Total)</h2>
+<p>MCP servers are authenticated bridges to external platforms. They let agents read data from and write actions to tools like GitHub, Firebase, Razorpay, etc.</p>
+
+<div class="card-grid">
+  <div class="card mcp-card"><h4>GitHub MCP</h4><p><strong>Auth:</strong> PAT token</p><p><strong>Tools:</strong> repos, PRs, issues, actions, releases, file read/write</p><p><strong>Used by:</strong> GitHub Ops, Chief Architect, Sprint Driver, QA</p></div>
+  <div class="card mcp-card"><h4>Firebase MCP</h4><p><strong>Auth:</strong> Service Account JSON</p><p><strong>Tools:</strong> Firestore CRUD, Auth users, Analytics, Hosting deploy</p><p><strong>Used by:</strong> Client Success, Revenue Tracker</p></div>
+  <div class="card mcp-card"><h4>Razorpay MCP</h4><p><strong>Auth:</strong> API Key + Secret</p><p><strong>Tools:</strong> Payment links, orders, invoices, settlements, refunds</p><p><strong>Used by:</strong> Revenue Tracker, Deal Closer</p></div>
+  <div class="card mcp-card"><h4>WhatsApp MCP</h4><p><strong>Auth:</strong> Cloud API Token</p><p><strong>Tools:</strong> Send/receive messages, templates, documents, media</p><p><strong>Used by:</strong> Deal Closer, Client Success</p></div>
+  <div class="card mcp-card"><h4>LinkedIn MCP</h4><p><strong>Auth:</strong> OAuth 2.0</p><p><strong>Tools:</strong> Post creation, analytics, comment replies, profile updates</p><p><strong>Used by:</strong> Content Engine, Social Scheduler</p></div>
+  <div class="card mcp-card"><h4>Google Drive MCP</h4><p><strong>Auth:</strong> Service Account / OAuth</p><p><strong>Tools:</strong> File CRUD, sharing, Sheets read/write, Docs creation</p><p><strong>Used by:</strong> All agents (document storage)</p></div>
+  <div class="card mcp-card"><h4>Vercel MCP</h4><p><strong>Auth:</strong> API Token</p><p><strong>Tools:</strong> Deploy trigger/status, env vars, domains, logs</p><p><strong>Used by:</strong> GitHub Ops, Chief Architect</p></div>
+</div>
+
+<!-- PLUGINS -->
+<h2 id="plugins">Layer 5: Plugins (5 Total)</h2>
+<p>Plugins bundle agents + skills + MCP connections into composable department packages.</p>
+
+<table>
+  <tr><th>Plugin</th><th>Agents</th><th>Key Skills</th><th>MCP Deps</th><th>Purpose</th></tr>
+  <tr><td><strong>shopsense-sales</strong></td><td>Deal Closer, Outreach Writer, Pipeline Manager</td><td>lead-qualify, pilot-track, invoice-gen, proposal-draft</td><td>whatsapp, razorpay, gdrive</td><td>End-to-end sales pipeline</td></tr>
+  <tr><td><strong>content-engine</strong></td><td>Content Engine, Brand Guardian, SEO Strategist, Social Scheduler</td><td>linkedin-post, instagram-caption, brand-review</td><td>linkedin, gdrive, vercel</td><td>Marketing content creation</td></tr>
+  <tr><td><strong>dev-ops</strong></td><td>Chief Architect, Sprint Driver, Firmware Bridge, QA, GitHub Ops</td><td>code-review, sprint-plan, deploy-check</td><td>github, vercel, firebase</td><td>Engineering workflows</td></tr>
+  <tr><td><strong>finance-hub</strong></td><td>Revenue Tracker, Expense Logger, Compliance Bot</td><td>revenue-log, expense-track, gst-calc</td><td>razorpay, gdrive</td><td>Financial operations</td></tr>
+  <tr><td><strong>company-brain</strong></td><td>Daily Dispatcher, Weekly Reviewer, Client Success</td><td>standup-gen, weekly-review, client-onboard, kpi-dashboard</td><td>All servers</td><td>Cross-functional intelligence</td></tr>
+</table>
+
+<!-- WORKFLOWS -->
+<h2 id="workflows">Automated Workflows</h2>
+
+<h3 id="daily-ops">Daily Operations (9:00 AM IST)</h3>
+<div class="flow">
+[9:00 AM TRIGGER] → Daily Dispatcher reads PROGRESS.md, Pilot Tracker, Finance Ledger, Content Calendar
+         ↓
+   standup-gen skill → generates Yesterday / Today / Blockers / Metrics
+         ↓
+   Check for sub-triggers:
+     • New WhatsApp lead? → route to Sales Pipeline
+     • Pilot check-in due? → route to Deal Closer
+     • Content posting day? → route to Social Scheduler
+     • Compliance deadline &lt;7d? → alert Compliance Bot
+         ↓
+   Output: Standup summary + prioritized task list → Vaishak
+</div>
+
+<h3 id="sales-pipeline">Sales Pipeline (Event-Driven)</h3>
+<div class="flow">
+[NEW LEAD] → whatsapp-mcp reads message → Deal Closer activated
+         ↓
+   lead-qualify skill → Score 1-10
+         ↓
+   Score ≥ 6: proposal-draft → send via whatsapp-mcp → update Pilot Tracker
+   Score &lt; 6: Add to nurture list, monthly check
+         ↓
+   If pilot agreed: Day 1 deploy → Day 3 check → Day 7 review → Day 14 convert/drop
+         ↓
+   CONVERT → trigger Client Onboarding Workflow
+   DROP → log reason, nurture list
+</div>
+
+<h3 id="content-calendar">Content Calendar (Monday 10:00 AM)</h3>
+<div class="flow">
+[MONDAY TRIGGER] → Social Scheduler reviews calendar + last week's engagement
+         ↓
+   Content Engine drafts 2 LinkedIn + 2 Instagram pieces
+         ↓
+   Brand Guardian reviews each (score ≥ 7 to pass)
+         ↓
+   Queue: Tue 9:30 LinkedIn | Wed 6:00 Instagram | Thu 9:30 LinkedIn | Sat 11:00 Instagram
+         ↓
+   Vaishak reviews before publish
+</div>
+
+<h3 id="weekly-review">Weekly Business Review (Friday 5:00 PM)</h3>
+<div class="flow">
+[FRIDAY TRIGGER] → Weekly Reviewer gathers data from all MCP servers + Knowledge
+         ↓
+   weekly-review skill → generates KPIs, wins, misses, next week priorities
+         ↓
+   strategy-check → compare actual vs roadmap, flag off-track items
+         ↓
+   Output: WBR document → save to GDrive → notify Vaishak
+</div>
+
+<h3 id="onboarding">Client Onboarding (Payment Received)</h3>
+<div class="flow">
+[PAYMENT TRIGGER] → Revenue Tracker confirms via razorpay-mcp → Finance Ledger updated
+         ↓
+   Client Success → firebase-mcp creates user + gdrive-mcp creates folder
+         ↓
+   whatsapp-mcp sends welcome template → Installation scheduled
+         ↓
+   VAISHAK ON-SITE: Mount cameras → Connect Pi → WiFi → Calibrate → Train staff
+         ↓
+   Post-install: Day 1 verify → Day 3 call → Day 7 data review → Day 14 assessment → Day 30 NPS
+</div>
+
+<!-- WEB DEV TEAM -->
+<h2 id="webdev-team">Web Development Team</h2>
+<p>6 specialized agents dedicated to oorulogix.com and xgo3d.com development.</p>
+
+<table>
+  <tr><th>Agent</th><th>Role</th><th>Key Responsibility</th></tr>
+  <tr><td><strong>Web Dev Lead</strong></td><td>Orchestrator</td><td>Scopes features, assigns tasks, reviews output, coordinates deploys</td></tr>
+  <tr><td><strong>Frontend Engineer</strong></td><td>Builder</td><td>React components, pages, state management, routing, responsive</td></tr>
+  <tr><td><strong>Design Systems</strong></td><td>Standards</td><td>Design tokens, visual consistency, brand enforcement</td></tr>
+  <tr><td><strong>Content Integrator</strong></td><td>Copy bridge</td><td>Translates marketing copy into website-ready content</td></tr>
+  <tr><td><strong>Web QA & Testing</strong></td><td>Quality gate</td><td>Lighthouse audits, accessibility, responsive testing</td></tr>
+  <tr><td><strong>SEO & Analytics</strong></td><td>Visibility</td><td>Meta tags, structured data, analytics events, sitemap</td></tr>
+</table>
+
+<h3 id="tech-stack">Tech Stack</h3>
+<table>
+  <tr><th>Layer</th><th>Technology</th><th>Version</th></tr>
+  <tr><td>Framework</td><td>React + TypeScript</td><td>19 / 5.8</td></tr>
+  <tr><td>Build</td><td>Vite</td><td>6.2</td></tr>
+  <tr><td>Styling</td><td>TailwindCSS</td><td>4 (CDN)</td></tr>
+  <tr><td>Animation</td><td>Framer Motion</td><td>12.x</td></tr>
+  <tr><td>Icons</td><td>Lucide React</td><td>0.563</td></tr>
+  <tr><td>Auth & DB</td><td>Firebase</td><td>12.9</td></tr>
+  <tr><td>Charts</td><td>Recharts</td><td>3.7</td></tr>
+  <tr><td>Hosting</td><td>Vercel / Firebase Hosting</td><td>—</td></tr>
+</table>
+
+<h3 id="deploy-process">Deploy Process</h3>
+<div class="flow">
+Feature branch → PR created (GitHub Ops) → Code review (Chief Architect)
+         ↓
+   Web QA runs: npm build, Lighthouse, responsive, accessibility
+         ↓
+   Brand Guardian reviews visual/copy changes
+         ↓
+   PASS → Merge to main → Vercel auto-deploy → Post-deploy verify
+   FAIL → Back to Frontend Engineer with fix notes
+</div>
+
+<!-- SHOPSENSE -->
+<h2 id="shopsense">ShopSense — Core Product</h2>
+<blockquote>AI-powered billing, detection, and ops intelligence for chai angadis.</blockquote>
+
+<h3>Architecture</h3>
+<table>
+  <tr><th>Module</th><th>Detects</th><th>Hardware</th></tr>
+  <tr><td><strong>SmokeSense</strong></td><td>Cigarette brand + count</td><td>Pi 1, CSI Camera</td></tr>
+  <tr><td><strong>BrewSense</strong></td><td>Drink type + serving count</td><td>Pi 2, CSI Camera</td></tr>
+  <tr><td><strong>SnackSense</strong></td><td>Snack/biscuit SKU + count</td><td>Pi 2, ESP32-S3</td></tr>
+  <tr><td><strong>StaffSense</strong></td><td>Staff presence + idle time</td><td>Pi 2, ESP32-S3</td></tr>
+  <tr><td><strong>ComboBilling</strong></td><td>Cross-counter combo deals</td><td>Shared dashboard</td></tr>
+</table>
+
+<h3>Hardware BOM (Per Shop)</h3>
+<table>
+  <tr><th>Component</th><th>Qty</th><th>Cost (₹)</th></tr>
+  <tr><td>Raspberry Pi 4 8GB</td><td>2</td><td>~12,000</td></tr>
+  <tr><td>Pi Camera Module 3</td><td>2</td><td>~5,000</td></tr>
+  <tr><td>ESP32-S3-EYE</td><td>2</td><td>~3,000</td></tr>
+  <tr><td>7" DSI Touchscreen</td><td>1</td><td>~3,000</td></tr>
+  <tr><td>OLED + Buzzer + LEDs</td><td>1</td><td>~500</td></tr>
+  <tr><td>3D Printed Enclosure (xgo3d)</td><td>1</td><td>~1,500</td></tr>
+  <tr><td><strong>Total</strong></td><td></td><td><strong>~₹25,000</strong></td></tr>
+</table>
+
+<!-- REVENUE MODEL -->
+<h2 id="revenue-model">Revenue Model</h2>
+<table>
+  <tr><th>Tier</th><th>Includes</th><th>Price</th><th>Margin</th></tr>
+  <tr><td>Basic</td><td>1 Pi + 2 cameras + touchscreen</td><td>₹15,000</td><td>~40%</td></tr>
+  <tr><td>Pro</td><td>2 Pi + 4 cameras + full POS</td><td>₹25,000</td><td>~45%</td></tr>
+  <tr><td>Enterprise</td><td>Multi-shop dashboard + remote</td><td>₹50,000+</td><td>~55%</td></tr>
+</table>
+
+<h3>Year 1 Projections (Conservative)</h3>
+<table>
+  <tr><th>Quarter</th><th>ShopSense</th><th>Web Design</th><th>Other</th><th>Total</th></tr>
+  <tr><td>Q2 2026</td><td>₹50K</td><td>₹25K</td><td>₹10K</td><td>₹85K</td></tr>
+  <tr><td>Q3 2026</td><td>₹1.5L</td><td>₹50K</td><td>₹25K</td><td>₹2.25L</td></tr>
+  <tr><td>Q4 2026</td><td>₹3L</td><td>₹75K</td><td>₹50K</td><td>₹4.25L</td></tr>
+  <tr><td>Q1 2027</td><td>₹5L</td><td>₹1L</td><td>₹75K</td><td>₹6.75L</td></tr>
+  <tr><td><strong>Year 1</strong></td><td></td><td></td><td></td><td><strong>~₹13.3L</strong></td></tr>
+</table>
+
+<!-- GTM -->
+<h2 id="gtm">Go-To-Market Strategy</h2>
+<h3>Sales Motion</h3>
+<p><strong>Cold Walk-In (2-5 min)</strong> → <strong>Live Demo (15-20 min)</strong> → <strong>Free Pilot (14 days)</strong> → <strong>Conversion (Day 14)</strong></p>
+
+<h3>ICP (Ideal Customer Profile)</h3>
+<div class="card">
+  <p><strong>Shop type:</strong> Chai angadi, small kiosk, street-front tea stall</p>
+  <p><strong>Location:</strong> Bangalore, within 3km of Vaishak</p>
+  <p><strong>Turnover:</strong> ₹8-12L annual</p>
+  <p><strong>Owner:</strong> Age 35-55, 1-3 outlets, tech-skeptical but profit-hungry</p>
+  <p><strong>Pain:</strong> Stock loss ₹300-400/day, no data, staff trust issues</p>
+</div>
+
+<h3>Pricing: ₹25,000</h3>
+<p>Hardware cost: ₹13,750 (55%). Gross margin: 45%. ROI for shop: breaks even in 80 days.</p>
+<p><strong>Payment terms:</strong> Full upfront, or 3 installments of ₹8,500 (0% interest).</p>
+
+<!-- GATES -->
+<h2 id="gates">Gates & Milestones</h2>
+<table>
+  <tr><th>Gate</th><th>Target</th><th>Metric</th><th>Unlocks</th><th>Status</th></tr>
+  <tr><td><strong>Gate 1</strong></td><td>April 2026</td><td>First free pilot deployed</td><td>Validation data</td><td><span class="badge badge-pending">PENDING</span></td></tr>
+  <tr><td><strong>Gate 2</strong></td><td>May 2026</td><td>First paying customer (₹25K)</td><td>OLOG Platform dev resumes (20%)</td><td><span class="badge badge-pending">PENDING</span></td></tr>
+  <tr><td><strong>Gate 3</strong></td><td>Aug 2026</td><td>3 paying customers</td><td>OLOG Platform full dev</td><td><span class="badge badge-pending">PENDING</span></td></tr>
+  <tr><td><strong>Gate 4</strong></td><td>Nov 2026</td><td>5 paying customers</td><td>Web design services, Series A ready</td><td><span class="badge badge-pending">PENDING</span></td></tr>
+  <tr><td><strong>Gate 5</strong></td><td>Q2 2027</td><td>20 customers, ₹50K+/mo MRR</td><td>First hire, AurumGuard fabrication</td><td><span class="badge badge-pending">PENDING</span></td></tr>
+</table>
+
+<!-- BRAND -->
+<h2 id="brand-voice">Brand Voice & Tone</h2>
+
+<h3>Voice Attributes</h3>
+<div class="card-grid">
+  <div class="card"><h4>Direct</h4><p>No fluff. Tell the truth about the problem and the solution.</p></div>
+  <div class="card"><h4>Practical</h4><p>Focus on results, not features. What's the ROI?</p></div>
+  <div class="card"><h4>Warm</h4><p>We're not a big impersonal corporation. We're Vaishak + your shop.</p></div>
+  <div class="card"><h4>Curious</h4><p>We ask questions. We listen to shop owners. We learn.</p></div>
+  <div class="card"><h4>Ambitious</h4><p>We're building something that matters. Offline retail deserves better.</p></div>
+</div>
+
+<h3>Tone Examples</h3>
+<table>
+  <tr><th>Bad</th><th>Good</th></tr>
+  <tr><td>"Leverage cutting-edge AI inference paradigms to synergize retail optimization"</td><td>"See exactly what your customers buy. Know where you're losing money. Fix it."</td></tr>
+  <tr><td>"Our disruptive platform revolutionizes the retail intelligence landscape"</td><td>"We help chai shop owners recover ₹300-400 a day they didn't know they were losing."</td></tr>
+  <tr><td>"Schedule a demo"</td><td>"Let us show you what you're missing"</td></tr>
+</table>
+
+<h3>Taglines</h3>
+<div class="card">
+  <p><strong>Primary:</strong> "Edge AI for offline retail. Recover what you're losing."</p>
+  <p><strong>Product:</strong> "The AI that sits behind your counter."</p>
+  <p><strong>Sales:</strong> "₹300 a day your customers owe you. We help you recover it."</p>
+</div>
+
+<h2 id="brand-colors">Colors & Typography</h2>
+<div style="display:flex; gap:12px; flex-wrap:wrap; margin:1rem 0;">
+  <div style="width:120px; text-align:center;"><div style="width:100%; height:60px; background:#0B2648; border-radius:8px;"></div><p style="font-size:0.8rem; margin-top:4px;">Navy #0B2648</p></div>
+  <div style="width:120px; text-align:center;"><div style="width:100%; height:60px; background:#8B6F47; border-radius:8px;"></div><p style="font-size:0.8rem; margin-top:4px;">Chai #8B6F47</p></div>
+  <div style="width:120px; text-align:center;"><div style="width:100%; height:60px; background:#2DB76F; border-radius:8px;"></div><p style="font-size:0.8rem; margin-top:4px;">Green #2DB76F</p></div>
+  <div style="width:120px; text-align:center;"><div style="width:100%; height:60px; background:#F8F7F4; border-radius:8px; border:1px solid #D8D5CF;"></div><p style="font-size:0.8rem; margin-top:4px;">Off-White #F8F7F4</p></div>
+  <div style="width:120px; text-align:center;"><div style="width:100%; height:60px; background:#2D2D2D; border-radius:8px;"></div><p style="font-size:0.8rem; margin-top:4px;">Dark Gray #2D2D2D</p></div>
+</div>
+
+<table>
+  <tr><th>Usage</th><th>Font</th><th>Weights</th></tr>
+  <tr><td>Headings</td><td>Inter</td><td>700 (Bold), 600 (Semibold)</td></tr>
+  <tr><td>Body</td><td>Lato</td><td>400 (Regular), 500, 700</td></tr>
+  <tr><td>Code</td><td>JetBrains Mono</td><td>400, 600</td></tr>
+</table>
+
+<!-- FILE INDEX -->
+<h2 id="file-index">File Index</h2>
+<h3>Obsidian Vault (59 files)</h3>
+<table>
+  <tr><th>Directory</th><th>Files</th><th>Purpose</th></tr>
+  <tr><td><code>company/obsidian/</code></td><td>6 core docs</td><td>Home, Charter, Org Chart, Revenue Model, Architecture, Handover</td></tr>
+  <tr><td><code>agents/</code></td><td>24 files</td><td>22 agent workflow cards + index + Agent Registry + Web Dev Team</td></tr>
+  <tr><td><code>skills/</code></td><td>1 catalog</td><td>Skill Catalog (28 skills defined)</td></tr>
+  <tr><td><code>knowledge/shopsense/</code></td><td>4 files</td><td>Pilot Tracker, Customer Profiles, Deployment Playbook, Model Accuracy Log</td></tr>
+  <tr><td><code>knowledge/market/</code></td><td>3 files</td><td>Competitive Intel, Bangalore Retail Map, Pricing Intelligence</td></tr>
+  <tr><td><code>knowledge/operations/</code></td><td>4 files</td><td>Finance Ledger, Registration Status, Vendor Directory, Team Capacity</td></tr>
+  <tr><td><code>mcp-servers/</code></td><td>1 file</td><td>MCP Architecture (7 servers specced)</td></tr>
+  <tr><td><code>plugins/</code></td><td>1 file</td><td>Plugin Registry (5 plugins)</td></tr>
+  <tr><td><code>workflows/</code></td><td>1 file</td><td>Workflow Index (5 workflows)</td></tr>
+  <tr><td><code>marketing/</code></td><td>4 files</td><td>Brand Guidelines, Content Templates, LinkedIn/Instagram plans</td></tr>
+  <tr><td><code>operations/</code></td><td>4 files</td><td>Daily Standup, Sprint Planning, Client Onboarding, Finance Tracker</td></tr>
+  <tr><td><code>products/</code></td><td>2 files</td><td>ShopSense, OLOG Platform briefs</td></tr>
+  <tr><td><code>team/</code></td><td>3 files</td><td>Vaishak profile, Hiring Plan, AI Team Members</td></tr>
+</table>
+
+<h3>Key Non-Obsidian Files</h3>
+<table>
+  <tr><th>File</th><th>Purpose</th></tr>
+  <tr><td><code>PROGRESS.md</code></td><td>Global chunk tracker (sacred, append-only)</td></tr>
+  <tr><td><code>PROJECT_MEMORY.md</code></td><td>Cross-session persistent context</td></tr>
+  <tr><td><code>.env.local</code></td><td>Credentials (NEVER commit to git)</td></tr>
+  <tr><td><code>company/mcp-config.json</code></td><td>MCP server configuration</td></tr>
+</table>
+
+<!-- GLOSSARY -->
+<h2 id="glossary">Glossary</h2>
+<table>
+  <tr><th>Term</th><th>Definition</th></tr>
+  <tr><td><strong>Agent</strong></td><td>Autonomous AI worker with defined triggers, skills, and escalation rules</td></tr>
+  <tr><td><strong>Skill</strong></td><td>Executable capability with defined inputs/outputs that agents invoke</td></tr>
+  <tr><td><strong>Knowledge</strong></td><td>Persistent data/context stored in Obsidian vault that agents read/write</td></tr>
+  <tr><td><strong>MCP Server</strong></td><td>Model Context Protocol bridge to external platforms (GitHub, Firebase, etc.)</td></tr>
+  <tr><td><strong>Plugin</strong></td><td>Bundled package of agents + skills + MCP connections for one company function</td></tr>
+  <tr><td><strong>Chunk</strong></td><td>Atomic unit of work (C-XX format) tracked in PROGRESS.md</td></tr>
+  <tr><td><strong>Gate</strong></td><td>Business milestone that unlocks new products/hires when achieved</td></tr>
+  <tr><td><strong>Sacred File</strong></td><td>File that is append-only and must never be deleted</td></tr>
+  <tr><td><strong>ICP</strong></td><td>Ideal Customer Profile — the target buyer for ShopSense</td></tr>
+  <tr><td><strong>WBR</strong></td><td>Weekly Business Review — Friday KPI check and strategy assessment</td></tr>
+  <tr><td><strong>Chai Angadi</strong></td><td>Kannada for tea stall — the primary target market for ShopSense</td></tr>
+  <tr><td><strong>Pi</strong></td><td>Raspberry Pi 4 — the compute node in ShopSense hardware</td></tr>
+  <tr><td><strong>YOLOv8n</strong></td><td>Object detection model (nano variant) used for item recognition</td></tr>
+</table>
+
+<div style="margin-top:4rem; padding-top:2rem; border-top:3px solid var(--navy); text-align:center; color:var(--light-gray); font-size:0.85rem;">
+  <p><strong>Ooru Logix — Company Operating Manual</strong></p>
+  <p>Version 2.0 &middot; April 2026 &middot; Built by Vaishak + Claude</p>
+  <p>Edge AI for offline retail. Recover what you're losing.</p>
+</div>
+
+</div><!-- /main -->
+</div><!-- /wrapper -->
+</body>
+</html>

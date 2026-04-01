@@ -5,6 +5,7 @@ import { PageRoute } from '../types';
 import { LogIn, Mail, Lock, Loader2, AlertCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
+import SEO from '../components/SEO';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -82,6 +83,7 @@ const Login: React.FC = () => {
 
   return (
     <div className="pt-32 pb-20 min-h-screen bg-cyber-950 flex items-center justify-center px-4">
+      <SEO title="Login" noIndex />
       <div className="max-w-md w-full glass-panel p-8 rounded-3xl border border-white/10 shadow-2xl relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-neon-purple to-neon-cyan"></div>
         
