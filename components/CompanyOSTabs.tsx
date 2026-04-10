@@ -104,16 +104,18 @@ const SKILLS_DATA: Skill[] = [
 ];
 
 const MCP_SERVERS_DATA: MCPServer[] = [
-  { id: 'github', name: 'GitHub', status: 'Connected', agents: ['Code Architect', 'Deploy Manager', 'Sprint Planner', 'Firmware Sync', 'Bug Triager'], toolCount: 4, tools: ['repos', 'PRs', 'issues', 'commits'] },
-  { id: 'firebase', name: 'Firebase', status: 'Connected', agents: ['Deal Closer', 'Pilot Manager', 'Revenue Tracker', 'Expense Logger', 'Invoice Gen', 'Onboarding', 'Support', 'Health Monitor'], toolCount: 3, tools: ['auth', 'firestore', 'analytics'] },
-  { id: 'apollo', name: 'Apollo', status: 'Connected', agents: ['Lead Qualifier'], toolCount: 3, tools: ['enrich-lead', 'prospect', 'sequence-load'] },
-  { id: 'commonroom', name: 'Common Room', status: 'Connected', agents: ['Lead Qualifier'], toolCount: 3, tools: ['account-research', 'contact-research', 'prospect'] },
-  { id: 'slack', name: 'Slack', status: 'Connected', agents: ['Bug Triager'], toolCount: 3, tools: ['messaging', 'search', 'channel-digest'] },
-  { id: 'googledrive', name: 'Google Drive', status: 'Connected', agents: ['Content Creator', 'SEO Monitor', 'Invoice Gen', 'Compliance Monitor'], toolCount: 3, tools: ['fetch', 'search', 'upload'] },
-  { id: 'figma', name: 'Figma', status: 'Connected', agents: ['Web Architect'], toolCount: 4, tools: ['get-design-context', 'screenshot', 'search-design-system', 'variables'] },
-  { id: 'chrome', name: 'Chrome', status: 'Connected', agents: ['SEO Monitor', 'Social Scheduler', 'Deploy Manager', 'QA Tester', 'SEO Optimizer'], toolCount: 4, tools: ['navigate', 'read-page', 'screenshot', 'javascript'] },
-  { id: 'razorpay', name: 'Razorpay', status: 'Planned', agents: ['Revenue Tracker'], toolCount: 2, tools: ['payment-verify', 'subscription-manage'] },
-  { id: 'whatsapp', name: 'WhatsApp Business', status: 'Planned', agents: ['Outreach Drafter', 'Onboarding Manager', 'Support Responder'], toolCount: 2, tools: ['send-message', 'template-send'] },
+  // VERIFIED WORKING — tested live 2026-04-10
+  { id: 'apollo', name: 'Apollo', status: 'Connected', agents: ['Lead Qualifier', 'Outreach Drafter'], toolCount: 7, tools: ['enrich-lead', 'prospect', 'sequence-load', 'contacts-search', 'contacts-create', 'orgs-enrich', 'campaigns'] },
+  { id: 'figma', name: 'Figma', status: 'Connected', agents: ['Web Architect', 'QA Tester'], toolCount: 6, tools: ['design-context', 'screenshot', 'search-design-system', 'variables', 'metadata', 'code-connect'] },
+  { id: 'googledrive', name: 'Google Drive', status: 'Connected', agents: ['Content Creator', 'SEO Monitor', 'Invoice Gen', 'Compliance'], toolCount: 3, tools: ['fetch', 'search', 'upload'] },
+  { id: 'chrome', name: 'Chrome Browser', status: 'Connected', agents: ['SEO Monitor', 'Social Scheduler', 'Deploy Manager', 'QA Tester'], toolCount: 7, tools: ['navigate', 'read-page', 'screenshot', 'javascript', 'form-input', 'find', 'file-upload'] },
+  { id: 'tavily', name: 'Tavily Research', status: 'Connected', agents: ['Content Creator', 'SEO Monitor', 'Market Researcher'], toolCount: 5, tools: ['search', 'crawl', 'extract', 'research', 'map'] },
+  { id: 'exasearch', name: 'Exa Search', status: 'Connected', agents: ['Content Creator', 'SEO Monitor'], toolCount: 2, tools: ['web-search', 'web-fetch'] },
+  { id: 'huggingface', name: 'Hugging Face', status: 'Connected', agents: ['Firmware Sync', 'Code Architect'], toolCount: 5, tools: ['hub-search', 'paper-search', 'space-search', 'doc-fetch', 'model-query'] },
+  { id: 'desktopcommander', name: 'Desktop Commander', status: 'Connected', agents: ['Code Architect', 'Deploy Manager'], toolCount: 6, tools: ['read-file', 'write-file', 'start-process', 'list-processes', 'search', 'edit-block'] },
+  { id: 'kubernetes', name: 'Kubernetes', status: 'Connected', agents: ['Deploy Manager', 'Health Monitor'], toolCount: 6, tools: ['kubectl-get', 'kubectl-apply', 'kubectl-logs', 'describe', 'helm-install', 'port-forward'] },
+  { id: 'vibeprospecting', name: 'Vibe Prospecting', status: 'Connected', agents: ['Lead Qualifier', 'Deal Closer'], toolCount: 5, tools: ['enrich-business', 'enrich-prospects', 'match-business', 'fetch-entities', 'export-csv'] },
+  { id: 'scheduledtasks', name: 'Scheduled Tasks', status: 'Connected', agents: ['Scheduler', 'All Automated Workflows'], toolCount: 3, tools: ['create-task', 'list-tasks', 'update-task'] },
 ];
 
 const SCHEDULED_TASKS_DATA: ScheduledTask[] = [
